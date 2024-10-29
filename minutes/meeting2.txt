@@ -1,0 +1,46 @@
+QUEEN'S UNIVERSITY OF BELFAST COMPUTER SCIENCE
+
+Minute of Project Supervision Meeting
+======================================
+
+Student Name: Andrew Hyde
+
+
+Project Module Code: CSC3002
+
+Project Supervisor: Baharak Ahmaderaghi
+
+
+Meeting Number: 2
+
+
+Date of Meeting: 22/10/24
+
+Progress since last meeting, and decisions arrived at during meeting:
+
+Progress - Created the Initial Problem Description, Solution and Plan, found a dataset to use.
+Decisions - Next steps are to begin preprocessing data and training a model.
+
+
+Action Points:
+
+- Preprocess dataset
+- Train a model with the dataset and test it. 
+
+
+
+Date of next meeting:
+====================
+
+05/11/24
+
+
+Agreed minute should be initialled by the supervisor.
+
+Supervisor's Initials:	_____________________________________________	Date: _________________
+
+
+
+Supervisor's Comments:
+=======================
+
