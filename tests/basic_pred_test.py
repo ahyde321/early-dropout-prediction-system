@@ -14,6 +14,10 @@ numerical_columns = joblib.load(os.path.join(base_dir, 'models', 'numerical_colu
 # Load and preprocess the sample data
 sample = pd.read_csv(os.path.join(base_dir, 'data', 'sample_input_for_dropout_prediction.csv'))
 
+# Print each column name with its corresponding value
+for column in sample.columns:
+    print(f"{column}: {sample[column].values[0]}")
+
 # Apply the same preprocessing as in training
 sample[['Age at enrollment']] = min_max_scaler.transform(sample[['Age at enrollment']])
 sample[numerical_columns] = scaler.transform(sample[numerical_columns])
