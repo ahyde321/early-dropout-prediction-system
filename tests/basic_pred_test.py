@@ -2,11 +2,14 @@ import pandas as pd
 import joblib
 import os
 
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
 # Load the trained model, scalers, and feature names
 model = joblib.load(os.path.join(base_dir, 'models', 'dropout_predictor_model.joblib'))
 scaler = joblib.load(os.path.join(base_dir, 'models', 'scaler.joblib'))
 min_max_scaler = joblib.load(os.path.join(base_dir, 'models', 'min_max_scaler.joblib'))
 feature_names = joblib.load(os.path.join(base_dir, 'models', 'feature_names.joblib'))
+numerical_columns = joblib.load(os.path.join(base_dir, 'models', 'numerical_columns.joblib'))
 
 # Load and preprocess the sample data
 sample = pd.read_csv(os.path.join(base_dir, 'data', 'sample_input_for_dropout_prediction.csv'))

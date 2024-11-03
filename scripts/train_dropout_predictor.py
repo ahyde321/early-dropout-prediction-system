@@ -68,4 +68,6 @@ os.makedirs(os.path.join(base_dir, 'models'), exist_ok=True)
 joblib.dump(model, os.path.join(base_dir, 'models', 'dropout_predictor_model.joblib'))
 joblib.dump(scaler, os.path.join(base_dir, 'models', 'scaler.joblib'))
 joblib.dump(min_max_scaler, os.path.join(base_dir, 'models', 'min_max_scaler.joblib'))
+joblib.dump(numerical_columns, os.path.join(base_dir, 'models', 'numerical_columns.joblib'))
+
 print("Model and scalers saved successfully.")
