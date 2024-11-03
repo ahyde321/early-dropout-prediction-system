@@ -1,6 +1,10 @@
 import pandas as pd
 import os
 
+# This script will generate a csv file of high risk students
+# The data below suggests all students have a low age at enrollment, good academic performance, financial
+# stability, good completion and good engagement
+
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 # Define data for low-risk student samples
