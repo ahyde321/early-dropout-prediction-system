@@ -27,7 +27,7 @@ categorical_columns = ['Marital status', 'Application mode', 'Application order'
                        'Father\'s occupation', 'Displaced', 'Educational special needs', 'Debtor',
                        'Tuition fees up to date', 'Gender', 'Scholarship holder', 'International']
 
-# One-hot encode categorical columns, dropping the first category to avoid collinearity
+# One-hot encode categorical columns, dropping the first category 
 data = pd.get_dummies(data, columns=categorical_columns, drop_first=True)
 
 # Display the final preprocessed data
