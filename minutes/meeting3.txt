@@ -1,0 +1,49 @@
+QUEEN'S UNIVERSITY OF BELFAST COMPUTER SCIENCE
+
+Minute of Project Supervision Meeting
+======================================
+
+Student Name: Andrew Hyde
+
+
+Project Module Code: CSC3002
+
+Project Supervisor: Baharak Ahmaderaghi
+
+
+Meeting Number: 3
+
+
+Date of Meeting: 05/11/24
+
+Progress since last meeting, and decisions arrived at during meeting:
+
+Progress - Created a script preprocessed the raw dataset. 
+         - Created a script to train a Random Forest Classifier on the processed dataset.
+         - Created high and low risk student samples, which I used to test the model. The results were accurate.
+
+Decisions - Next steps are to expand the dataset, and partition it into 3 sections.
+
+
+Action Points:
+
+- Expand dataset
+- Partition dataset. 
+
+
+
+Date of next meeting:
+====================
+
+19/11/24
+
+
+Agreed minute should be initialled by the supervisor.
+
+Supervisor's Initials:	_____________________________________________	Date: _________________
+
+
+
+Supervisor's Comments:
+=======================
+
