@@ -1,0 +1,48 @@
+QUEEN'S UNIVERSITY OF BELFAST COMPUTER SCIENCE
+
+Minute of Project Supervision Meeting
+======================================
+
+Student Name: Andrew Hyde
+
+
+Project Module Code: CSC3002
+
+Project Supervisor: Baharak Ahmaderaghi
+
+
+Meeting Number: 4
+
+
+Date of Meeting: 19/11/24
+
+Progress since last meeting, and decisions arrived at during meeting:
+
+Progress - Increased size of dataset
+         - Standardised datasets
+
+Decisions - Need to Partition dataset, create metrics for the model (F1 Score etc)
+
+
+Action Points:
+
+- Partition dataset. 
+- Create model metrics
+
+
+
+Date of next meeting:
+====================
+
+07/01/24
+
+
+Agreed minute should be initialled by the supervisor.
+
+Supervisor's Initials:	_____________________________________________	Date: _________________
+
+
+
+Supervisor's Comments:
+=======================
+
