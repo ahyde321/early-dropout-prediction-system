@@ -11,7 +11,7 @@ save_path = os.path.join(script_dir, '../data/preprocessed_student_dropout_data.
 data = pd.read_csv(data_path)
 
 categorical_columns = ['Marital status', 'Application mode', 'Application order', 'Course',
-                       'Daytime/evening attendance', 'Previous qualification', 'Nacionality',
+                       'Daytime/evening attendance', 'Previous qualification', 'Nationality',
                        'Mother\'s qualification', 'Father\'s qualification', 'Mother\'s occupation',
                        'Father\'s occupation', 'Displaced', 'Educational special needs', 'Debtor',
                        'Tuition fees up to date', 'Gender', 'Scholarship holder', 'International']
