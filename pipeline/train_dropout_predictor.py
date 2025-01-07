@@ -6,26 +6,31 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 import os
 import joblib
 
-def train_dropout_model(base_dir):
+def train_dropout_model(dataset_path, model_dir):
     """
     Train a Random Forest model for student dropout prediction, scale numerical features, 
     and save the trained model, scalers, and feature metadata.
 
     Args:
-        base_dir (str): The base directory for input data and output models.
+        dataset_path (str): The file path to the preprocessed dataset CSV.
+        model_dir (str): Directory to save the trained model and scalers.
 
     Returns:
         None
     """
-    # File paths
-    data_file_path = os.path.join(base_dir, 'data', 'preprocessed_student_dropout_data.csv')
-    model_dir = os.path.join(base_dir, 'models')
+    # Ensure model directory exists
     os.makedirs(model_dir, exist_ok=True)
 
-    # Load the data
-    data = pd.read_csv(data_file_path)
+    # Load the dataset
+    if not os.path.exists(dataset_path):
+        raise FileNotFoundError(f"Dataset not found at {dataset_path}")
+    
+    data = pd.read_csv(dataset_path)
 
     # Split the data into features (X) and target (y)
+    if 'Target' not in data.columns:
+        raise ValueError("Dataset must contain a 'Target' column.")
+    
     X = data.drop('Target', axis=1)
     y = data['Target']
 
@@ -46,8 +51,9 @@ def train_dropout_model(base_dir):
     scaler = StandardScaler()
 
     # Apply MinMax scaling to 'Age at enrollment'
-    X_train[['Age at enrollment']] = min_max_scaler.fit_transform(X_train[['Age at enrollment']])
-    X_test[['Age at enrollment']] = min_max_scaler.transform(X_test[['Age at enrollment']])
+    if 'Age at enrollment' in X_train.columns:
+        X_train[['Age at enrollment']] = min_max_scaler.fit_transform(X_train[['Age at enrollment']])
+        X_test[['Age at enrollment']] = min_max_scaler.transform(X_test[['Age at enrollment']])
 
     # Apply Standard scaling to other numerical columns
     X_train[numerical_columns] = scaler.fit_transform(X_train[numerical_columns])
