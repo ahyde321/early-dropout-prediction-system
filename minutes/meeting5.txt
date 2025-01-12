@@ -1,0 +1,51 @@
+QUEEN'S UNIVERSITY OF BELFAST COMPUTER SCIENCE
+
+Minute of Project Supervision Meeting
+======================================
+
+Student Name: Andrew Hyde
+
+
+Project Module Code: CSC3002
+
+Project Supervisor: Baharak Ahmaderaghi
+
+
+Meeting Number: 5
+
+
+Date of Meeting: 07/01/25
+
+Progress since last meeting, and decisions arrived at during meeting:
+
+Progress - Increased size of dataset
+         - Partitioned dataset
+         - Metrics for model
+
+
+Decisions - Need to make another model to compare against randomForest, going to use KNN.
+          - Interrim demo is next Tuesday (14/01)
+
+
+Action Points:
+
+- Train a model on a KNN classifier.
+- Prep demo for next week.
+
+
+
+Date of next meeting:
+====================
+
+14/01/25
+
+
+Agreed minute should be initialled by the supervisor.
+
+Supervisor's Initials:	_____________________________________________	Date: _________________
+
+
+
+Supervisor's Comments:
+=======================
+
