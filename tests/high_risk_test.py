@@ -1,64 +1,59 @@
-import sys
 import os
 import pandas as pd
 import joblib
 
-# Dynamically add the project root to sys.path
+# Define paths
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.append(base_dir)
+test_data_path = os.path.join(base_dir, 'data', 'test', 'preprocessed_high_risk_students.csv')
+feature_names_path = os.path.join(base_dir, 'models', 'feature_names.joblib')
 
-# Import the preprocessing function
-from pipeline.preprocess_student_dropout_data import preprocess_student_dropout_data
+# Load the model's feature names and test data
+print("Loading feature names and test data...")
+feature_names = joblib.load(feature_names_path)
+test_data = pd.read_csv(test_data_path)
 
-# Define the paths
-input_file = os.path.join(base_dir, 'data', 'raw', 'high_risk_student_dataset.csv')
-preprocessed_output_file = os.path.join(base_dir, 'data', 'test', 'preprocessed_high_risk_students.csv')
-model_file = os.path.join(base_dir, 'models', 'dropout_predictor_model.joblib')
-feature_names_file = os.path.join(base_dir, 'models', 'feature_names.joblib')
+# Compare features
+print("Comparing features...")
+test_columns = set(test_data.columns)
+model_features = set(feature_names)
 
-# Load the trained model and feature names
-try:
-    print("Loading the trained model and feature names...")
-    model = joblib.load(model_file)
-    feature_names = joblib.load(feature_names_file)
-    print("Model and feature names loaded successfully.")
-except FileNotFoundError as e:
-    print(f"Error: {e}")
-    sys.exit(1)
+# Identify missing and extra features
+missing_features = model_features - test_columns
+extra_features = test_columns - model_features
 
-# Preprocess the data
-print("Preprocessing the data...")
-preprocess_student_dropout_data(
-    input_file=input_file,
-    output_file=preprocessed_output_file,
-)
-
-# Load the preprocessed data
-print("Loading the preprocessed data...")
-preprocessed_data = pd.read_csv(preprocessed_output_file)
-
-# Align columns with the model's feature names
-print("Aligning features with the model...")
-missing_features = []
-for feature in feature_names:
-    if feature not in preprocessed_data.columns:
-        preprocessed_data[feature] = 0  # Add missing features with default value
-        missing_features.append(feature)
+# Output results
+print("\n=== Comparison Results ===")
+print(f"Total features expected by the model: {len(model_features)}")
+print(f"Total features in the test data: {len(test_columns)}")
+print(f"Missing features in test data: {len(missing_features)}")
+print(f"Extra features in test data: {len(extra_features)}")
 
 if missing_features:
-    print(f"Warning: The following features were missing in the test data and were added with default values: {missing_features}")
+    print("\nMissing features:")
+    print(missing_features)
+else:
+    print("\nNo missing features in test data.")
 
-# Reorder columns to match the model's feature names
-preprocessed_data = preprocessed_data[feature_names]
+if extra_features:
+    print("\nExtra features (present in test data but not used by the model):")
+    print(extra_features)
+else:
+    print("\nNo extra features in test data.")
 
-# Make predictions
-print("Making predictions...")
-predictions = model.predict(preprocessed_data)
+# Automate test data alignment
+print("\nAligning test data with model features...")
+# Add missing features with default value 0
+for feature in missing_features:
+    test_data[feature] = 0
 
-# Output predictions
-print("\nPredictions for each student (0 = Graduate, 1 = Dropout):")
-for idx, prediction in enumerate(predictions):
-    label = "Graduate" if prediction == 0 else "Dropout"
-    print(f"Student {idx + 1}: Prediction = {label} ({prediction})")
+# Drop extra features
+if extra_features:
+    test_data = test_data.drop(columns=extra_features)
 
-print("Prediction process completed.")
+# Reorder columns to match the model's feature order
+test_data = test_data[list(feature_names)]
+
+# Save the aligned test data
+aligned_test_data_path = os.path.join(base_dir, 'data', 'test', 'aligned_high_risk_students.csv')
+test_data.to_csv(aligned_test_data_path, index=False)
+print(f"\nAligned test data saved to: {aligned_test_data_path}")

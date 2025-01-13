@@ -7,10 +7,18 @@ sys.path.append(base_dir)
 
 from pipeline.train_dropout_predictor import train_dropout_model
 
-dataset_path = os.path.join(base_dir, 'data', 'processed', 'train_dataset.csv')
+# File paths
+train_dataset_path = os.path.join(base_dir, 'data', 'processed', 'train_dataset.csv')
+test_dataset_path = os.path.join(base_dir, 'data', 'processed', 'test_dataset.csv')
+validate_dataset_path = os.path.join(base_dir, 'data', 'processed', 'validate_dataset.csv')  # Optional
 model_dir = os.path.join(base_dir, 'models')  # Directory to save models and scalers
 
 # Train the model
 print("Starting the training process...")
-train_dropout_model(dataset_path, model_dir)
+train_dropout_model(
+    train_dataset_path=train_dataset_path,
+    test_dataset_path=test_dataset_path,
+    validate_dataset_path=validate_dataset_path,
+    model_dir=model_dir
+)
 print("Training completed successfully.")

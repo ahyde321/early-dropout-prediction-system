@@ -15,13 +15,19 @@ def preprocess_student_dropout_data(input_file, output_file, enrolled_output_fil
     """
     data = pd.read_csv(input_file)
 
-    categorical_columns = ['Marital status', 'Application mode', 'Application order', 'Course',
-                           'Daytime/evening attendance', 'Previous qualification', 'Nationality',
-                           'Mother\'s qualification', 'Father\'s qualification', 'Mother\'s occupation',
-                           'Father\'s occupation', 'Displaced', 'Educational special needs', 'Debtor',
-                           'Tuition fees up to date', 'Gender', 'Scholarship holder', 'International']
+    categorical_columns = [
+        'Marital status', 'Application mode', 'Application order', 'Course',
+        'Daytime/evening attendance', 'Previous qualification', 'Nationality',
+        'Mother\'s qualification', 'Father\'s qualification', 'Mother\'s occupation',
+        'Father\'s occupation', 'Displaced', 'Educational special needs', 'Debtor',
+        'Tuition fees up to date', 'Gender', 'Scholarship holder', 'International'
+    ]
 
     def preprocess(data, categorical_columns):
+        # Initialize scalers
+        min_max_scaler = MinMaxScaler()
+        scaler = StandardScaler()
+
         # Scale numerical features
         numerical_columns = data.select_dtypes(include=['int64', 'float64']).columns
         exclude_columns = ['Age at enrollment']
@@ -31,13 +37,13 @@ def preprocess_student_dropout_data(input_file, output_file, enrolled_output_fil
 
         # Apply MinMax scaling to 'Age at enrollment'
         if 'Age at enrollment' in data.columns:
-            min_max_scaler = MinMaxScaler()
-            data['Age at enrollment'] = min_max_scaler.fit_transform(data[['Age at enrollment']])
+            data['Age at enrollment'] = min_max_scaler.fit_transform(data[['Age at enrollment']].astype('float64'))
 
         # Standardize other numerical features
-        scaler = StandardScaler()
-        data[numerical_columns] = scaler.fit_transform(data[numerical_columns])
+        if len(numerical_columns) > 0:
+            data[numerical_columns] = scaler.fit_transform(data[numerical_columns].astype('float64'))
 
+        # Frequency encoding and one-hot encoding
         freq_encode_columns = []
         one_hot_encode_columns = []
 
@@ -50,8 +56,9 @@ def preprocess_student_dropout_data(input_file, output_file, enrolled_output_fil
                     one_hot_encode_columns.append(col)
 
         for col in freq_encode_columns:
-            freq_encoding = data[col].value_counts() / len(data)
-            data[col] = data[col].map(freq_encoding)
+            if col in data.columns:
+                freq_encoding = data[col].value_counts() / len(data)
+                data[col] = data[col].map(freq_encoding).astype('float64')
 
         data = pd.get_dummies(data, columns=one_hot_encode_columns, drop_first=True)
 
@@ -61,17 +68,23 @@ def preprocess_student_dropout_data(input_file, output_file, enrolled_output_fil
                 if feature not in data.columns:
                     data[feature] = 0
 
+        # Reorder columns to match the model's feature names
+        if feature_names:
+            data = data.reindex(columns=feature_names, fill_value=0)
+
         return data
 
     if 'Target' in data.columns:
-        enrolled_data = data[data['Target'] == 'Enrolled']
-        other_data = data[data['Target'] != 'Enrolled']
+        enrolled_data = data[data['Target'] == 'Enrolled'].copy()
+        other_data = data[data['Target'] != 'Enrolled'].copy()
 
+        # Map 'Dropout' to 1 and 'Graduate' to 0 in the Target column
         other_data['Target'] = other_data['Target'].map({'Dropout': 1, 'Graduate': 0})
 
         other_data = preprocess(other_data, categorical_columns)
         enrolled_data = preprocess(enrolled_data, categorical_columns)
 
+        # Save preprocessed data to files
         other_data.to_csv(output_file, index=False)
         enrolled_data.to_csv(enrolled_output_file, index=False)
 
