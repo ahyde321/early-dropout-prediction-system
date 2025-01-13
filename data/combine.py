@@ -9,33 +9,26 @@ train_output_path = os.path.join(base_dir, 'processed', 'train_dataset.csv')
 validate_output_path = os.path.join(base_dir, 'processed', 'validate_dataset.csv')
 test_output_path = os.path.join(base_dir, 'processed', 'test_dataset.csv')
 
-# Check if input files exist
 if not os.path.exists(file1_path):
     raise FileNotFoundError(f"File not found: {file1_path}")
 if not os.path.exists(file2_path):
     raise FileNotFoundError(f"File not found: {file2_path}")
 
-# Load the datasets
 dataset1 = pd.read_csv(file1_path)
 dataset2 = pd.read_csv(file2_path)
 
-# Combine the datasets
 combined_dataset = pd.concat([dataset1, dataset2], axis=0)
 
-# Shuffle the combined dataset
 combined_dataset = combined_dataset.sample(frac=1, random_state=42).reset_index(drop=True)
 
-# Calculate split indices
 total_len = len(combined_dataset)
 train_size = int(0.7 * total_len)
 validate_size = int(0.15 * total_len)
 
-# Split the dataset
 train_dataset = combined_dataset.iloc[:train_size]
 validate_dataset = combined_dataset.iloc[train_size:train_size + validate_size]
 test_dataset = combined_dataset.iloc[train_size + validate_size:]
 
-# Save the datasets
 train_dataset.to_csv(train_output_path, index=False)
 print(f"Training dataset saved to {train_output_path}")
 

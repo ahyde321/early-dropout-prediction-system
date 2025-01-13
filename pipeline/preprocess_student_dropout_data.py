@@ -24,26 +24,21 @@ def preprocess_student_dropout_data(input_file, output_file, enrolled_output_fil
     ]
 
     def preprocess(data, categorical_columns):
-        # Initialize scalers
         min_max_scaler = MinMaxScaler()
         scaler = StandardScaler()
 
-        # Scale numerical features
         numerical_columns = data.select_dtypes(include=['int64', 'float64']).columns
         exclude_columns = ['Age at enrollment']
         if 'Target' in data.columns:
             exclude_columns.append('Target')
         numerical_columns = numerical_columns.difference(categorical_columns + exclude_columns)
 
-        # Apply MinMax scaling to 'Age at enrollment'
         if 'Age at enrollment' in data.columns:
             data['Age at enrollment'] = min_max_scaler.fit_transform(data[['Age at enrollment']].astype('float64'))
 
-        # Standardize other numerical features
         if len(numerical_columns) > 0:
             data[numerical_columns] = scaler.fit_transform(data[numerical_columns].astype('float64'))
 
-        # Frequency encoding and one-hot encoding
         freq_encode_columns = []
         one_hot_encode_columns = []
 
@@ -62,13 +57,11 @@ def preprocess_student_dropout_data(input_file, output_file, enrolled_output_fil
 
         data = pd.get_dummies(data, columns=one_hot_encode_columns, drop_first=True)
 
-        # Add missing features with default values
         if feature_names:
             for feature in feature_names:
                 if feature not in data.columns:
                     data[feature] = 0
 
-        # Reorder columns to match the model's feature names
         if feature_names:
             data = data.reindex(columns=feature_names, fill_value=0)
 
@@ -78,13 +71,11 @@ def preprocess_student_dropout_data(input_file, output_file, enrolled_output_fil
         enrolled_data = data[data['Target'] == 'Enrolled'].copy()
         other_data = data[data['Target'] != 'Enrolled'].copy()
 
-        # Map 'Dropout' to 1 and 'Graduate' to 0 in the Target column
         other_data['Target'] = other_data['Target'].map({'Dropout': 1, 'Graduate': 0})
 
         other_data = preprocess(other_data, categorical_columns)
         enrolled_data = preprocess(enrolled_data, categorical_columns)
 
-        # Save preprocessed data to files
         other_data.to_csv(output_file, index=False)
         enrolled_data.to_csv(enrolled_output_file, index=False)
 

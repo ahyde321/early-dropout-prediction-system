@@ -19,10 +19,8 @@ def train_dropout_model(train_dataset_path, test_dataset_path, model_dir, valida
     Returns:
         None
     """
-    # Ensure the model directory exists
     os.makedirs(model_dir, exist_ok=True)
 
-    # Load the datasets
     if not os.path.exists(train_dataset_path):
         raise FileNotFoundError(f"Training dataset not found at {train_dataset_path}")
     if not os.path.exists(test_dataset_path):
@@ -55,8 +53,8 @@ def train_dropout_model(train_dataset_path, test_dataset_path, model_dir, valida
     feature_names = X_train.columns
     joblib.dump(feature_names, os.path.join(model_dir, 'feature_names.joblib'))
 
-    # Choose and train the model (Random Forest)
-    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    # Train the model
+    model = RandomForestClassifier(n_estimators=200, random_state=42)
     model.fit(X_train, y_train)
 
     # Evaluate on validation set if provided
