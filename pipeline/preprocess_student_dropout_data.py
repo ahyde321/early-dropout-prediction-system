@@ -2,7 +2,7 @@ import os
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
-def preprocess_student_dropout_data(input_file, output_file, enrolled_output_file=None, feature_names=None):
+def preprocess_student_dropout_data(input_file, output_file, enrolled_output_file=None, raw_enrolled_output_file=None, feature_names=None):
     """
     Preprocess student dropout data by scaling numerical features, encoding categorical features,
     and saving the preprocessed dataset. Ensures alignment with the model's expected feature names.
@@ -11,6 +11,7 @@ def preprocess_student_dropout_data(input_file, output_file, enrolled_output_fil
         input_file (str): Path to the input CSV file.
         output_file (str): Path to save the preprocessed CSV file.
         enrolled_output_file (str, optional): Path to save the preprocessed CSV file for "Enrolled".
+        raw_enrolled_output_file (str, optional): Path to save the raw CSV file for "Enrolled" before preprocessing.
         feature_names (list, optional): List of features expected by the trained model.
     """
     data = pd.read_csv(input_file)
@@ -70,6 +71,11 @@ def preprocess_student_dropout_data(input_file, output_file, enrolled_output_fil
     if 'Target' in data.columns:
         enrolled_data = data[data['Target'] == 'Enrolled'].copy()
         other_data = data[data['Target'] != 'Enrolled'].copy()
+
+        # Save raw enrolled data
+        if raw_enrolled_output_file:
+            enrolled_data.to_csv(raw_enrolled_output_file, index=False)
+            print(f"Raw enrolled data saved to {raw_enrolled_output_file}")
 
         other_data['Target'] = other_data['Target'].map({'Dropout': 1, 'Graduate': 0})
 

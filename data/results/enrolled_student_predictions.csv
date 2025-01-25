@@ -1,1430 +1,1430 @@
 Student ID,Prediction,Dropout Risk,Graduate Probability
-1,Likely Graduate,0.54,0.46
-2,High Risk (Dropout),0.71,0.29
+1,Likely Graduate,0.62,0.38
+2,High Risk (Dropout),0.76,0.24
 3,Likely Graduate,0.48,0.52
-4,Likely Graduate,0.42,0.58
-5,Likely Graduate,0.52,0.48
-6,Likely Graduate,0.46,0.54
-7,Likely Graduate,0.63,0.37
-8,Likely Graduate,0.54,0.46
-9,Likely Graduate,0.49,0.51
-10,Likely Graduate,0.64,0.36
-11,Likely Graduate,0.36,0.64
-12,Likely Graduate,0.33,0.67
-13,Likely Graduate,0.67,0.33
-14,Likely Graduate,0.39,0.61
-15,Likely Graduate,0.59,0.41
-16,Likely Graduate,0.42,0.58
-17,Likely Graduate,0.61,0.39
+4,Likely Graduate,0.49,0.51
+5,Likely Graduate,0.51,0.49
+6,Likely Graduate,0.49,0.51
+7,Likely Graduate,0.53,0.47
+8,Likely Graduate,0.45,0.55
+9,Likely Graduate,0.59,0.41
+10,Likely Graduate,0.69,0.31
+11,Likely Graduate,0.27,0.73
+12,Likely Graduate,0.26,0.74
+13,Likely Graduate,0.61,0.39
+14,Likely Graduate,0.42,0.58
+15,Likely Graduate,0.54,0.46
+16,Likely Graduate,0.49,0.51
+17,Likely Graduate,0.52,0.48
 18,Likely Graduate,0.44,0.56
-19,Likely Graduate,0.38,0.62
-20,Likely Graduate,0.44,0.56
-21,Likely Graduate,0.47,0.53
-22,Likely Graduate,0.61,0.39
-23,High Risk (Dropout),0.93,0.07
-24,Likely Graduate,0.45,0.55
-25,High Risk (Dropout),0.95,0.05
-26,Likely Graduate,0.4,0.6
-27,High Risk (Dropout),0.85,0.15
-28,High Risk (Dropout),0.87,0.13
-29,Likely Graduate,0.5,0.5
-30,Likely Graduate,0.7,0.3
-31,Likely Graduate,0.55,0.45
-32,High Risk (Dropout),0.81,0.19
-33,Likely Graduate,0.55,0.45
-34,Likely Graduate,0.5,0.5
-35,Likely Graduate,0.49,0.51
-36,High Risk (Dropout),0.9,0.1
-37,Likely Graduate,0.39,0.61
-38,Likely Graduate,0.46,0.54
-39,High Risk (Dropout),0.8,0.2
-40,Likely Graduate,0.56,0.44
-41,High Risk (Dropout),0.8,0.2
-42,High Risk (Dropout),0.77,0.23
-43,High Risk (Dropout),0.87,0.13
-44,High Risk (Dropout),0.82,0.18
-45,High Risk (Dropout),0.85,0.15
-46,Likely Graduate,0.44,0.56
+19,Likely Graduate,0.41,0.59
+20,Likely Graduate,0.5,0.5
+21,Likely Graduate,0.46,0.54
+22,Likely Graduate,0.64,0.36
+23,High Risk (Dropout),0.91,0.09
+24,Likely Graduate,0.46,0.54
+25,High Risk (Dropout),0.98,0.02
+26,Likely Graduate,0.38,0.62
+27,High Risk (Dropout),0.78,0.22
+28,High Risk (Dropout),0.94,0.06
+29,Likely Graduate,0.54,0.46
+30,High Risk (Dropout),0.76,0.24
+31,Likely Graduate,0.58,0.42
+32,High Risk (Dropout),0.8,0.2
+33,Likely Graduate,0.58,0.42
+34,Likely Graduate,0.46,0.54
+35,Likely Graduate,0.5,0.5
+36,High Risk (Dropout),0.89,0.11
+37,Likely Graduate,0.3,0.7
+38,Likely Graduate,0.42,0.58
+39,High Risk (Dropout),0.88,0.12
+40,Likely Graduate,0.65,0.35
+41,High Risk (Dropout),0.84,0.16
+42,Likely Graduate,0.66,0.34
+43,High Risk (Dropout),0.92,0.08
+44,High Risk (Dropout),0.8,0.2
+45,High Risk (Dropout),0.83,0.17
+46,Likely Graduate,0.45,0.55
 47,High Risk (Dropout),0.88,0.12
-48,Likely Graduate,0.48,0.52
-49,High Risk (Dropout),0.79,0.21
-50,High Risk (Dropout),0.95,0.05
-51,Likely Graduate,0.4,0.6
-52,Likely Graduate,0.38,0.62
-53,High Risk (Dropout),0.82,0.18
-54,Likely Graduate,0.46,0.54
-55,Likely Graduate,0.58,0.42
-56,High Risk (Dropout),0.85,0.15
-57,Likely Graduate,0.33,0.67
-58,Likely Graduate,0.33,0.67
-59,Likely Graduate,0.46,0.54
-60,Likely Graduate,0.41,0.59
-61,Likely Graduate,0.58,0.42
-62,Likely Graduate,0.62,0.38
-63,Likely Graduate,0.4,0.6
-64,Likely Graduate,0.36,0.64
-65,Likely Graduate,0.47,0.53
-66,Likely Graduate,0.39,0.61
-67,Likely Graduate,0.36,0.64
-68,Likely Graduate,0.48,0.52
-69,High Risk (Dropout),0.96,0.04
-70,High Risk (Dropout),0.75,0.25
-71,Likely Graduate,0.46,0.54
-72,Likely Graduate,0.45,0.55
-73,Likely Graduate,0.57,0.43
+48,Likely Graduate,0.49,0.51
+49,High Risk (Dropout),0.74,0.26
+50,High Risk (Dropout),0.89,0.11
+51,Likely Graduate,0.32,0.68
+52,Likely Graduate,0.36,0.64
+53,High Risk (Dropout),0.8,0.2
+54,Likely Graduate,0.49,0.51
+55,Likely Graduate,0.6,0.4
+56,High Risk (Dropout),0.91,0.09
+57,Likely Graduate,0.37,0.63
+58,Likely Graduate,0.43,0.57
+59,Likely Graduate,0.45,0.55
+60,Likely Graduate,0.31,0.69
+61,High Risk (Dropout),0.71,0.29
+62,Likely Graduate,0.66,0.34
+63,Likely Graduate,0.29,0.71
+64,Likely Graduate,0.43,0.57
+65,Likely Graduate,0.33,0.67
+66,Likely Graduate,0.52,0.48
+67,Likely Graduate,0.45,0.55
+68,Likely Graduate,0.61,0.39
+69,High Risk (Dropout),0.99,0.01
+70,High Risk (Dropout),0.74,0.26
+71,Likely Graduate,0.35,0.65
+72,Likely Graduate,0.47,0.53
+73,Likely Graduate,0.69,0.31
 74,High Risk (Dropout),0.81,0.19
-75,Likely Graduate,0.5,0.5
-76,Likely Graduate,0.62,0.38
+75,Likely Graduate,0.58,0.42
+76,Likely Graduate,0.6,0.4
 77,High Risk (Dropout),0.89,0.11
-78,Likely Graduate,0.51,0.49
-79,Likely Graduate,0.36,0.64
+78,Likely Graduate,0.57,0.43
+79,Likely Graduate,0.51,0.49
 80,Likely Graduate,0.51,0.49
-81,Likely Graduate,0.38,0.62
-82,Likely Graduate,0.53,0.47
-83,Likely Graduate,0.35,0.65
-84,Likely Graduate,0.55,0.45
-85,High Risk (Dropout),0.89,0.11
-86,Likely Graduate,0.52,0.48
-87,High Risk (Dropout),0.75,0.25
-88,Likely Graduate,0.45,0.55
-89,High Risk (Dropout),0.91,0.09
-90,Likely Graduate,0.49,0.51
-91,High Risk (Dropout),0.93,0.07
-92,Likely Graduate,0.47,0.53
-93,Likely Graduate,0.4,0.6
-94,Likely Graduate,0.39,0.61
-95,Likely Graduate,0.63,0.37
-96,Likely Graduate,0.4,0.6
-97,Likely Graduate,0.55,0.45
-98,Likely Graduate,0.33,0.67
-99,High Risk (Dropout),0.75,0.25
-100,High Risk (Dropout),0.96,0.04
-101,High Risk (Dropout),0.74,0.26
-102,Likely Graduate,0.69,0.31
-103,High Risk (Dropout),0.93,0.07
+81,Likely Graduate,0.45,0.55
+82,Likely Graduate,0.44,0.56
+83,Likely Graduate,0.37,0.63
+84,Likely Graduate,0.57,0.43
+85,High Risk (Dropout),0.92,0.08
+86,Likely Graduate,0.59,0.41
+87,Likely Graduate,0.69,0.31
+88,Likely Graduate,0.5,0.5
+89,High Risk (Dropout),0.98,0.02
+90,Likely Graduate,0.5,0.5
+91,High Risk (Dropout),0.95,0.05
+92,Likely Graduate,0.5,0.5
+93,Likely Graduate,0.44,0.56
+94,Likely Graduate,0.4,0.6
+95,Likely Graduate,0.64,0.36
+96,Likely Graduate,0.39,0.61
+97,Likely Graduate,0.57,0.43
+98,Likely Graduate,0.44,0.56
+99,High Risk (Dropout),0.8,0.2
+100,High Risk (Dropout),0.95,0.05
+101,High Risk (Dropout),0.77,0.23
+102,Likely Graduate,0.7,0.3
+103,High Risk (Dropout),0.94,0.06
 104,Likely Graduate,0.47,0.53
-105,Likely Graduate,0.54,0.46
-106,Likely Graduate,0.44,0.56
-107,High Risk (Dropout),0.79,0.21
-108,Likely Graduate,0.43,0.57
-109,Likely Graduate,0.51,0.49
-110,Likely Graduate,0.47,0.53
-111,Likely Graduate,0.31,0.69
-112,Likely Graduate,0.35,0.65
-113,Likely Graduate,0.5,0.5
-114,Likely Graduate,0.62,0.38
-115,Likely Graduate,0.36,0.64
-116,High Risk (Dropout),0.81,0.19
-117,Likely Graduate,0.59,0.41
-118,Likely Graduate,0.39,0.61
-119,High Risk (Dropout),0.88,0.12
-120,Likely Graduate,0.48,0.52
-121,Likely Graduate,0.4,0.6
+105,Likely Graduate,0.38,0.62
+106,Likely Graduate,0.35,0.65
+107,High Risk (Dropout),0.8,0.2
+108,Likely Graduate,0.49,0.51
+109,Likely Graduate,0.54,0.46
+110,Likely Graduate,0.48,0.52
+111,Likely Graduate,0.39,0.61
+112,Likely Graduate,0.39,0.61
+113,Likely Graduate,0.47,0.53
+114,Likely Graduate,0.58,0.42
+115,Likely Graduate,0.32,0.68
+116,High Risk (Dropout),0.89,0.11
+117,Likely Graduate,0.48,0.52
+118,Likely Graduate,0.45,0.55
+119,High Risk (Dropout),0.92,0.08
+120,Likely Graduate,0.45,0.55
+121,Likely Graduate,0.43,0.57
 122,Likely Graduate,0.52,0.48
-123,Likely Graduate,0.42,0.58
-124,Likely Graduate,0.42,0.58
-125,Likely Graduate,0.55,0.45
-126,Likely Graduate,0.54,0.46
-127,Likely Graduate,0.66,0.34
-128,High Risk (Dropout),0.92,0.08
-129,Likely Graduate,0.47,0.53
-130,Likely Graduate,0.37,0.63
-131,Likely Graduate,0.53,0.47
-132,Likely Graduate,0.45,0.55
+123,Likely Graduate,0.32,0.68
+124,Likely Graduate,0.48,0.52
+125,Likely Graduate,0.63,0.37
+126,Likely Graduate,0.35,0.65
+127,High Risk (Dropout),0.71,0.29
+128,High Risk (Dropout),0.9,0.1
+129,Likely Graduate,0.51,0.49
+130,Likely Graduate,0.32,0.68
+131,Likely Graduate,0.59,0.41
+132,Likely Graduate,0.51,0.49
 133,Likely Graduate,0.37,0.63
-134,Likely Graduate,0.38,0.62
-135,Likely Graduate,0.49,0.51
-136,High Risk (Dropout),0.9,0.1
-137,Likely Graduate,0.46,0.54
-138,High Risk (Dropout),0.8,0.2
-139,Likely Graduate,0.69,0.31
-140,High Risk (Dropout),0.84,0.16
+134,Likely Graduate,0.31,0.69
+135,Likely Graduate,0.47,0.53
+136,High Risk (Dropout),0.91,0.09
+137,Likely Graduate,0.48,0.52
+138,High Risk (Dropout),0.83,0.17
+139,High Risk (Dropout),0.72,0.28
+140,High Risk (Dropout),0.88,0.12
 141,Likely Graduate,0.56,0.44
-142,Likely Graduate,0.32,0.68
-143,Likely Graduate,0.66,0.34
-144,High Risk (Dropout),0.71,0.29
-145,High Risk (Dropout),0.85,0.15
-146,High Risk (Dropout),0.75,0.25
-147,Likely Graduate,0.42,0.58
-148,Likely Graduate,0.51,0.49
-149,Likely Graduate,0.49,0.51
-150,Likely Graduate,0.37,0.63
-151,High Risk (Dropout),0.74,0.26
-152,Likely Graduate,0.34,0.66
-153,Likely Graduate,0.34,0.66
-154,Likely Graduate,0.45,0.55
-155,Likely Graduate,0.64,0.36
-156,High Risk (Dropout),0.78,0.22
-157,Likely Graduate,0.64,0.36
-158,High Risk (Dropout),0.72,0.28
-159,High Risk (Dropout),0.8,0.2
-160,Likely Graduate,0.47,0.53
-161,Likely Graduate,0.53,0.47
-162,Likely Graduate,0.59,0.41
-163,Likely Graduate,0.47,0.53
-164,Likely Graduate,0.46,0.54
-165,Likely Graduate,0.41,0.59
-166,Likely Graduate,0.63,0.37
-167,Likely Graduate,0.43,0.57
-168,Likely Graduate,0.61,0.39
-169,Likely Graduate,0.49,0.51
-170,Likely Graduate,0.57,0.43
-171,Likely Graduate,0.36,0.64
-172,Likely Graduate,0.65,0.35
-173,High Risk (Dropout),0.93,0.07
-174,Likely Graduate,0.6,0.4
-175,Likely Graduate,0.47,0.53
+142,Likely Graduate,0.35,0.65
+143,Likely Graduate,0.63,0.37
+144,Likely Graduate,0.7,0.3
+145,High Risk (Dropout),0.82,0.18
+146,High Risk (Dropout),0.81,0.19
+147,Likely Graduate,0.36,0.64
+148,Likely Graduate,0.6,0.4
+149,Likely Graduate,0.44,0.56
+150,Likely Graduate,0.29,0.71
+151,Likely Graduate,0.67,0.33
+152,Likely Graduate,0.39,0.61
+153,Likely Graduate,0.31,0.69
+154,Likely Graduate,0.46,0.54
+155,Likely Graduate,0.6,0.4
+156,High Risk (Dropout),0.77,0.23
+157,High Risk (Dropout),0.74,0.26
+158,High Risk (Dropout),0.73,0.27
+159,High Risk (Dropout),0.78,0.22
+160,Likely Graduate,0.4,0.6
+161,Likely Graduate,0.46,0.54
+162,Likely Graduate,0.63,0.37
+163,Likely Graduate,0.55,0.45
+164,Likely Graduate,0.34,0.66
+165,Likely Graduate,0.38,0.62
+166,Likely Graduate,0.64,0.36
+167,Likely Graduate,0.4,0.6
+168,Likely Graduate,0.51,0.49
+169,Likely Graduate,0.48,0.52
+170,Likely Graduate,0.69,0.31
+171,Likely Graduate,0.41,0.59
+172,Likely Graduate,0.67,0.33
+173,High Risk (Dropout),0.98,0.02
+174,Likely Graduate,0.59,0.41
+175,Likely Graduate,0.59,0.41
 176,High Risk (Dropout),0.89,0.11
-177,Likely Graduate,0.41,0.59
-178,Likely Graduate,0.59,0.41
-179,Likely Graduate,0.43,0.57
-180,Likely Graduate,0.37,0.63
-181,Likely Graduate,0.38,0.62
-182,Likely Graduate,0.53,0.47
-183,Likely Graduate,0.52,0.48
-184,Likely Graduate,0.66,0.34
+177,Likely Graduate,0.34,0.66
+178,Likely Graduate,0.63,0.37
+179,Likely Graduate,0.38,0.62
+180,Likely Graduate,0.42,0.58
+181,Likely Graduate,0.41,0.59
+182,Likely Graduate,0.36,0.64
+183,Likely Graduate,0.55,0.45
+184,High Risk (Dropout),0.8,0.2
 185,Likely Graduate,0.39,0.61
-186,Likely Graduate,0.29,0.71
-187,Likely Graduate,0.36,0.64
+186,Likely Graduate,0.36,0.64
+187,Likely Graduate,0.35,0.65
 188,Likely Graduate,0.64,0.36
-189,High Risk (Dropout),0.72,0.28
-190,Likely Graduate,0.38,0.62
-191,Likely Graduate,0.42,0.58
-192,Likely Graduate,0.36,0.64
-193,Likely Graduate,0.65,0.35
+189,High Risk (Dropout),0.79,0.21
+190,Likely Graduate,0.3,0.7
+191,Likely Graduate,0.35,0.65
+192,Likely Graduate,0.35,0.65
+193,Likely Graduate,0.64,0.36
 194,Likely Graduate,0.47,0.53
-195,Likely Graduate,0.54,0.46
-196,High Risk (Dropout),0.76,0.24
-197,High Risk (Dropout),0.72,0.28
-198,High Risk (Dropout),0.79,0.21
-199,High Risk (Dropout),0.85,0.15
-200,High Risk (Dropout),0.8,0.2
-201,Likely Graduate,0.44,0.56
-202,Likely Graduate,0.57,0.43
-203,High Risk (Dropout),0.79,0.21
-204,Likely Graduate,0.46,0.54
-205,Likely Graduate,0.35,0.65
-206,Likely Graduate,0.5,0.5
-207,High Risk (Dropout),0.8,0.2
-208,High Risk (Dropout),0.81,0.19
-209,Likely Graduate,0.48,0.52
-210,Likely Graduate,0.34,0.66
-211,Likely Graduate,0.47,0.53
+195,Likely Graduate,0.48,0.52
+196,High Risk (Dropout),0.73,0.27
+197,High Risk (Dropout),0.75,0.25
+198,High Risk (Dropout),0.75,0.25
+199,High Risk (Dropout),0.86,0.14
+200,High Risk (Dropout),0.82,0.18
+201,Likely Graduate,0.42,0.58
+202,Likely Graduate,0.51,0.49
+203,High Risk (Dropout),0.76,0.24
+204,Likely Graduate,0.48,0.52
+205,Likely Graduate,0.41,0.59
+206,Likely Graduate,0.47,0.53
+207,High Risk (Dropout),0.83,0.17
+208,High Risk (Dropout),0.72,0.28
+209,Likely Graduate,0.52,0.48
+210,Likely Graduate,0.35,0.65
+211,Likely Graduate,0.34,0.66
 212,High Risk (Dropout),0.71,0.29
-213,Likely Graduate,0.28,0.72
-214,Likely Graduate,0.53,0.47
-215,Likely Graduate,0.44,0.56
-216,Likely Graduate,0.5,0.5
+213,Likely Graduate,0.34,0.66
+214,Likely Graduate,0.54,0.46
+215,Likely Graduate,0.45,0.55
+216,Likely Graduate,0.45,0.55
 217,Likely Graduate,0.58,0.42
-218,Likely Graduate,0.58,0.42
-219,Likely Graduate,0.44,0.56
-220,Likely Graduate,0.55,0.45
-221,Likely Graduate,0.45,0.55
-222,Likely Graduate,0.36,0.64
-223,Likely Graduate,0.28,0.72
-224,Likely Graduate,0.33,0.67
+218,Likely Graduate,0.53,0.47
+219,Likely Graduate,0.34,0.66
+220,Likely Graduate,0.59,0.41
+221,Likely Graduate,0.51,0.49
+222,Likely Graduate,0.34,0.66
+223,Likely Graduate,0.35,0.65
+224,Likely Graduate,0.37,0.63
 225,Likely Graduate,0.57,0.43
-226,High Risk (Dropout),0.77,0.23
-227,Likely Graduate,0.53,0.47
-228,Likely Graduate,0.54,0.46
-229,Likely Graduate,0.38,0.62
-230,High Risk (Dropout),0.95,0.05
-231,High Risk (Dropout),0.87,0.13
-232,Likely Graduate,0.46,0.54
-233,Likely Graduate,0.43,0.57
-234,Likely Graduate,0.44,0.56
-235,Likely Graduate,0.51,0.49
+226,High Risk (Dropout),0.89,0.11
+227,Likely Graduate,0.52,0.48
+228,Likely Graduate,0.57,0.43
+229,Likely Graduate,0.51,0.49
+230,High Risk (Dropout),0.89,0.11
+231,High Risk (Dropout),0.82,0.18
+232,Likely Graduate,0.49,0.51
+233,Likely Graduate,0.45,0.55
+234,Likely Graduate,0.36,0.64
+235,Likely Graduate,0.53,0.47
 236,High Risk (Dropout),0.8,0.2
-237,Likely Graduate,0.68,0.32
-238,Likely Graduate,0.33,0.67
-239,Likely Graduate,0.4,0.6
-240,Likely Graduate,0.61,0.39
+237,Likely Graduate,0.69,0.31
+238,Likely Graduate,0.37,0.63
+239,Likely Graduate,0.46,0.54
+240,Likely Graduate,0.53,0.47
 241,High Risk (Dropout),0.92,0.08
-242,High Risk (Dropout),0.75,0.25
-243,Likely Graduate,0.55,0.45
-244,High Risk (Dropout),0.91,0.09
-245,Likely Graduate,0.5,0.5
-246,High Risk (Dropout),0.83,0.17
-247,Likely Graduate,0.52,0.48
-248,High Risk (Dropout),0.86,0.14
-249,Likely Graduate,0.42,0.58
-250,Likely Graduate,0.38,0.62
-251,Likely Graduate,0.33,0.67
-252,Likely Graduate,0.39,0.61
-253,High Risk (Dropout),0.81,0.19
-254,Likely Graduate,0.7,0.3
-255,High Risk (Dropout),0.76,0.24
-256,Likely Graduate,0.32,0.68
+242,High Risk (Dropout),0.85,0.15
+243,Likely Graduate,0.53,0.47
+244,High Risk (Dropout),0.94,0.06
+245,Likely Graduate,0.59,0.41
+246,High Risk (Dropout),0.87,0.13
+247,Likely Graduate,0.57,0.43
+248,High Risk (Dropout),0.84,0.16
+249,Likely Graduate,0.4,0.6
+250,Likely Graduate,0.35,0.65
+251,Likely Graduate,0.44,0.56
+252,Likely Graduate,0.42,0.58
+253,High Risk (Dropout),0.83,0.17
+254,High Risk (Dropout),0.76,0.24
+255,High Risk (Dropout),0.79,0.21
+256,Likely Graduate,0.36,0.64
 257,High Risk (Dropout),0.91,0.09
-258,Likely Graduate,0.68,0.32
-259,Likely Graduate,0.57,0.43
-260,Likely Graduate,0.48,0.52
-261,Likely Graduate,0.43,0.57
-262,Likely Graduate,0.46,0.54
+258,Likely Graduate,0.65,0.35
+259,Likely Graduate,0.55,0.45
+260,Likely Graduate,0.51,0.49
+261,Likely Graduate,0.45,0.55
+262,Likely Graduate,0.48,0.52
 263,High Risk (Dropout),0.89,0.11
-264,Likely Graduate,0.41,0.59
-265,High Risk (Dropout),0.72,0.28
-266,High Risk (Dropout),0.81,0.19
-267,Likely Graduate,0.31,0.69
-268,Likely Graduate,0.5,0.5
-269,Likely Graduate,0.36,0.64
-270,High Risk (Dropout),0.83,0.17
-271,Likely Graduate,0.54,0.46
-272,Likely Graduate,0.59,0.41
+264,Likely Graduate,0.5,0.5
+265,High Risk (Dropout),0.74,0.26
+266,High Risk (Dropout),0.85,0.15
+267,Likely Graduate,0.3,0.7
+268,Likely Graduate,0.57,0.43
+269,Likely Graduate,0.45,0.55
+270,High Risk (Dropout),0.87,0.13
+271,Likely Graduate,0.53,0.47
+272,Likely Graduate,0.67,0.33
 273,High Risk (Dropout),0.75,0.25
-274,Likely Graduate,0.47,0.53
-275,Likely Graduate,0.49,0.51
-276,High Risk (Dropout),0.71,0.29
-277,Likely Graduate,0.42,0.58
+274,Likely Graduate,0.41,0.59
+275,Likely Graduate,0.38,0.62
+276,Likely Graduate,0.62,0.38
+277,Likely Graduate,0.39,0.61
 278,Likely Graduate,0.51,0.49
-279,High Risk (Dropout),0.71,0.29
-280,Likely Graduate,0.34,0.66
-281,Likely Graduate,0.52,0.48
-282,High Risk (Dropout),0.86,0.14
-283,High Risk (Dropout),0.78,0.22
+279,High Risk (Dropout),0.78,0.22
+280,Likely Graduate,0.37,0.63
+281,Likely Graduate,0.45,0.55
+282,High Risk (Dropout),0.87,0.13
+283,High Risk (Dropout),0.87,0.13
 284,Likely Graduate,0.59,0.41
-285,Likely Graduate,0.42,0.58
-286,Likely Graduate,0.64,0.36
-287,Likely Graduate,0.44,0.56
-288,Likely Graduate,0.32,0.68
-289,Likely Graduate,0.64,0.36
-290,Likely Graduate,0.6,0.4
-291,Likely Graduate,0.63,0.37
-292,Likely Graduate,0.67,0.33
-293,High Risk (Dropout),0.79,0.21
-294,Likely Graduate,0.43,0.57
-295,Likely Graduate,0.47,0.53
-296,Likely Graduate,0.44,0.56
+285,Likely Graduate,0.44,0.56
+286,Likely Graduate,0.59,0.41
+287,Likely Graduate,0.49,0.51
+288,Likely Graduate,0.42,0.58
+289,Likely Graduate,0.68,0.32
+290,Likely Graduate,0.61,0.39
+291,High Risk (Dropout),0.74,0.26
+292,Likely Graduate,0.57,0.43
+293,High Risk (Dropout),0.81,0.19
+294,Likely Graduate,0.44,0.56
+295,Likely Graduate,0.41,0.59
+296,Likely Graduate,0.4,0.6
 297,Likely Graduate,0.4,0.6
-298,Likely Graduate,0.38,0.62
-299,High Risk (Dropout),0.91,0.09
+298,Likely Graduate,0.33,0.67
+299,High Risk (Dropout),0.94,0.06
 300,Likely Graduate,0.66,0.34
-301,High Risk (Dropout),0.82,0.18
-302,Likely Graduate,0.49,0.51
-303,Likely Graduate,0.33,0.67
-304,Likely Graduate,0.65,0.35
-305,Likely Graduate,0.35,0.65
-306,Likely Graduate,0.55,0.45
-307,Likely Graduate,0.5,0.5
-308,Likely Graduate,0.45,0.55
-309,High Risk (Dropout),0.9,0.1
+301,High Risk (Dropout),0.74,0.26
+302,Likely Graduate,0.58,0.42
+303,Likely Graduate,0.26,0.74
+304,Likely Graduate,0.64,0.36
+305,Likely Graduate,0.27,0.73
+306,Likely Graduate,0.53,0.47
+307,Likely Graduate,0.39,0.61
+308,Likely Graduate,0.56,0.44
+309,High Risk (Dropout),0.92,0.08
 310,Likely Graduate,0.55,0.45
-311,Likely Graduate,0.64,0.36
-312,Likely Graduate,0.45,0.55
+311,Likely Graduate,0.6,0.4
+312,Likely Graduate,0.5,0.5
 313,Likely Graduate,0.38,0.62
-314,Likely Graduate,0.43,0.57
+314,Likely Graduate,0.44,0.56
 315,High Risk (Dropout),0.79,0.21
 316,Likely Graduate,0.65,0.35
-317,High Risk (Dropout),0.81,0.19
-318,High Risk (Dropout),0.96,0.04
-319,High Risk (Dropout),0.76,0.24
-320,Likely Graduate,0.48,0.52
-321,High Risk (Dropout),0.77,0.23
-322,Likely Graduate,0.59,0.41
-323,Likely Graduate,0.38,0.62
-324,Likely Graduate,0.52,0.48
-325,Likely Graduate,0.64,0.36
-326,High Risk (Dropout),0.78,0.22
-327,Likely Graduate,0.41,0.59
-328,Likely Graduate,0.51,0.49
-329,Likely Graduate,0.35,0.65
-330,Likely Graduate,0.55,0.45
-331,Likely Graduate,0.52,0.48
-332,Likely Graduate,0.38,0.62
-333,Likely Graduate,0.66,0.34
-334,Likely Graduate,0.58,0.42
-335,Likely Graduate,0.55,0.45
-336,High Risk (Dropout),0.75,0.25
-337,High Risk (Dropout),0.83,0.17
-338,Likely Graduate,0.34,0.66
-339,High Risk (Dropout),0.94,0.06
-340,Likely Graduate,0.43,0.57
-341,Likely Graduate,0.7,0.3
+317,High Risk (Dropout),0.8,0.2
+318,High Risk (Dropout),0.97,0.03
+319,High Risk (Dropout),0.75,0.25
+320,Likely Graduate,0.5,0.5
+321,High Risk (Dropout),0.79,0.21
+322,Likely Graduate,0.54,0.46
+323,Likely Graduate,0.39,0.61
+324,Likely Graduate,0.64,0.36
+325,Likely Graduate,0.67,0.33
+326,High Risk (Dropout),0.74,0.26
+327,Likely Graduate,0.47,0.53
+328,Likely Graduate,0.52,0.48
+329,Likely Graduate,0.38,0.62
+330,Likely Graduate,0.6,0.4
+331,Likely Graduate,0.45,0.55
+332,Likely Graduate,0.37,0.63
+333,Likely Graduate,0.55,0.45
+334,Likely Graduate,0.68,0.32
+335,Likely Graduate,0.49,0.51
+336,High Risk (Dropout),0.73,0.27
+337,High Risk (Dropout),0.81,0.19
+338,Likely Graduate,0.32,0.68
+339,High Risk (Dropout),0.96,0.04
+340,Likely Graduate,0.44,0.56
+341,High Risk (Dropout),0.74,0.26
 342,High Risk (Dropout),0.94,0.06
-343,Likely Graduate,0.58,0.42
-344,Likely Graduate,0.59,0.41
+343,Likely Graduate,0.54,0.46
+344,Likely Graduate,0.51,0.49
 345,High Risk (Dropout),0.92,0.08
 346,High Risk (Dropout),0.82,0.18
-347,Likely Graduate,0.36,0.64
-348,Likely Graduate,0.44,0.56
-349,Likely Graduate,0.36,0.64
-350,High Risk (Dropout),0.75,0.25
-351,Likely Graduate,0.4,0.6
-352,High Risk (Dropout),0.78,0.22
-353,Likely Graduate,0.46,0.54
-354,High Risk (Dropout),0.9,0.1
-355,Likely Graduate,0.53,0.47
-356,Likely Graduate,0.42,0.58
-357,Likely Graduate,0.42,0.58
-358,Likely Graduate,0.39,0.61
-359,Likely Graduate,0.6,0.4
-360,Likely Graduate,0.53,0.47
-361,Likely Graduate,0.58,0.42
-362,High Risk (Dropout),0.81,0.19
-363,Likely Graduate,0.48,0.52
-364,Likely Graduate,0.45,0.55
-365,Likely Graduate,0.41,0.59
-366,Likely Graduate,0.37,0.63
-367,Likely Graduate,0.52,0.48
-368,Likely Graduate,0.58,0.42
-369,Likely Graduate,0.35,0.65
-370,High Risk (Dropout),0.91,0.09
-371,Likely Graduate,0.53,0.47
-372,Likely Graduate,0.53,0.47
-373,Likely Graduate,0.39,0.61
-374,Likely Graduate,0.41,0.59
-375,Likely Graduate,0.64,0.36
+347,Likely Graduate,0.44,0.56
+348,Likely Graduate,0.49,0.51
+349,Likely Graduate,0.52,0.48
+350,High Risk (Dropout),0.82,0.18
+351,Likely Graduate,0.33,0.67
+352,High Risk (Dropout),0.72,0.28
+353,Likely Graduate,0.5,0.5
+354,High Risk (Dropout),0.94,0.06
+355,Likely Graduate,0.55,0.45
+356,Likely Graduate,0.35,0.65
+357,Likely Graduate,0.28,0.72
+358,Likely Graduate,0.32,0.68
+359,Likely Graduate,0.64,0.36
+360,Likely Graduate,0.62,0.38
+361,Likely Graduate,0.66,0.34
+362,High Risk (Dropout),0.88,0.12
+363,Likely Graduate,0.45,0.55
+364,Likely Graduate,0.48,0.52
+365,Likely Graduate,0.51,0.49
+366,Likely Graduate,0.28,0.72
+367,Likely Graduate,0.65,0.35
+368,Likely Graduate,0.53,0.47
+369,Likely Graduate,0.4,0.6
+370,High Risk (Dropout),0.97,0.03
+371,Likely Graduate,0.56,0.44
+372,Likely Graduate,0.62,0.38
+373,Likely Graduate,0.45,0.55
+374,Likely Graduate,0.59,0.41
+375,Likely Graduate,0.66,0.34
 376,Likely Graduate,0.6,0.4
-377,Likely Graduate,0.38,0.62
-378,Likely Graduate,0.36,0.64
-379,High Risk (Dropout),0.85,0.15
-380,Likely Graduate,0.37,0.63
-381,Likely Graduate,0.33,0.67
-382,Likely Graduate,0.39,0.61
-383,Likely Graduate,0.49,0.51
-384,Likely Graduate,0.42,0.58
-385,High Risk (Dropout),0.77,0.23
-386,High Risk (Dropout),0.78,0.22
-387,Likely Graduate,0.66,0.34
-388,Likely Graduate,0.45,0.55
-389,Likely Graduate,0.69,0.31
-390,High Risk (Dropout),0.84,0.16
-391,Likely Graduate,0.42,0.58
-392,Likely Graduate,0.26,0.74
-393,Likely Graduate,0.45,0.55
-394,Likely Graduate,0.34,0.66
-395,Likely Graduate,0.55,0.45
+377,Likely Graduate,0.33,0.67
+378,Likely Graduate,0.31,0.69
+379,High Risk (Dropout),0.86,0.14
+380,Likely Graduate,0.38,0.62
+381,Likely Graduate,0.29,0.71
+382,Likely Graduate,0.45,0.55
+383,Likely Graduate,0.53,0.47
+384,Likely Graduate,0.3,0.7
+385,Likely Graduate,0.67,0.33
+386,High Risk (Dropout),0.84,0.16
+387,Likely Graduate,0.55,0.45
+388,Likely Graduate,0.42,0.58
+389,High Risk (Dropout),0.73,0.27
+390,High Risk (Dropout),0.8,0.2
+391,Likely Graduate,0.44,0.56
+392,Likely Graduate,0.36,0.64
+393,Likely Graduate,0.5,0.5
+394,Likely Graduate,0.46,0.54
+395,Likely Graduate,0.56,0.44
 396,High Risk (Dropout),0.75,0.25
-397,Likely Graduate,0.34,0.66
-398,High Risk (Dropout),0.74,0.26
+397,Likely Graduate,0.4,0.6
+398,Likely Graduate,0.66,0.34
 399,High Risk (Dropout),0.79,0.21
-400,Likely Graduate,0.66,0.34
-401,High Risk (Dropout),0.94,0.06
-402,Likely Graduate,0.58,0.42
-403,Likely Graduate,0.29,0.71
+400,High Risk (Dropout),0.71,0.29
+401,High Risk (Dropout),0.95,0.05
+402,Likely Graduate,0.5,0.5
+403,Likely Graduate,0.32,0.68
 404,Likely Graduate,0.51,0.49
-405,Likely Graduate,0.33,0.67
+405,Likely Graduate,0.46,0.54
 406,High Risk (Dropout),0.92,0.08
-407,High Risk (Dropout),0.71,0.29
-408,Likely Graduate,0.42,0.58
-409,Likely Graduate,0.29,0.71
-410,Likely Graduate,0.44,0.56
-411,Likely Graduate,0.54,0.46
+407,Likely Graduate,0.57,0.43
+408,Likely Graduate,0.43,0.57
+409,Likely Graduate,0.37,0.63
+410,Likely Graduate,0.46,0.54
+411,Likely Graduate,0.58,0.42
 412,High Risk (Dropout),0.92,0.08
-413,Likely Graduate,0.66,0.34
-414,High Risk (Dropout),0.9,0.1
-415,Likely Graduate,0.42,0.58
-416,Likely Graduate,0.45,0.55
-417,Likely Graduate,0.32,0.68
-418,Likely Graduate,0.51,0.49
-419,Likely Graduate,0.66,0.34
-420,Likely Graduate,0.61,0.39
-421,High Risk (Dropout),0.72,0.28
-422,Likely Graduate,0.66,0.34
-423,Likely Graduate,0.46,0.54
+413,Likely Graduate,0.65,0.35
+414,High Risk (Dropout),0.87,0.13
+415,Likely Graduate,0.45,0.55
+416,Likely Graduate,0.43,0.57
+417,Likely Graduate,0.3,0.7
+418,Likely Graduate,0.49,0.51
+419,High Risk (Dropout),0.74,0.26
+420,Likely Graduate,0.59,0.41
+421,High Risk (Dropout),0.82,0.18
+422,Likely Graduate,0.64,0.36
+423,Likely Graduate,0.43,0.57
 424,High Risk (Dropout),0.89,0.11
-425,Likely Graduate,0.44,0.56
-426,Likely Graduate,0.43,0.57
-427,Likely Graduate,0.36,0.64
-428,High Risk (Dropout),0.77,0.23
-429,Likely Graduate,0.42,0.58
-430,Likely Graduate,0.56,0.44
-431,Likely Graduate,0.55,0.45
-432,High Risk (Dropout),0.8,0.2
-433,High Risk (Dropout),0.96,0.04
-434,High Risk (Dropout),0.89,0.11
-435,Likely Graduate,0.52,0.48
-436,Likely Graduate,0.38,0.62
-437,Likely Graduate,0.5,0.5
-438,Likely Graduate,0.69,0.31
-439,Likely Graduate,0.37,0.63
-440,High Risk (Dropout),0.78,0.22
-441,Likely Graduate,0.53,0.47
-442,Likely Graduate,0.46,0.54
-443,Likely Graduate,0.44,0.56
-444,High Risk (Dropout),0.9,0.1
-445,High Risk (Dropout),0.81,0.19
-446,Likely Graduate,0.57,0.43
-447,Likely Graduate,0.43,0.57
-448,Likely Graduate,0.7,0.3
-449,Likely Graduate,0.65,0.35
-450,Likely Graduate,0.52,0.48
-451,Likely Graduate,0.42,0.58
-452,Likely Graduate,0.54,0.46
-453,High Risk (Dropout),0.82,0.18
-454,Likely Graduate,0.33,0.67
-455,High Risk (Dropout),0.92,0.08
-456,High Risk (Dropout),0.8,0.2
-457,Likely Graduate,0.54,0.46
-458,Likely Graduate,0.6,0.4
-459,Likely Graduate,0.45,0.55
-460,Likely Graduate,0.42,0.58
-461,Likely Graduate,0.3,0.7
-462,Likely Graduate,0.52,0.48
-463,Likely Graduate,0.6,0.4
-464,Likely Graduate,0.43,0.57
-465,Likely Graduate,0.31,0.69
-466,Likely Graduate,0.52,0.48
-467,Likely Graduate,0.64,0.36
-468,Likely Graduate,0.37,0.63
-469,Likely Graduate,0.54,0.46
+425,Likely Graduate,0.41,0.59
+426,Likely Graduate,0.59,0.41
+427,Likely Graduate,0.37,0.63
+428,Likely Graduate,0.68,0.32
+429,Likely Graduate,0.41,0.59
+430,Likely Graduate,0.63,0.37
+431,Likely Graduate,0.39,0.61
+432,High Risk (Dropout),0.86,0.14
+433,High Risk (Dropout),0.93,0.07
+434,High Risk (Dropout),0.92,0.08
+435,Likely Graduate,0.6,0.4
+436,Likely Graduate,0.36,0.64
+437,Likely Graduate,0.37,0.63
+438,Likely Graduate,0.66,0.34
+439,Likely Graduate,0.29,0.71
+440,High Risk (Dropout),0.77,0.23
+441,Likely Graduate,0.47,0.53
+442,Likely Graduate,0.52,0.48
+443,Likely Graduate,0.37,0.63
+444,High Risk (Dropout),0.87,0.13
+445,High Risk (Dropout),0.82,0.18
+446,Likely Graduate,0.53,0.47
+447,Likely Graduate,0.41,0.59
+448,High Risk (Dropout),0.72,0.28
+449,Likely Graduate,0.62,0.38
+450,Likely Graduate,0.51,0.49
+451,Likely Graduate,0.44,0.56
+452,Likely Graduate,0.62,0.38
+453,High Risk (Dropout),0.86,0.14
+454,Likely Graduate,0.32,0.68
+455,High Risk (Dropout),0.93,0.07
+456,High Risk (Dropout),0.79,0.21
+457,Likely Graduate,0.61,0.39
+458,Likely Graduate,0.58,0.42
+459,Likely Graduate,0.49,0.51
+460,Likely Graduate,0.4,0.6
+461,Likely Graduate,0.33,0.67
+462,Likely Graduate,0.62,0.38
+463,Likely Graduate,0.69,0.31
+464,Likely Graduate,0.37,0.63
+465,Likely Graduate,0.36,0.64
+466,Likely Graduate,0.56,0.44
+467,Likely Graduate,0.63,0.37
+468,Likely Graduate,0.42,0.58
+469,Likely Graduate,0.47,0.53
 470,High Risk (Dropout),0.94,0.06
-471,Likely Graduate,0.4,0.6
-472,Likely Graduate,0.58,0.42
-473,Likely Graduate,0.58,0.42
-474,Likely Graduate,0.61,0.39
-475,Likely Graduate,0.45,0.55
-476,Likely Graduate,0.45,0.55
-477,High Risk (Dropout),0.81,0.19
-478,Likely Graduate,0.37,0.63
-479,Likely Graduate,0.67,0.33
+471,Likely Graduate,0.46,0.54
+472,Likely Graduate,0.7,0.3
+473,Likely Graduate,0.54,0.46
+474,Likely Graduate,0.5,0.5
+475,Likely Graduate,0.47,0.53
+476,Likely Graduate,0.55,0.45
+477,High Risk (Dropout),0.71,0.29
+478,Likely Graduate,0.45,0.55
+479,High Risk (Dropout),0.71,0.29
 480,High Risk (Dropout),0.89,0.11
-481,Likely Graduate,0.59,0.41
-482,Likely Graduate,0.5,0.5
-483,Likely Graduate,0.4,0.6
-484,High Risk (Dropout),0.84,0.16
-485,Likely Graduate,0.44,0.56
-486,Likely Graduate,0.38,0.62
-487,High Risk (Dropout),0.76,0.24
-488,Likely Graduate,0.64,0.36
-489,High Risk (Dropout),0.98,0.02
-490,Likely Graduate,0.25,0.75
-491,Likely Graduate,0.33,0.67
-492,Likely Graduate,0.58,0.42
-493,Likely Graduate,0.57,0.43
-494,Likely Graduate,0.45,0.55
-495,Likely Graduate,0.51,0.49
-496,Likely Graduate,0.46,0.54
-497,High Risk (Dropout),0.76,0.24
-498,Likely Graduate,0.51,0.49
-499,Likely Graduate,0.41,0.59
-500,Likely Graduate,0.45,0.55
-501,Likely Graduate,0.39,0.61
-502,Likely Graduate,0.33,0.67
-503,Likely Graduate,0.65,0.35
-504,Likely Graduate,0.55,0.45
-505,Likely Graduate,0.62,0.38
-506,Likely Graduate,0.47,0.53
-507,Likely Graduate,0.57,0.43
-508,Likely Graduate,0.6,0.4
+481,Likely Graduate,0.53,0.47
+482,Likely Graduate,0.37,0.63
+483,Likely Graduate,0.47,0.53
+484,High Risk (Dropout),0.88,0.12
+485,Likely Graduate,0.31,0.69
+486,Likely Graduate,0.31,0.69
+487,High Risk (Dropout),0.77,0.23
+488,Likely Graduate,0.59,0.41
+489,High Risk (Dropout),0.95,0.05
+490,Likely Graduate,0.35,0.65
+491,Likely Graduate,0.42,0.58
+492,Likely Graduate,0.56,0.44
+493,Likely Graduate,0.59,0.41
+494,Likely Graduate,0.49,0.51
+495,Likely Graduate,0.54,0.46
+496,Likely Graduate,0.37,0.63
+497,Likely Graduate,0.66,0.34
+498,Likely Graduate,0.58,0.42
+499,Likely Graduate,0.33,0.67
+500,Likely Graduate,0.35,0.65
+501,Likely Graduate,0.41,0.59
+502,Likely Graduate,0.34,0.66
+503,Likely Graduate,0.54,0.46
+504,Likely Graduate,0.57,0.43
+505,Likely Graduate,0.55,0.45
+506,Likely Graduate,0.39,0.61
+507,Likely Graduate,0.61,0.39
+508,Likely Graduate,0.56,0.44
 509,Likely Graduate,0.65,0.35
-510,Likely Graduate,0.39,0.61
-511,Likely Graduate,0.29,0.71
-512,Likely Graduate,0.28,0.72
+510,Likely Graduate,0.4,0.6
+511,Likely Graduate,0.46,0.54
+512,Likely Graduate,0.3,0.7
 513,Likely Graduate,0.39,0.61
-514,Likely Graduate,0.45,0.55
-515,Likely Graduate,0.45,0.55
-516,High Risk (Dropout),0.73,0.27
-517,Likely Graduate,0.55,0.45
-518,High Risk (Dropout),0.86,0.14
-519,Likely Graduate,0.47,0.53
-520,Likely Graduate,0.61,0.39
+514,Likely Graduate,0.5,0.5
+515,Likely Graduate,0.37,0.63
+516,High Risk (Dropout),0.75,0.25
+517,Likely Graduate,0.48,0.52
+518,High Risk (Dropout),0.88,0.12
+519,Likely Graduate,0.48,0.52
+520,Likely Graduate,0.67,0.33
 521,Likely Graduate,0.34,0.66
-522,Likely Graduate,0.54,0.46
-523,High Risk (Dropout),0.83,0.17
-524,Likely Graduate,0.39,0.61
-525,Likely Graduate,0.67,0.33
-526,Likely Graduate,0.54,0.46
-527,High Risk (Dropout),0.78,0.22
-528,Likely Graduate,0.32,0.68
-529,High Risk (Dropout),0.73,0.27
+522,Likely Graduate,0.38,0.62
+523,High Risk (Dropout),0.87,0.13
+524,Likely Graduate,0.41,0.59
+525,Likely Graduate,0.69,0.31
+526,Likely Graduate,0.57,0.43
+527,Likely Graduate,0.68,0.32
+528,Likely Graduate,0.37,0.63
+529,High Risk (Dropout),0.77,0.23
 530,Likely Graduate,0.5,0.5
-531,Likely Graduate,0.45,0.55
-532,High Risk (Dropout),0.89,0.11
-533,High Risk (Dropout),0.83,0.17
-534,Likely Graduate,0.31,0.69
-535,Likely Graduate,0.43,0.57
-536,Likely Graduate,0.65,0.35
-537,Likely Graduate,0.65,0.35
-538,Likely Graduate,0.44,0.56
-539,Likely Graduate,0.57,0.43
-540,Likely Graduate,0.7,0.3
-541,High Risk (Dropout),0.82,0.18
-542,Likely Graduate,0.48,0.52
-543,Likely Graduate,0.52,0.48
-544,Likely Graduate,0.4,0.6
-545,Likely Graduate,0.54,0.46
-546,Likely Graduate,0.35,0.65
-547,Likely Graduate,0.68,0.32
-548,Likely Graduate,0.55,0.45
-549,High Risk (Dropout),0.81,0.19
-550,Likely Graduate,0.55,0.45
-551,Likely Graduate,0.42,0.58
-552,Likely Graduate,0.62,0.38
+531,Likely Graduate,0.47,0.53
+532,High Risk (Dropout),0.88,0.12
+533,High Risk (Dropout),0.9,0.1
+534,Likely Graduate,0.42,0.58
+535,Likely Graduate,0.46,0.54
+536,High Risk (Dropout),0.75,0.25
+537,Likely Graduate,0.67,0.33
+538,Likely Graduate,0.35,0.65
+539,Likely Graduate,0.67,0.33
+540,Likely Graduate,0.69,0.31
+541,High Risk (Dropout),0.84,0.16
+542,Likely Graduate,0.51,0.49
+543,Likely Graduate,0.59,0.41
+544,Likely Graduate,0.42,0.58
+545,Likely Graduate,0.65,0.35
+546,Likely Graduate,0.3,0.7
+547,Likely Graduate,0.65,0.35
+548,Likely Graduate,0.53,0.47
+549,High Risk (Dropout),0.87,0.13
+550,Likely Graduate,0.39,0.61
+551,Likely Graduate,0.52,0.48
+552,Likely Graduate,0.57,0.43
 553,Likely Graduate,0.43,0.57
-554,Likely Graduate,0.38,0.62
-555,Likely Graduate,0.49,0.51
-556,Likely Graduate,0.62,0.38
-557,Likely Graduate,0.4,0.6
-558,Likely Graduate,0.35,0.65
-559,Likely Graduate,0.46,0.54
-560,Likely Graduate,0.49,0.51
-561,Likely Graduate,0.37,0.63
-562,High Risk (Dropout),0.93,0.07
-563,High Risk (Dropout),0.8,0.2
-564,Likely Graduate,0.38,0.62
-565,Likely Graduate,0.61,0.39
+554,Likely Graduate,0.47,0.53
+555,Likely Graduate,0.56,0.44
+556,Likely Graduate,0.58,0.42
+557,Likely Graduate,0.39,0.61
+558,Likely Graduate,0.4,0.6
+559,Likely Graduate,0.39,0.61
+560,Likely Graduate,0.5,0.5
+561,Likely Graduate,0.35,0.65
+562,High Risk (Dropout),0.98,0.02
+563,High Risk (Dropout),0.83,0.17
+564,Likely Graduate,0.47,0.53
+565,Likely Graduate,0.62,0.38
 566,High Risk (Dropout),0.92,0.08
 567,Likely Graduate,0.47,0.53
-568,High Risk (Dropout),0.84,0.16
-569,Likely Graduate,0.37,0.63
-570,Likely Graduate,0.43,0.57
-571,Likely Graduate,0.57,0.43
-572,Likely Graduate,0.48,0.52
-573,High Risk (Dropout),0.83,0.17
-574,Likely Graduate,0.36,0.64
-575,Likely Graduate,0.53,0.47
-576,High Risk (Dropout),0.94,0.06
-577,Likely Graduate,0.62,0.38
-578,Likely Graduate,0.32,0.68
-579,Likely Graduate,0.38,0.62
-580,Likely Graduate,0.39,0.61
-581,High Risk (Dropout),0.75,0.25
-582,Likely Graduate,0.34,0.66
-583,Likely Graduate,0.39,0.61
-584,Likely Graduate,0.63,0.37
-585,High Risk (Dropout),0.89,0.11
-586,Likely Graduate,0.38,0.62
+568,High Risk (Dropout),0.81,0.19
+569,Likely Graduate,0.45,0.55
+570,Likely Graduate,0.36,0.64
+571,Likely Graduate,0.43,0.57
+572,Likely Graduate,0.41,0.59
+573,High Risk (Dropout),0.77,0.23
+574,Likely Graduate,0.43,0.57
+575,Likely Graduate,0.44,0.56
+576,High Risk (Dropout),0.97,0.03
+577,Likely Graduate,0.56,0.44
+578,Likely Graduate,0.44,0.56
+579,Likely Graduate,0.42,0.58
+580,Likely Graduate,0.44,0.56
+581,High Risk (Dropout),0.71,0.29
+582,Likely Graduate,0.4,0.6
+583,Likely Graduate,0.33,0.67
+584,Likely Graduate,0.57,0.43
+585,High Risk (Dropout),0.91,0.09
+586,Likely Graduate,0.42,0.58
 587,Likely Graduate,0.38,0.62
-588,Likely Graduate,0.54,0.46
+588,Likely Graduate,0.67,0.33
 589,Likely Graduate,0.38,0.62
-590,Likely Graduate,0.59,0.41
-591,Likely Graduate,0.7,0.3
-592,Likely Graduate,0.55,0.45
-593,Likely Graduate,0.57,0.43
-594,High Risk (Dropout),0.74,0.26
-595,Likely Graduate,0.46,0.54
-596,Likely Graduate,0.53,0.47
-597,High Risk (Dropout),0.84,0.16
-598,High Risk (Dropout),0.72,0.28
-599,Likely Graduate,0.47,0.53
-600,Likely Graduate,0.32,0.68
-601,Likely Graduate,0.68,0.32
-602,High Risk (Dropout),0.78,0.22
-603,High Risk (Dropout),0.74,0.26
-604,High Risk (Dropout),0.87,0.13
-605,High Risk (Dropout),0.89,0.11
+590,Likely Graduate,0.58,0.42
+591,High Risk (Dropout),0.73,0.27
+592,Likely Graduate,0.61,0.39
+593,Likely Graduate,0.5,0.5
+594,High Risk (Dropout),0.73,0.27
+595,Likely Graduate,0.5,0.5
+596,Likely Graduate,0.5,0.5
+597,High Risk (Dropout),0.91,0.09
+598,High Risk (Dropout),0.77,0.23
+599,Likely Graduate,0.48,0.52
+600,Likely Graduate,0.28,0.72
+601,Likely Graduate,0.64,0.36
+602,High Risk (Dropout),0.77,0.23
+603,High Risk (Dropout),0.71,0.29
+604,High Risk (Dropout),0.91,0.09
+605,High Risk (Dropout),0.91,0.09
 606,High Risk (Dropout),0.92,0.08
-607,Likely Graduate,0.5,0.5
-608,Likely Graduate,0.6,0.4
-609,Likely Graduate,0.37,0.63
-610,Likely Graduate,0.64,0.36
-611,Likely Graduate,0.65,0.35
-612,Likely Graduate,0.55,0.45
+607,Likely Graduate,0.42,0.58
+608,Likely Graduate,0.54,0.46
+609,Likely Graduate,0.32,0.68
+610,High Risk (Dropout),0.82,0.18
+611,Likely Graduate,0.62,0.38
+612,Likely Graduate,0.5,0.5
 613,Likely Graduate,0.57,0.43
-614,Likely Graduate,0.49,0.51
-615,High Risk (Dropout),0.78,0.22
+614,Likely Graduate,0.55,0.45
+615,High Risk (Dropout),0.86,0.14
 616,Likely Graduate,0.47,0.53
-617,High Risk (Dropout),0.82,0.18
-618,Likely Graduate,0.49,0.51
-619,High Risk (Dropout),0.71,0.29
-620,Likely Graduate,0.39,0.61
-621,Likely Graduate,0.36,0.64
-622,High Risk (Dropout),0.74,0.26
-623,Likely Graduate,0.65,0.35
-624,Likely Graduate,0.64,0.36
-625,Likely Graduate,0.63,0.37
-626,High Risk (Dropout),0.95,0.05
-627,Likely Graduate,0.47,0.53
-628,Likely Graduate,0.37,0.63
-629,High Risk (Dropout),0.75,0.25
-630,High Risk (Dropout),0.82,0.18
-631,Likely Graduate,0.38,0.62
-632,Likely Graduate,0.69,0.31
-633,Likely Graduate,0.51,0.49
-634,Likely Graduate,0.31,0.69
-635,High Risk (Dropout),0.8,0.2
-636,Likely Graduate,0.49,0.51
-637,Likely Graduate,0.43,0.57
-638,Likely Graduate,0.34,0.66
-639,Likely Graduate,0.32,0.68
-640,Likely Graduate,0.48,0.52
-641,Likely Graduate,0.64,0.36
-642,Likely Graduate,0.6,0.4
-643,High Risk (Dropout),0.81,0.19
-644,Likely Graduate,0.38,0.62
-645,High Risk (Dropout),0.95,0.05
-646,High Risk (Dropout),0.94,0.06
-647,High Risk (Dropout),0.84,0.16
-648,Likely Graduate,0.55,0.45
-649,Likely Graduate,0.36,0.64
-650,Likely Graduate,0.38,0.62
-651,Likely Graduate,0.4,0.6
-652,Likely Graduate,0.45,0.55
-653,Likely Graduate,0.42,0.58
-654,Likely Graduate,0.36,0.64
-655,Likely Graduate,0.44,0.56
-656,Likely Graduate,0.37,0.63
-657,Likely Graduate,0.48,0.52
-658,Likely Graduate,0.32,0.68
-659,Likely Graduate,0.5,0.5
-660,Likely Graduate,0.35,0.65
-661,Likely Graduate,0.45,0.55
-662,Likely Graduate,0.52,0.48
-663,Likely Graduate,0.45,0.55
-664,Likely Graduate,0.43,0.57
-665,High Risk (Dropout),0.86,0.14
-666,Likely Graduate,0.42,0.58
-667,Likely Graduate,0.48,0.52
-668,Likely Graduate,0.42,0.58
-669,Likely Graduate,0.49,0.51
-670,Likely Graduate,0.37,0.63
-671,High Risk (Dropout),0.85,0.15
-672,Likely Graduate,0.43,0.57
-673,Likely Graduate,0.31,0.69
+617,High Risk (Dropout),0.77,0.23
+618,Likely Graduate,0.56,0.44
+619,High Risk (Dropout),0.77,0.23
+620,Likely Graduate,0.37,0.63
+621,Likely Graduate,0.39,0.61
+622,Likely Graduate,0.65,0.35
+623,Likely Graduate,0.69,0.31
+624,High Risk (Dropout),0.75,0.25
+625,Likely Graduate,0.69,0.31
+626,High Risk (Dropout),0.96,0.04
+627,Likely Graduate,0.58,0.42
+628,Likely Graduate,0.4,0.6
+629,High Risk (Dropout),0.76,0.24
+630,High Risk (Dropout),0.86,0.14
+631,Likely Graduate,0.46,0.54
+632,Likely Graduate,0.59,0.41
+633,Likely Graduate,0.58,0.42
+634,Likely Graduate,0.42,0.58
+635,High Risk (Dropout),0.76,0.24
+636,Likely Graduate,0.47,0.53
+637,Likely Graduate,0.47,0.53
+638,Likely Graduate,0.31,0.69
+639,Likely Graduate,0.35,0.65
+640,Likely Graduate,0.42,0.58
+641,Likely Graduate,0.6,0.4
+642,Likely Graduate,0.51,0.49
+643,High Risk (Dropout),0.84,0.16
+644,Likely Graduate,0.34,0.66
+645,High Risk (Dropout),0.91,0.09
+646,High Risk (Dropout),0.98,0.02
+647,High Risk (Dropout),0.85,0.15
+648,Likely Graduate,0.49,0.51
+649,Likely Graduate,0.48,0.52
+650,Likely Graduate,0.35,0.65
+651,Likely Graduate,0.29,0.71
+652,Likely Graduate,0.37,0.63
+653,Likely Graduate,0.28,0.72
+654,Likely Graduate,0.45,0.55
+655,Likely Graduate,0.42,0.58
+656,Likely Graduate,0.26,0.74
+657,Likely Graduate,0.53,0.47
+658,Likely Graduate,0.35,0.65
+659,Likely Graduate,0.55,0.45
+660,Likely Graduate,0.28,0.72
+661,Likely Graduate,0.4,0.6
+662,Likely Graduate,0.44,0.56
+663,Likely Graduate,0.43,0.57
+664,Likely Graduate,0.44,0.56
+665,High Risk (Dropout),0.83,0.17
+666,Likely Graduate,0.43,0.57
+667,Likely Graduate,0.45,0.55
+668,Likely Graduate,0.44,0.56
+669,Likely Graduate,0.35,0.65
+670,Likely Graduate,0.38,0.62
+671,High Risk (Dropout),0.9,0.1
+672,Likely Graduate,0.42,0.58
+673,Likely Graduate,0.39,0.61
 674,High Risk (Dropout),0.71,0.29
-675,High Risk (Dropout),0.71,0.29
-676,Likely Graduate,0.29,0.71
-677,Likely Graduate,0.44,0.56
-678,High Risk (Dropout),0.72,0.28
-679,Likely Graduate,0.44,0.56
-680,High Risk (Dropout),0.79,0.21
-681,Likely Graduate,0.54,0.46
-682,Likely Graduate,0.43,0.57
-683,Likely Graduate,0.31,0.69
-684,Likely Graduate,0.57,0.43
-685,Likely Graduate,0.53,0.47
+675,Likely Graduate,0.61,0.39
+676,Likely Graduate,0.31,0.69
+677,Likely Graduate,0.4,0.6
+678,High Risk (Dropout),0.8,0.2
+679,Likely Graduate,0.47,0.53
+680,High Risk (Dropout),0.8,0.2
+681,Likely Graduate,0.52,0.48
+682,Likely Graduate,0.36,0.64
+683,Likely Graduate,0.39,0.61
+684,Likely Graduate,0.55,0.45
+685,Likely Graduate,0.58,0.42
 686,Likely Graduate,0.58,0.42
-687,Likely Graduate,0.51,0.49
-688,Likely Graduate,0.65,0.35
-689,Likely Graduate,0.67,0.33
-690,High Risk (Dropout),0.79,0.21
-691,High Risk (Dropout),0.9,0.1
+687,Likely Graduate,0.5,0.5
+688,High Risk (Dropout),0.73,0.27
+689,High Risk (Dropout),0.77,0.23
+690,High Risk (Dropout),0.88,0.12
+691,High Risk (Dropout),0.88,0.12
 692,High Risk (Dropout),0.94,0.06
-693,Likely Graduate,0.67,0.33
-694,Likely Graduate,0.48,0.52
-695,Likely Graduate,0.39,0.61
-696,Likely Graduate,0.33,0.67
-697,Likely Graduate,0.43,0.57
-698,Likely Graduate,0.63,0.37
-699,Likely Graduate,0.39,0.61
-700,Likely Graduate,0.46,0.54
-701,Likely Graduate,0.44,0.56
-702,Likely Graduate,0.65,0.35
-703,Likely Graduate,0.56,0.44
-704,Likely Graduate,0.42,0.58
-705,Likely Graduate,0.34,0.66
-706,Likely Graduate,0.57,0.43
-707,Likely Graduate,0.37,0.63
-708,Likely Graduate,0.53,0.47
-709,Likely Graduate,0.62,0.38
-710,Likely Graduate,0.62,0.38
-711,Likely Graduate,0.56,0.44
-712,High Risk (Dropout),0.73,0.27
-713,Likely Graduate,0.23,0.77
-714,Likely Graduate,0.52,0.48
-715,Likely Graduate,0.4,0.6
-716,Likely Graduate,0.58,0.42
-717,Likely Graduate,0.49,0.51
-718,Likely Graduate,0.39,0.61
-719,High Risk (Dropout),0.74,0.26
-720,Likely Graduate,0.33,0.67
-721,High Risk (Dropout),0.92,0.08
-722,Likely Graduate,0.59,0.41
-723,Likely Graduate,0.38,0.62
-724,Likely Graduate,0.33,0.67
-725,High Risk (Dropout),0.74,0.26
-726,High Risk (Dropout),0.95,0.05
-727,Likely Graduate,0.63,0.37
-728,Likely Graduate,0.29,0.71
-729,Likely Graduate,0.47,0.53
-730,Likely Graduate,0.55,0.45
-731,High Risk (Dropout),0.83,0.17
+693,High Risk (Dropout),0.81,0.19
+694,Likely Graduate,0.55,0.45
+695,Likely Graduate,0.46,0.54
+696,Likely Graduate,0.48,0.52
+697,Likely Graduate,0.39,0.61
+698,Likely Graduate,0.64,0.36
+699,Likely Graduate,0.46,0.54
+700,Likely Graduate,0.32,0.68
+701,Likely Graduate,0.48,0.52
+702,Likely Graduate,0.68,0.32
+703,Likely Graduate,0.49,0.51
+704,Likely Graduate,0.38,0.62
+705,Likely Graduate,0.35,0.65
+706,Likely Graduate,0.51,0.49
+707,Likely Graduate,0.44,0.56
+708,Likely Graduate,0.58,0.42
+709,Likely Graduate,0.57,0.43
+710,Likely Graduate,0.57,0.43
+711,Likely Graduate,0.52,0.48
+712,High Risk (Dropout),0.82,0.18
+713,Likely Graduate,0.32,0.68
+714,Likely Graduate,0.55,0.45
+715,Likely Graduate,0.5,0.5
+716,Likely Graduate,0.6,0.4
+717,Likely Graduate,0.54,0.46
+718,Likely Graduate,0.41,0.59
+719,High Risk (Dropout),0.77,0.23
+720,Likely Graduate,0.36,0.64
+721,High Risk (Dropout),0.96,0.04
+722,High Risk (Dropout),0.72,0.28
+723,Likely Graduate,0.33,0.67
+724,Likely Graduate,0.36,0.64
+725,Likely Graduate,0.69,0.31
+726,High Risk (Dropout),0.97,0.03
+727,Likely Graduate,0.55,0.45
+728,Likely Graduate,0.36,0.64
+729,Likely Graduate,0.52,0.48
+730,Likely Graduate,0.63,0.37
+731,High Risk (Dropout),0.81,0.19
 732,Likely Graduate,0.5,0.5
-733,Likely Graduate,0.46,0.54
-734,Likely Graduate,0.62,0.38
+733,Likely Graduate,0.44,0.56
+734,Likely Graduate,0.68,0.32
 735,Likely Graduate,0.6,0.4
-736,Likely Graduate,0.63,0.37
-737,Likely Graduate,0.56,0.44
-738,Likely Graduate,0.5,0.5
-739,Likely Graduate,0.43,0.57
-740,Likely Graduate,0.37,0.63
-741,High Risk (Dropout),0.75,0.25
-742,Likely Graduate,0.44,0.56
-743,Likely Graduate,0.59,0.41
-744,Likely Graduate,0.49,0.51
-745,Likely Graduate,0.41,0.59
-746,Likely Graduate,0.62,0.38
-747,Likely Graduate,0.54,0.46
-748,Likely Graduate,0.41,0.59
-749,Likely Graduate,0.49,0.51
-750,High Risk (Dropout),0.73,0.27
-751,Likely Graduate,0.56,0.44
-752,High Risk (Dropout),0.77,0.23
-753,High Risk (Dropout),0.87,0.13
-754,Likely Graduate,0.43,0.57
-755,Likely Graduate,0.41,0.59
-756,Likely Graduate,0.57,0.43
-757,High Risk (Dropout),0.71,0.29
+736,Likely Graduate,0.61,0.39
+737,Likely Graduate,0.52,0.48
+738,Likely Graduate,0.45,0.55
+739,Likely Graduate,0.35,0.65
+740,Likely Graduate,0.39,0.61
+741,High Risk (Dropout),0.8,0.2
+742,Likely Graduate,0.37,0.63
+743,Likely Graduate,0.56,0.44
+744,Likely Graduate,0.5,0.5
+745,Likely Graduate,0.51,0.49
+746,Likely Graduate,0.61,0.39
+747,Likely Graduate,0.67,0.33
+748,Likely Graduate,0.35,0.65
+749,Likely Graduate,0.53,0.47
+750,High Risk (Dropout),0.76,0.24
+751,Likely Graduate,0.65,0.35
+752,High Risk (Dropout),0.74,0.26
+753,High Risk (Dropout),0.89,0.11
+754,Likely Graduate,0.56,0.44
+755,Likely Graduate,0.4,0.6
+756,Likely Graduate,0.65,0.35
+757,Likely Graduate,0.55,0.45
 758,High Risk (Dropout),0.77,0.23
 759,Likely Graduate,0.48,0.52
-760,Likely Graduate,0.28,0.72
-761,High Risk (Dropout),0.74,0.26
+760,Likely Graduate,0.3,0.7
+761,Likely Graduate,0.7,0.3
 762,High Risk (Dropout),0.73,0.27
-763,Likely Graduate,0.33,0.67
-764,High Risk (Dropout),0.87,0.13
-765,Likely Graduate,0.45,0.55
-766,Likely Graduate,0.3,0.7
-767,Likely Graduate,0.44,0.56
-768,Likely Graduate,0.37,0.63
-769,Likely Graduate,0.4,0.6
-770,Likely Graduate,0.42,0.58
-771,Likely Graduate,0.45,0.55
-772,Likely Graduate,0.6,0.4
-773,Likely Graduate,0.42,0.58
-774,Likely Graduate,0.5,0.5
-775,High Risk (Dropout),0.79,0.21
-776,Likely Graduate,0.38,0.62
-777,Likely Graduate,0.37,0.63
-778,High Risk (Dropout),0.83,0.17
-779,Likely Graduate,0.33,0.67
-780,Likely Graduate,0.41,0.59
-781,Likely Graduate,0.38,0.62
-782,High Risk (Dropout),0.86,0.14
-783,Likely Graduate,0.37,0.63
-784,High Risk (Dropout),0.93,0.07
-785,High Risk (Dropout),0.94,0.06
-786,Likely Graduate,0.5,0.5
-787,Likely Graduate,0.4,0.6
-788,Likely Graduate,0.7,0.3
+763,Likely Graduate,0.32,0.68
+764,High Risk (Dropout),0.88,0.12
+765,Likely Graduate,0.48,0.52
+766,Likely Graduate,0.37,0.63
+767,Likely Graduate,0.58,0.42
+768,Likely Graduate,0.27,0.73
+769,Likely Graduate,0.43,0.57
+770,Likely Graduate,0.45,0.55
+771,Likely Graduate,0.41,0.59
+772,Likely Graduate,0.69,0.31
+773,Likely Graduate,0.38,0.62
+774,Likely Graduate,0.47,0.53
+775,High Risk (Dropout),0.72,0.28
+776,Likely Graduate,0.35,0.65
+777,Likely Graduate,0.36,0.64
+778,High Risk (Dropout),0.89,0.11
+779,Likely Graduate,0.44,0.56
+780,Likely Graduate,0.36,0.64
+781,Likely Graduate,0.3,0.7
+782,High Risk (Dropout),0.87,0.13
+783,Likely Graduate,0.27,0.73
+784,High Risk (Dropout),0.95,0.05
+785,High Risk (Dropout),0.91,0.09
+786,Likely Graduate,0.41,0.59
+787,Likely Graduate,0.44,0.56
+788,High Risk (Dropout),0.76,0.24
 789,Likely Graduate,0.45,0.55
-790,Likely Graduate,0.34,0.66
-791,Likely Graduate,0.39,0.61
-792,High Risk (Dropout),0.87,0.13
-793,Likely Graduate,0.67,0.33
+790,Likely Graduate,0.32,0.68
+791,Likely Graduate,0.4,0.6
+792,High Risk (Dropout),0.84,0.16
+793,High Risk (Dropout),0.79,0.21
 794,Likely Graduate,0.52,0.48
-795,Likely Graduate,0.54,0.46
-796,Likely Graduate,0.54,0.46
-797,Likely Graduate,0.69,0.31
-798,Likely Graduate,0.36,0.64
+795,Likely Graduate,0.49,0.51
+796,Likely Graduate,0.53,0.47
+797,Likely Graduate,0.59,0.41
+798,Likely Graduate,0.34,0.66
 799,Likely Graduate,0.62,0.38
-800,Likely Graduate,0.35,0.65
-801,Likely Graduate,0.36,0.64
-802,Likely Graduate,0.65,0.35
-803,Likely Graduate,0.41,0.59
-804,Likely Graduate,0.51,0.49
+800,Likely Graduate,0.43,0.57
+801,Likely Graduate,0.48,0.52
+802,Likely Graduate,0.61,0.39
+803,Likely Graduate,0.4,0.6
+804,Likely Graduate,0.48,0.52
 805,Likely Graduate,0.41,0.59
-806,High Risk (Dropout),0.87,0.13
-807,Likely Graduate,0.43,0.57
+806,High Risk (Dropout),0.93,0.07
+807,Likely Graduate,0.35,0.65
 808,Likely Graduate,0.37,0.63
-809,High Risk (Dropout),0.77,0.23
+809,High Risk (Dropout),0.83,0.17
 810,High Risk (Dropout),0.82,0.18
-811,Likely Graduate,0.69,0.31
-812,Likely Graduate,0.43,0.57
-813,Likely Graduate,0.64,0.36
-814,Likely Graduate,0.44,0.56
-815,Likely Graduate,0.47,0.53
-816,Likely Graduate,0.56,0.44
-817,Likely Graduate,0.39,0.61
-818,Likely Graduate,0.44,0.56
-819,Likely Graduate,0.4,0.6
-820,High Risk (Dropout),0.75,0.25
-821,Likely Graduate,0.52,0.48
-822,Likely Graduate,0.41,0.59
-823,Likely Graduate,0.47,0.53
-824,Likely Graduate,0.41,0.59
-825,Likely Graduate,0.42,0.58
-826,High Risk (Dropout),0.92,0.08
-827,Likely Graduate,0.44,0.56
-828,Likely Graduate,0.37,0.63
-829,Likely Graduate,0.6,0.4
-830,Likely Graduate,0.68,0.32
-831,Likely Graduate,0.62,0.38
-832,Likely Graduate,0.36,0.64
-833,High Risk (Dropout),0.93,0.07
-834,Likely Graduate,0.45,0.55
-835,Likely Graduate,0.33,0.67
-836,High Risk (Dropout),0.91,0.09
-837,Likely Graduate,0.28,0.72
-838,Likely Graduate,0.69,0.31
-839,Likely Graduate,0.53,0.47
-840,Likely Graduate,0.32,0.68
-841,High Risk (Dropout),0.77,0.23
-842,Likely Graduate,0.42,0.58
-843,High Risk (Dropout),0.84,0.16
-844,Likely Graduate,0.64,0.36
-845,Likely Graduate,0.64,0.36
-846,Likely Graduate,0.49,0.51
-847,Likely Graduate,0.57,0.43
-848,Likely Graduate,0.56,0.44
-849,High Risk (Dropout),0.79,0.21
-850,Likely Graduate,0.38,0.62
-851,High Risk (Dropout),0.78,0.22
-852,Likely Graduate,0.52,0.48
-853,High Risk (Dropout),0.88,0.12
-854,High Risk (Dropout),0.91,0.09
-855,Likely Graduate,0.56,0.44
-856,High Risk (Dropout),0.95,0.05
-857,High Risk (Dropout),0.74,0.26
-858,High Risk (Dropout),0.92,0.08
-859,High Risk (Dropout),0.83,0.17
-860,Likely Graduate,0.45,0.55
-861,High Risk (Dropout),0.78,0.22
-862,Likely Graduate,0.69,0.31
-863,Likely Graduate,0.35,0.65
-864,Likely Graduate,0.61,0.39
-865,High Risk (Dropout),0.78,0.22
-866,Likely Graduate,0.67,0.33
-867,Likely Graduate,0.39,0.61
-868,High Risk (Dropout),0.8,0.2
-869,Likely Graduate,0.4,0.6
-870,Likely Graduate,0.64,0.36
-871,High Risk (Dropout),0.92,0.08
-872,Likely Graduate,0.41,0.59
-873,High Risk (Dropout),0.91,0.09
+811,Likely Graduate,0.67,0.33
+812,Likely Graduate,0.4,0.6
+813,High Risk (Dropout),0.71,0.29
+814,Likely Graduate,0.38,0.62
+815,Likely Graduate,0.52,0.48
+816,Likely Graduate,0.46,0.54
+817,Likely Graduate,0.46,0.54
+818,Likely Graduate,0.36,0.64
+819,Likely Graduate,0.32,0.68
+820,Likely Graduate,0.7,0.3
+821,Likely Graduate,0.58,0.42
+822,Likely Graduate,0.38,0.62
+823,Likely Graduate,0.48,0.52
+824,Likely Graduate,0.31,0.69
+825,Likely Graduate,0.3,0.7
+826,High Risk (Dropout),0.96,0.04
+827,Likely Graduate,0.49,0.51
+828,Likely Graduate,0.38,0.62
+829,High Risk (Dropout),0.76,0.24
+830,Likely Graduate,0.67,0.33
+831,Likely Graduate,0.69,0.31
+832,Likely Graduate,0.39,0.61
+833,High Risk (Dropout),0.88,0.12
+834,Likely Graduate,0.53,0.47
+835,Likely Graduate,0.35,0.65
+836,High Risk (Dropout),0.93,0.07
+837,Likely Graduate,0.31,0.69
+838,High Risk (Dropout),0.82,0.18
+839,Likely Graduate,0.59,0.41
+840,Likely Graduate,0.39,0.61
+841,High Risk (Dropout),0.81,0.19
+842,Likely Graduate,0.29,0.71
+843,High Risk (Dropout),0.83,0.17
+844,Likely Graduate,0.55,0.45
+845,High Risk (Dropout),0.72,0.28
+846,Likely Graduate,0.58,0.42
+847,Likely Graduate,0.54,0.46
+848,Likely Graduate,0.61,0.39
+849,High Risk (Dropout),0.82,0.18
+850,Likely Graduate,0.31,0.69
+851,High Risk (Dropout),0.81,0.19
+852,Likely Graduate,0.46,0.54
+853,High Risk (Dropout),0.89,0.11
+854,High Risk (Dropout),0.9,0.1
+855,Likely Graduate,0.58,0.42
+856,High Risk (Dropout),0.91,0.09
+857,High Risk (Dropout),0.73,0.27
+858,High Risk (Dropout),0.98,0.02
+859,High Risk (Dropout),0.92,0.08
+860,Likely Graduate,0.48,0.52
+861,High Risk (Dropout),0.85,0.15
+862,High Risk (Dropout),0.84,0.16
+863,Likely Graduate,0.44,0.56
+864,Likely Graduate,0.67,0.33
+865,High Risk (Dropout),0.8,0.2
+866,Likely Graduate,0.65,0.35
+867,Likely Graduate,0.41,0.59
+868,High Risk (Dropout),0.74,0.26
+869,Likely Graduate,0.27,0.73
+870,Likely Graduate,0.65,0.35
+871,High Risk (Dropout),0.89,0.11
+872,Likely Graduate,0.35,0.65
+873,High Risk (Dropout),0.88,0.12
 874,High Risk (Dropout),0.93,0.07
-875,Likely Graduate,0.58,0.42
-876,High Risk (Dropout),0.8,0.2
-877,High Risk (Dropout),0.77,0.23
-878,Likely Graduate,0.64,0.36
-879,High Risk (Dropout),0.76,0.24
-880,Likely Graduate,0.42,0.58
-881,High Risk (Dropout),0.9,0.1
-882,Likely Graduate,0.52,0.48
-883,Likely Graduate,0.41,0.59
-884,Likely Graduate,0.44,0.56
-885,Likely Graduate,0.66,0.34
-886,Likely Graduate,0.44,0.56
-887,Likely Graduate,0.67,0.33
-888,High Risk (Dropout),0.91,0.09
-889,Likely Graduate,0.37,0.63
-890,Likely Graduate,0.4,0.6
-891,Likely Graduate,0.43,0.57
-892,High Risk (Dropout),0.81,0.19
-893,Likely Graduate,0.44,0.56
-894,High Risk (Dropout),0.91,0.09
-895,Likely Graduate,0.49,0.51
+875,Likely Graduate,0.45,0.55
+876,High Risk (Dropout),0.87,0.13
+877,High Risk (Dropout),0.81,0.19
+878,High Risk (Dropout),0.72,0.28
+879,Likely Graduate,0.65,0.35
+880,Likely Graduate,0.31,0.69
+881,High Risk (Dropout),0.94,0.06
+882,Likely Graduate,0.45,0.55
+883,Likely Graduate,0.26,0.74
+884,Likely Graduate,0.48,0.52
+885,Likely Graduate,0.67,0.33
+886,Likely Graduate,0.43,0.57
+887,Likely Graduate,0.62,0.38
+888,High Risk (Dropout),0.92,0.08
+889,Likely Graduate,0.35,0.65
+890,Likely Graduate,0.39,0.61
+891,Likely Graduate,0.4,0.6
+892,High Risk (Dropout),0.8,0.2
+893,Likely Graduate,0.36,0.64
+894,High Risk (Dropout),0.88,0.12
+895,Likely Graduate,0.51,0.49
 896,Likely Graduate,0.66,0.34
-897,High Risk (Dropout),0.73,0.27
-898,Likely Graduate,0.56,0.44
-899,Likely Graduate,0.44,0.56
-900,Likely Graduate,0.58,0.42
-901,Likely Graduate,0.53,0.47
+897,High Risk (Dropout),0.77,0.23
+898,Likely Graduate,0.51,0.49
+899,Likely Graduate,0.48,0.52
+900,Likely Graduate,0.54,0.46
+901,Likely Graduate,0.52,0.48
 902,High Risk (Dropout),0.88,0.12
-903,Likely Graduate,0.61,0.39
-904,High Risk (Dropout),0.8,0.2
-905,High Risk (Dropout),0.93,0.07
-906,Likely Graduate,0.46,0.54
-907,Likely Graduate,0.47,0.53
+903,Likely Graduate,0.53,0.47
+904,High Risk (Dropout),0.77,0.23
+905,High Risk (Dropout),0.95,0.05
+906,Likely Graduate,0.42,0.58
+907,Likely Graduate,0.51,0.49
 908,Likely Graduate,0.64,0.36
-909,High Risk (Dropout),0.94,0.06
-910,High Risk (Dropout),0.83,0.17
-911,Likely Graduate,0.38,0.62
-912,Likely Graduate,0.58,0.42
-913,Likely Graduate,0.47,0.53
-914,Likely Graduate,0.37,0.63
-915,Likely Graduate,0.46,0.54
-916,Likely Graduate,0.54,0.46
-917,Likely Graduate,0.56,0.44
-918,High Risk (Dropout),0.77,0.23
-919,Likely Graduate,0.35,0.65
-920,High Risk (Dropout),0.9,0.1
+909,High Risk (Dropout),0.95,0.05
+910,High Risk (Dropout),0.85,0.15
+911,Likely Graduate,0.39,0.61
+912,Likely Graduate,0.51,0.49
+913,Likely Graduate,0.45,0.55
+914,Likely Graduate,0.5,0.5
+915,Likely Graduate,0.36,0.64
+916,Likely Graduate,0.5,0.5
+917,Likely Graduate,0.61,0.39
+918,High Risk (Dropout),0.79,0.21
+919,Likely Graduate,0.32,0.68
+920,High Risk (Dropout),0.88,0.12
 921,Likely Graduate,0.62,0.38
-922,Likely Graduate,0.4,0.6
-923,High Risk (Dropout),0.87,0.13
-924,Likely Graduate,0.52,0.48
-925,Likely Graduate,0.37,0.63
-926,Likely Graduate,0.48,0.52
-927,Likely Graduate,0.7,0.3
-928,Likely Graduate,0.61,0.39
-929,High Risk (Dropout),0.93,0.07
-930,Likely Graduate,0.47,0.53
-931,High Risk (Dropout),0.71,0.29
+922,Likely Graduate,0.5,0.5
+923,High Risk (Dropout),0.93,0.07
+924,Likely Graduate,0.58,0.42
+925,Likely Graduate,0.33,0.67
+926,Likely Graduate,0.5,0.5
+927,High Risk (Dropout),0.75,0.25
+928,Likely Graduate,0.6,0.4
+929,High Risk (Dropout),0.92,0.08
+930,Likely Graduate,0.4,0.6
+931,High Risk (Dropout),0.73,0.27
 932,Likely Graduate,0.3,0.7
-933,Likely Graduate,0.67,0.33
-934,Likely Graduate,0.46,0.54
-935,Likely Graduate,0.42,0.58
-936,Likely Graduate,0.42,0.58
-937,High Risk (Dropout),0.8,0.2
-938,Likely Graduate,0.54,0.46
-939,Likely Graduate,0.41,0.59
-940,Likely Graduate,0.27,0.73
-941,Likely Graduate,0.57,0.43
-942,Likely Graduate,0.47,0.53
-943,Likely Graduate,0.3,0.7
-944,Likely Graduate,0.45,0.55
-945,Likely Graduate,0.65,0.35
-946,High Risk (Dropout),0.84,0.16
-947,Likely Graduate,0.4,0.6
-948,High Risk (Dropout),0.84,0.16
-949,Likely Graduate,0.62,0.38
-950,Likely Graduate,0.4,0.6
-951,Likely Graduate,0.38,0.62
-952,Likely Graduate,0.41,0.59
-953,Likely Graduate,0.57,0.43
-954,Likely Graduate,0.46,0.54
-955,Likely Graduate,0.39,0.61
-956,Likely Graduate,0.5,0.5
-957,Likely Graduate,0.67,0.33
-958,Likely Graduate,0.59,0.41
-959,Likely Graduate,0.46,0.54
-960,Likely Graduate,0.32,0.68
-961,High Risk (Dropout),0.89,0.11
-962,High Risk (Dropout),0.9,0.1
-963,Likely Graduate,0.59,0.41
-964,Likely Graduate,0.45,0.55
-965,High Risk (Dropout),0.79,0.21
-966,Likely Graduate,0.57,0.43
-967,Likely Graduate,0.57,0.43
-968,Likely Graduate,0.4,0.6
-969,Likely Graduate,0.54,0.46
-970,Likely Graduate,0.38,0.62
-971,Likely Graduate,0.45,0.55
-972,Likely Graduate,0.54,0.46
+933,High Risk (Dropout),0.72,0.28
+934,Likely Graduate,0.55,0.45
+935,Likely Graduate,0.33,0.67
+936,Likely Graduate,0.36,0.64
+937,High Risk (Dropout),0.85,0.15
+938,High Risk (Dropout),0.71,0.29
+939,Likely Graduate,0.4,0.6
+940,Likely Graduate,0.33,0.67
+941,Likely Graduate,0.65,0.35
+942,Likely Graduate,0.42,0.58
+943,Likely Graduate,0.31,0.69
+944,Likely Graduate,0.49,0.51
+945,Likely Graduate,0.66,0.34
+946,High Risk (Dropout),0.81,0.19
+947,Likely Graduate,0.43,0.57
+948,High Risk (Dropout),0.79,0.21
+949,Likely Graduate,0.43,0.57
+950,Likely Graduate,0.44,0.56
+951,Likely Graduate,0.39,0.61
+952,Likely Graduate,0.53,0.47
+953,Likely Graduate,0.68,0.32
+954,Likely Graduate,0.48,0.52
+955,Likely Graduate,0.4,0.6
+956,Likely Graduate,0.49,0.51
+957,High Risk (Dropout),0.72,0.28
+958,Likely Graduate,0.57,0.43
+959,Likely Graduate,0.39,0.61
+960,Likely Graduate,0.33,0.67
+961,High Risk (Dropout),0.95,0.05
+962,High Risk (Dropout),0.85,0.15
+963,Likely Graduate,0.56,0.44
+964,Likely Graduate,0.46,0.54
+965,High Risk (Dropout),0.87,0.13
+966,Likely Graduate,0.44,0.56
+967,Likely Graduate,0.59,0.41
+968,Likely Graduate,0.35,0.65
+969,Likely Graduate,0.48,0.52
+970,Likely Graduate,0.3,0.7
+971,Likely Graduate,0.53,0.47
+972,Likely Graduate,0.66,0.34
 973,Likely Graduate,0.56,0.44
-974,Likely Graduate,0.46,0.54
-975,Likely Graduate,0.49,0.51
-976,Likely Graduate,0.4,0.6
-977,Likely Graduate,0.54,0.46
-978,Likely Graduate,0.5,0.5
-979,High Risk (Dropout),0.94,0.06
-980,Likely Graduate,0.46,0.54
-981,Likely Graduate,0.56,0.44
-982,Likely Graduate,0.46,0.54
-983,Likely Graduate,0.41,0.59
-984,High Risk (Dropout),0.82,0.18
-985,High Risk (Dropout),0.8,0.2
+974,Likely Graduate,0.56,0.44
+975,Likely Graduate,0.55,0.45
+976,Likely Graduate,0.26,0.74
+977,Likely Graduate,0.53,0.47
+978,Likely Graduate,0.51,0.49
+979,High Risk (Dropout),0.93,0.07
+980,Likely Graduate,0.47,0.53
+981,Likely Graduate,0.49,0.51
+982,Likely Graduate,0.53,0.47
+983,Likely Graduate,0.42,0.58
+984,High Risk (Dropout),0.78,0.22
+985,High Risk (Dropout),0.77,0.23
 986,High Risk (Dropout),0.84,0.16
-987,Likely Graduate,0.48,0.52
-988,Likely Graduate,0.36,0.64
-989,Likely Graduate,0.6,0.4
-990,Likely Graduate,0.54,0.46
-991,Likely Graduate,0.43,0.57
-992,Likely Graduate,0.66,0.34
-993,High Risk (Dropout),0.73,0.27
-994,Likely Graduate,0.44,0.56
-995,High Risk (Dropout),0.9,0.1
-996,Likely Graduate,0.41,0.59
-997,Likely Graduate,0.41,0.59
-998,Likely Graduate,0.59,0.41
-999,Likely Graduate,0.42,0.58
-1000,Likely Graduate,0.51,0.49
+987,Likely Graduate,0.42,0.58
+988,Likely Graduate,0.42,0.58
+989,Likely Graduate,0.65,0.35
+990,Likely Graduate,0.47,0.53
+991,Likely Graduate,0.4,0.6
+992,High Risk (Dropout),0.71,0.29
+993,Likely Graduate,0.66,0.34
+994,Likely Graduate,0.33,0.67
+995,High Risk (Dropout),0.91,0.09
+996,Likely Graduate,0.33,0.67
+997,Likely Graduate,0.39,0.61
+998,Likely Graduate,0.55,0.45
+999,Likely Graduate,0.44,0.56
+1000,Likely Graduate,0.56,0.44
 1001,Likely Graduate,0.51,0.49
-1002,High Risk (Dropout),0.82,0.18
-1003,Likely Graduate,0.44,0.56
-1004,Likely Graduate,0.48,0.52
-1005,Likely Graduate,0.6,0.4
-1006,Likely Graduate,0.42,0.58
+1002,High Risk (Dropout),0.88,0.12
+1003,Likely Graduate,0.4,0.6
+1004,Likely Graduate,0.52,0.48
+1005,Likely Graduate,0.51,0.49
+1006,Likely Graduate,0.4,0.6
 1007,Likely Graduate,0.33,0.67
-1008,Likely Graduate,0.42,0.58
-1009,High Risk (Dropout),0.95,0.05
-1010,Likely Graduate,0.42,0.58
-1011,Likely Graduate,0.62,0.38
-1012,Likely Graduate,0.4,0.6
-1013,Likely Graduate,0.37,0.63
-1014,Likely Graduate,0.6,0.4
-1015,High Risk (Dropout),0.9,0.1
-1016,Likely Graduate,0.48,0.52
-1017,Likely Graduate,0.59,0.41
-1018,High Risk (Dropout),0.77,0.23
-1019,High Risk (Dropout),0.91,0.09
-1020,High Risk (Dropout),0.74,0.26
-1021,Likely Graduate,0.5,0.5
-1022,High Risk (Dropout),0.77,0.23
-1023,Likely Graduate,0.48,0.52
-1024,Likely Graduate,0.63,0.37
-1025,Likely Graduate,0.32,0.68
-1026,Likely Graduate,0.49,0.51
-1027,Likely Graduate,0.5,0.5
-1028,Likely Graduate,0.59,0.41
-1029,High Risk (Dropout),0.74,0.26
-1030,Likely Graduate,0.42,0.58
-1031,Likely Graduate,0.52,0.48
-1032,Likely Graduate,0.45,0.55
-1033,Likely Graduate,0.5,0.5
-1034,High Risk (Dropout),0.77,0.23
-1035,Likely Graduate,0.32,0.68
-1036,Likely Graduate,0.62,0.38
-1037,Likely Graduate,0.61,0.39
-1038,Likely Graduate,0.45,0.55
-1039,Likely Graduate,0.42,0.58
-1040,Likely Graduate,0.51,0.49
-1041,Likely Graduate,0.65,0.35
-1042,High Risk (Dropout),0.89,0.11
-1043,High Risk (Dropout),0.9,0.1
-1044,High Risk (Dropout),0.77,0.23
+1008,Likely Graduate,0.5,0.5
+1009,High Risk (Dropout),0.97,0.03
+1010,Likely Graduate,0.49,0.51
+1011,Likely Graduate,0.56,0.44
+1012,Likely Graduate,0.35,0.65
+1013,Likely Graduate,0.43,0.57
+1014,Likely Graduate,0.62,0.38
+1015,High Risk (Dropout),0.91,0.09
+1016,Likely Graduate,0.53,0.47
+1017,Likely Graduate,0.56,0.44
+1018,High Risk (Dropout),0.74,0.26
+1019,High Risk (Dropout),0.9,0.1
+1020,High Risk (Dropout),0.76,0.24
+1021,Likely Graduate,0.65,0.35
+1022,High Risk (Dropout),0.87,0.13
+1023,Likely Graduate,0.43,0.57
+1024,Likely Graduate,0.64,0.36
+1025,Likely Graduate,0.33,0.67
+1026,Likely Graduate,0.57,0.43
+1027,Likely Graduate,0.49,0.51
+1028,High Risk (Dropout),0.71,0.29
+1029,High Risk (Dropout),0.73,0.27
+1030,Likely Graduate,0.37,0.63
+1031,Likely Graduate,0.47,0.53
+1032,Likely Graduate,0.43,0.57
+1033,Likely Graduate,0.63,0.37
+1034,High Risk (Dropout),0.78,0.22
+1035,Likely Graduate,0.29,0.71
+1036,Likely Graduate,0.61,0.39
+1037,Likely Graduate,0.53,0.47
+1038,Likely Graduate,0.49,0.51
+1039,Likely Graduate,0.32,0.68
+1040,Likely Graduate,0.57,0.43
+1041,Likely Graduate,0.62,0.38
+1042,High Risk (Dropout),0.84,0.16
+1043,High Risk (Dropout),0.91,0.09
+1044,High Risk (Dropout),0.81,0.19
 1045,Likely Graduate,0.69,0.31
-1046,High Risk (Dropout),0.8,0.2
-1047,Likely Graduate,0.54,0.46
-1048,Likely Graduate,0.38,0.62
-1049,Likely Graduate,0.54,0.46
-1050,Likely Graduate,0.42,0.58
-1051,Likely Graduate,0.61,0.39
-1052,Likely Graduate,0.56,0.44
+1046,High Risk (Dropout),0.81,0.19
+1047,Likely Graduate,0.55,0.45
+1048,Likely Graduate,0.29,0.71
+1049,Likely Graduate,0.53,0.47
+1050,Likely Graduate,0.38,0.62
+1051,High Risk (Dropout),0.71,0.29
+1052,Likely Graduate,0.62,0.38
 1053,Likely Graduate,0.51,0.49
-1054,Likely Graduate,0.58,0.42
-1055,Likely Graduate,0.48,0.52
-1056,Likely Graduate,0.28,0.72
+1054,Likely Graduate,0.42,0.58
+1055,Likely Graduate,0.47,0.53
+1056,Likely Graduate,0.3,0.7
 1057,Likely Graduate,0.43,0.57
-1058,High Risk (Dropout),0.78,0.22
-1059,Likely Graduate,0.66,0.34
-1060,Likely Graduate,0.45,0.55
-1061,Likely Graduate,0.38,0.62
-1062,Likely Graduate,0.47,0.53
-1063,Likely Graduate,0.56,0.44
-1064,Likely Graduate,0.51,0.49
-1065,Likely Graduate,0.53,0.47
-1066,Likely Graduate,0.37,0.63
-1067,High Risk (Dropout),0.83,0.17
-1068,High Risk (Dropout),0.92,0.08
-1069,High Risk (Dropout),0.93,0.07
-1070,High Risk (Dropout),0.75,0.25
-1071,High Risk (Dropout),0.88,0.12
-1072,Likely Graduate,0.41,0.59
-1073,Likely Graduate,0.44,0.56
-1074,Likely Graduate,0.37,0.63
-1075,High Risk (Dropout),0.74,0.26
-1076,High Risk (Dropout),0.91,0.09
+1058,High Risk (Dropout),0.82,0.18
+1059,Likely Graduate,0.53,0.47
+1060,Likely Graduate,0.47,0.53
+1061,Likely Graduate,0.52,0.48
+1062,Likely Graduate,0.46,0.54
+1063,Likely Graduate,0.61,0.39
+1064,Likely Graduate,0.58,0.42
+1065,Likely Graduate,0.46,0.54
+1066,Likely Graduate,0.32,0.68
+1067,High Risk (Dropout),0.87,0.13
+1068,High Risk (Dropout),0.94,0.06
+1069,High Risk (Dropout),0.89,0.11
+1070,High Risk (Dropout),0.76,0.24
+1071,High Risk (Dropout),0.92,0.08
+1072,Likely Graduate,0.38,0.62
+1073,Likely Graduate,0.34,0.66
+1074,Likely Graduate,0.38,0.62
+1075,Likely Graduate,0.66,0.34
+1076,High Risk (Dropout),0.9,0.1
 1077,High Risk (Dropout),0.83,0.17
-1078,Likely Graduate,0.58,0.42
-1079,High Risk (Dropout),0.78,0.22
+1078,Likely Graduate,0.51,0.49
+1079,High Risk (Dropout),0.75,0.25
 1080,High Risk (Dropout),0.72,0.28
-1081,High Risk (Dropout),0.8,0.2
-1082,Likely Graduate,0.56,0.44
-1083,High Risk (Dropout),0.73,0.27
-1084,Likely Graduate,0.56,0.44
-1085,Likely Graduate,0.49,0.51
-1086,High Risk (Dropout),0.95,0.05
-1087,Likely Graduate,0.63,0.37
-1088,Likely Graduate,0.37,0.63
-1089,Likely Graduate,0.43,0.57
-1090,Likely Graduate,0.68,0.32
-1091,High Risk (Dropout),0.72,0.28
-1092,Likely Graduate,0.7,0.3
-1093,Likely Graduate,0.5,0.5
-1094,Likely Graduate,0.54,0.46
-1095,Likely Graduate,0.43,0.57
-1096,Likely Graduate,0.7,0.3
-1097,Likely Graduate,0.53,0.47
-1098,Likely Graduate,0.45,0.55
-1099,High Risk (Dropout),0.81,0.19
-1100,Likely Graduate,0.54,0.46
-1101,Likely Graduate,0.39,0.61
-1102,Likely Graduate,0.59,0.41
-1103,High Risk (Dropout),0.77,0.23
-1104,Likely Graduate,0.52,0.48
-1105,Likely Graduate,0.68,0.32
-1106,Likely Graduate,0.54,0.46
-1107,Likely Graduate,0.49,0.51
-1108,High Risk (Dropout),0.81,0.19
-1109,Likely Graduate,0.57,0.43
-1110,Likely Graduate,0.6,0.4
-1111,Likely Graduate,0.6,0.4
-1112,Likely Graduate,0.32,0.68
-1113,Likely Graduate,0.37,0.63
-1114,Likely Graduate,0.47,0.53
-1115,Likely Graduate,0.62,0.38
-1116,High Risk (Dropout),0.92,0.08
-1117,Likely Graduate,0.32,0.68
-1118,Likely Graduate,0.33,0.67
-1119,Likely Graduate,0.5,0.5
-1120,High Risk (Dropout),0.81,0.19
-1121,High Risk (Dropout),0.83,0.17
-1122,Likely Graduate,0.49,0.51
-1123,Likely Graduate,0.51,0.49
-1124,Likely Graduate,0.43,0.57
-1125,Likely Graduate,0.4,0.6
-1126,High Risk (Dropout),0.82,0.18
-1127,Likely Graduate,0.44,0.56
-1128,Likely Graduate,0.47,0.53
-1129,Likely Graduate,0.68,0.32
+1081,High Risk (Dropout),0.84,0.16
+1082,Likely Graduate,0.51,0.49
+1083,Likely Graduate,0.68,0.32
+1084,Likely Graduate,0.58,0.42
+1085,Likely Graduate,0.44,0.56
+1086,High Risk (Dropout),1.0,0.0
+1087,Likely Graduate,0.69,0.31
+1088,Likely Graduate,0.44,0.56
+1089,Likely Graduate,0.29,0.71
+1090,Likely Graduate,0.66,0.34
+1091,High Risk (Dropout),0.74,0.26
+1092,High Risk (Dropout),0.73,0.27
+1093,Likely Graduate,0.55,0.45
+1094,Likely Graduate,0.5,0.5
+1095,Likely Graduate,0.31,0.69
+1096,Likely Graduate,0.53,0.47
+1097,Likely Graduate,0.6,0.4
+1098,Likely Graduate,0.44,0.56
+1099,High Risk (Dropout),0.84,0.16
+1100,Likely Graduate,0.52,0.48
+1101,Likely Graduate,0.35,0.65
+1102,Likely Graduate,0.63,0.37
+1103,High Risk (Dropout),0.85,0.15
+1104,Likely Graduate,0.47,0.53
+1105,Likely Graduate,0.62,0.38
+1106,Likely Graduate,0.6,0.4
+1107,Likely Graduate,0.44,0.56
+1108,High Risk (Dropout),0.77,0.23
+1109,Likely Graduate,0.52,0.48
+1110,Likely Graduate,0.58,0.42
+1111,Likely Graduate,0.63,0.37
+1112,Likely Graduate,0.29,0.71
+1113,Likely Graduate,0.36,0.64
+1114,Likely Graduate,0.54,0.46
+1115,Likely Graduate,0.65,0.35
+1116,High Risk (Dropout),0.9,0.1
+1117,Likely Graduate,0.28,0.72
+1118,Likely Graduate,0.29,0.71
+1119,Likely Graduate,0.54,0.46
+1120,High Risk (Dropout),0.8,0.2
+1121,High Risk (Dropout),0.86,0.14
+1122,Likely Graduate,0.4,0.6
+1123,Likely Graduate,0.5,0.5
+1124,Likely Graduate,0.47,0.53
+1125,Likely Graduate,0.29,0.71
+1126,High Risk (Dropout),0.86,0.14
+1127,Likely Graduate,0.41,0.59
+1128,Likely Graduate,0.45,0.55
+1129,Likely Graduate,0.7,0.3
 1130,High Risk (Dropout),0.93,0.07
-1131,Likely Graduate,0.58,0.42
-1132,Likely Graduate,0.47,0.53
+1131,Likely Graduate,0.61,0.39
+1132,Likely Graduate,0.4,0.6
 1133,High Risk (Dropout),0.76,0.24
-1134,High Risk (Dropout),0.81,0.19
-1135,Likely Graduate,0.52,0.48
-1136,Likely Graduate,0.65,0.35
+1134,High Risk (Dropout),0.84,0.16
+1135,Likely Graduate,0.51,0.49
+1136,Likely Graduate,0.61,0.39
 1137,Likely Graduate,0.67,0.33
-1138,Likely Graduate,0.67,0.33
-1139,Likely Graduate,0.63,0.37
-1140,Likely Graduate,0.36,0.64
-1141,Likely Graduate,0.35,0.65
-1142,High Risk (Dropout),0.72,0.28
-1143,Likely Graduate,0.47,0.53
-1144,Likely Graduate,0.32,0.68
-1145,Likely Graduate,0.55,0.45
-1146,Likely Graduate,0.67,0.33
-1147,High Risk (Dropout),0.76,0.24
-1148,High Risk (Dropout),0.9,0.1
-1149,Likely Graduate,0.5,0.5
-1150,Likely Graduate,0.36,0.64
-1151,Likely Graduate,0.41,0.59
-1152,Likely Graduate,0.39,0.61
-1153,Likely Graduate,0.69,0.31
-1154,Likely Graduate,0.55,0.45
-1155,Likely Graduate,0.65,0.35
+1138,Likely Graduate,0.68,0.32
+1139,Likely Graduate,0.56,0.44
+1140,Likely Graduate,0.35,0.65
+1141,Likely Graduate,0.3,0.7
+1142,High Risk (Dropout),0.74,0.26
+1143,Likely Graduate,0.54,0.46
+1144,Likely Graduate,0.31,0.69
+1145,Likely Graduate,0.54,0.46
+1146,Likely Graduate,0.69,0.31
+1147,High Risk (Dropout),0.77,0.23
+1148,High Risk (Dropout),0.83,0.17
+1149,Likely Graduate,0.54,0.46
+1150,Likely Graduate,0.37,0.63
+1151,Likely Graduate,0.58,0.42
+1152,Likely Graduate,0.47,0.53
+1153,Likely Graduate,0.54,0.46
+1154,Likely Graduate,0.59,0.41
+1155,Likely Graduate,0.57,0.43
 1156,High Risk (Dropout),0.88,0.12
-1157,Likely Graduate,0.51,0.49
-1158,High Risk (Dropout),0.73,0.27
-1159,Likely Graduate,0.51,0.49
-1160,High Risk (Dropout),0.95,0.05
-1161,High Risk (Dropout),0.92,0.08
-1162,Likely Graduate,0.63,0.37
-1163,Likely Graduate,0.46,0.54
-1164,High Risk (Dropout),0.92,0.08
-1165,High Risk (Dropout),0.88,0.12
-1166,Likely Graduate,0.39,0.61
-1167,Likely Graduate,0.68,0.32
-1168,Likely Graduate,0.61,0.39
-1169,Likely Graduate,0.49,0.51
-1170,Likely Graduate,0.65,0.35
+1157,Likely Graduate,0.49,0.51
+1158,Likely Graduate,0.55,0.45
+1159,Likely Graduate,0.37,0.63
+1160,High Risk (Dropout),0.92,0.08
+1161,High Risk (Dropout),0.99,0.01
+1162,High Risk (Dropout),0.73,0.27
+1163,Likely Graduate,0.54,0.46
+1164,High Risk (Dropout),0.9,0.1
+1165,High Risk (Dropout),0.85,0.15
+1166,Likely Graduate,0.3,0.7
+1167,Likely Graduate,0.66,0.34
+1168,Likely Graduate,0.52,0.48
+1169,Likely Graduate,0.52,0.48
+1170,Likely Graduate,0.63,0.37
 1171,Likely Graduate,0.4,0.6
-1172,Likely Graduate,0.44,0.56
-1173,Likely Graduate,0.5,0.5
-1174,Likely Graduate,0.28,0.72
-1175,High Risk (Dropout),0.73,0.27
-1176,Likely Graduate,0.57,0.43
-1177,Likely Graduate,0.44,0.56
-1178,Likely Graduate,0.38,0.62
-1179,Likely Graduate,0.4,0.6
-1180,Likely Graduate,0.41,0.59
-1181,Likely Graduate,0.38,0.62
-1182,High Risk (Dropout),0.8,0.2
-1183,Likely Graduate,0.37,0.63
-1184,Likely Graduate,0.39,0.61
+1172,Likely Graduate,0.37,0.63
+1173,Likely Graduate,0.44,0.56
+1174,Likely Graduate,0.36,0.64
+1175,Likely Graduate,0.65,0.35
+1176,Likely Graduate,0.54,0.46
+1177,Likely Graduate,0.43,0.57
+1178,Likely Graduate,0.37,0.63
+1179,Likely Graduate,0.5,0.5
+1180,Likely Graduate,0.49,0.51
+1181,Likely Graduate,0.34,0.66
+1182,High Risk (Dropout),0.77,0.23
+1183,Likely Graduate,0.36,0.64
+1184,Likely Graduate,0.31,0.69
 1185,High Risk (Dropout),0.87,0.13
-1186,Likely Graduate,0.46,0.54
-1187,High Risk (Dropout),0.87,0.13
-1188,Likely Graduate,0.57,0.43
-1189,Likely Graduate,0.41,0.59
-1190,High Risk (Dropout),0.81,0.19
-1191,High Risk (Dropout),0.79,0.21
-1192,Likely Graduate,0.35,0.65
+1186,Likely Graduate,0.41,0.59
+1187,High Risk (Dropout),0.9,0.1
+1188,Likely Graduate,0.49,0.51
+1189,Likely Graduate,0.31,0.69
+1190,High Risk (Dropout),0.8,0.2
+1191,High Risk (Dropout),0.75,0.25
+1192,Likely Graduate,0.37,0.63
 1193,Likely Graduate,0.49,0.51
-1194,Likely Graduate,0.5,0.5
-1195,Likely Graduate,0.52,0.48
-1196,High Risk (Dropout),0.89,0.11
-1197,High Risk (Dropout),0.76,0.24
-1198,High Risk (Dropout),0.74,0.26
-1199,Likely Graduate,0.51,0.49
-1200,Likely Graduate,0.37,0.63
+1194,Likely Graduate,0.55,0.45
+1195,Likely Graduate,0.45,0.55
+1196,High Risk (Dropout),0.94,0.06
+1197,High Risk (Dropout),0.78,0.22
+1198,High Risk (Dropout),0.76,0.24
+1199,Likely Graduate,0.53,0.47
+1200,Likely Graduate,0.33,0.67
 1201,High Risk (Dropout),0.92,0.08
-1202,Likely Graduate,0.47,0.53
-1203,Likely Graduate,0.6,0.4
-1204,Likely Graduate,0.56,0.44
-1205,High Risk (Dropout),0.72,0.28
-1206,Likely Graduate,0.42,0.58
-1207,Likely Graduate,0.58,0.42
-1208,Likely Graduate,0.64,0.36
-1209,Likely Graduate,0.61,0.39
-1210,Likely Graduate,0.29,0.71
-1211,Likely Graduate,0.69,0.31
+1202,Likely Graduate,0.58,0.42
+1203,Likely Graduate,0.66,0.34
+1204,Likely Graduate,0.48,0.52
+1205,High Risk (Dropout),0.75,0.25
+1206,Likely Graduate,0.43,0.57
+1207,Likely Graduate,0.6,0.4
+1208,High Risk (Dropout),0.71,0.29
+1209,High Risk (Dropout),0.75,0.25
+1210,Likely Graduate,0.38,0.62
+1211,Likely Graduate,0.64,0.36
 1212,Likely Graduate,0.44,0.56
-1213,Likely Graduate,0.51,0.49
+1213,Likely Graduate,0.44,0.56
 1214,Likely Graduate,0.52,0.48
-1215,Likely Graduate,0.37,0.63
-1216,Likely Graduate,0.46,0.54
-1217,Likely Graduate,0.48,0.52
-1218,Likely Graduate,0.65,0.35
-1219,Likely Graduate,0.4,0.6
-1220,Likely Graduate,0.55,0.45
-1221,High Risk (Dropout),0.9,0.1
-1222,Likely Graduate,0.45,0.55
-1223,Likely Graduate,0.48,0.52
-1224,Likely Graduate,0.28,0.72
-1225,Likely Graduate,0.63,0.37
-1226,High Risk (Dropout),0.94,0.06
-1227,Likely Graduate,0.41,0.59
-1228,Likely Graduate,0.69,0.31
+1215,Likely Graduate,0.36,0.64
+1216,Likely Graduate,0.47,0.53
+1217,Likely Graduate,0.56,0.44
+1218,Likely Graduate,0.68,0.32
+1219,Likely Graduate,0.51,0.49
+1220,Likely Graduate,0.59,0.41
+1221,High Risk (Dropout),0.92,0.08
+1222,Likely Graduate,0.5,0.5
+1223,Likely Graduate,0.33,0.67
+1224,Likely Graduate,0.27,0.73
+1225,Likely Graduate,0.64,0.36
+1226,High Risk (Dropout),0.95,0.05
+1227,Likely Graduate,0.36,0.64
+1228,Likely Graduate,0.68,0.32
 1229,High Risk (Dropout),0.93,0.07
-1230,Likely Graduate,0.41,0.59
-1231,Likely Graduate,0.41,0.59
-1232,Likely Graduate,0.7,0.3
-1233,High Risk (Dropout),0.81,0.19
-1234,Likely Graduate,0.56,0.44
-1235,Likely Graduate,0.29,0.71
+1230,Likely Graduate,0.32,0.68
+1231,Likely Graduate,0.36,0.64
+1232,High Risk (Dropout),0.78,0.22
+1233,High Risk (Dropout),0.88,0.12
+1234,Likely Graduate,0.59,0.41
+1235,Likely Graduate,0.37,0.63
 1236,High Risk (Dropout),0.93,0.07
-1237,Likely Graduate,0.24,0.76
-1238,High Risk (Dropout),0.94,0.06
-1239,Likely Graduate,0.6,0.4
-1240,Likely Graduate,0.46,0.54
-1241,Likely Graduate,0.41,0.59
+1237,Likely Graduate,0.34,0.66
+1238,High Risk (Dropout),0.96,0.04
+1239,Likely Graduate,0.62,0.38
+1240,Likely Graduate,0.57,0.43
+1241,Likely Graduate,0.34,0.66
 1242,High Risk (Dropout),0.83,0.17
-1243,Likely Graduate,0.38,0.62
-1244,Likely Graduate,0.65,0.35
-1245,Likely Graduate,0.4,0.6
-1246,Likely Graduate,0.61,0.39
-1247,Likely Graduate,0.61,0.39
-1248,High Risk (Dropout),0.81,0.19
-1249,High Risk (Dropout),0.8,0.2
-1250,Likely Graduate,0.52,0.48
-1251,Likely Graduate,0.68,0.32
-1252,Likely Graduate,0.37,0.63
-1253,Likely Graduate,0.48,0.52
-1254,Likely Graduate,0.58,0.42
-1255,Likely Graduate,0.64,0.36
-1256,Likely Graduate,0.4,0.6
-1257,Likely Graduate,0.63,0.37
-1258,Likely Graduate,0.34,0.66
-1259,Likely Graduate,0.44,0.56
-1260,Likely Graduate,0.53,0.47
-1261,High Risk (Dropout),0.86,0.14
-1262,Likely Graduate,0.44,0.56
-1263,Likely Graduate,0.65,0.35
-1264,Likely Graduate,0.46,0.54
-1265,Likely Graduate,0.47,0.53
-1266,Likely Graduate,0.52,0.48
-1267,Likely Graduate,0.65,0.35
-1268,High Risk (Dropout),0.92,0.08
-1269,Likely Graduate,0.54,0.46
-1270,Likely Graduate,0.29,0.71
-1271,Likely Graduate,0.6,0.4
-1272,High Risk (Dropout),0.82,0.18
-1273,Likely Graduate,0.46,0.54
-1274,Likely Graduate,0.42,0.58
-1275,Likely Graduate,0.57,0.43
-1276,Likely Graduate,0.4,0.6
-1277,Likely Graduate,0.36,0.64
-1278,Likely Graduate,0.34,0.66
-1279,Likely Graduate,0.5,0.5
-1280,Likely Graduate,0.42,0.58
-1281,High Risk (Dropout),0.84,0.16
-1282,High Risk (Dropout),0.89,0.11
-1283,High Risk (Dropout),0.73,0.27
+1243,Likely Graduate,0.31,0.69
+1244,Likely Graduate,0.63,0.37
+1245,Likely Graduate,0.44,0.56
+1246,Likely Graduate,0.62,0.38
+1247,Likely Graduate,0.52,0.48
+1248,High Risk (Dropout),0.82,0.18
+1249,High Risk (Dropout),0.82,0.18
+1250,Likely Graduate,0.57,0.43
+1251,Likely Graduate,0.64,0.36
+1252,Likely Graduate,0.43,0.57
+1253,Likely Graduate,0.53,0.47
+1254,Likely Graduate,0.51,0.49
+1255,Likely Graduate,0.68,0.32
+1256,Likely Graduate,0.35,0.65
+1257,Likely Graduate,0.61,0.39
+1258,Likely Graduate,0.42,0.58
+1259,Likely Graduate,0.53,0.47
+1260,Likely Graduate,0.51,0.49
+1261,High Risk (Dropout),0.87,0.13
+1262,Likely Graduate,0.5,0.5
+1263,High Risk (Dropout),0.73,0.27
+1264,Likely Graduate,0.35,0.65
+1265,Likely Graduate,0.48,0.52
+1266,Likely Graduate,0.53,0.47
+1267,Likely Graduate,0.52,0.48
+1268,High Risk (Dropout),0.98,0.02
+1269,Likely Graduate,0.53,0.47
+1270,Likely Graduate,0.28,0.72
+1271,Likely Graduate,0.68,0.32
+1272,High Risk (Dropout),0.87,0.13
+1273,Likely Graduate,0.49,0.51
+1274,Likely Graduate,0.33,0.67
+1275,Likely Graduate,0.58,0.42
+1276,Likely Graduate,0.34,0.66
+1277,Likely Graduate,0.34,0.66
+1278,Likely Graduate,0.3,0.7
+1279,Likely Graduate,0.54,0.46
+1280,Likely Graduate,0.37,0.63
+1281,High Risk (Dropout),0.82,0.18
+1282,High Risk (Dropout),0.87,0.13
+1283,High Risk (Dropout),0.74,0.26
 1284,Likely Graduate,0.42,0.58
-1285,High Risk (Dropout),0.95,0.05
-1286,High Risk (Dropout),0.74,0.26
+1285,High Risk (Dropout),0.97,0.03
+1286,High Risk (Dropout),0.75,0.25
 1287,High Risk (Dropout),0.77,0.23
-1288,Likely Graduate,0.59,0.41
-1289,Likely Graduate,0.35,0.65
-1290,Likely Graduate,0.51,0.49
+1288,Likely Graduate,0.57,0.43
+1289,Likely Graduate,0.31,0.69
+1290,Likely Graduate,0.47,0.53
 1291,Likely Graduate,0.68,0.32
-1292,Likely Graduate,0.44,0.56
-1293,Likely Graduate,0.42,0.58
-1294,Likely Graduate,0.6,0.4
+1292,Likely Graduate,0.48,0.52
+1293,Likely Graduate,0.38,0.62
+1294,Likely Graduate,0.61,0.39
 1295,High Risk (Dropout),0.89,0.11
-1296,Likely Graduate,0.66,0.34
-1297,Likely Graduate,0.39,0.61
-1298,Likely Graduate,0.37,0.63
-1299,Likely Graduate,0.55,0.45
-1300,High Risk (Dropout),0.89,0.11
-1301,High Risk (Dropout),0.94,0.06
-1302,High Risk (Dropout),0.78,0.22
-1303,Likely Graduate,0.42,0.58
-1304,Likely Graduate,0.46,0.54
-1305,Likely Graduate,0.33,0.67
-1306,Likely Graduate,0.57,0.43
-1307,Likely Graduate,0.66,0.34
-1308,Likely Graduate,0.53,0.47
-1309,High Risk (Dropout),0.96,0.04
-1310,Likely Graduate,0.69,0.31
+1296,Likely Graduate,0.59,0.41
+1297,Likely Graduate,0.31,0.69
+1298,Likely Graduate,0.35,0.65
+1299,Likely Graduate,0.65,0.35
+1300,High Risk (Dropout),0.9,0.1
+1301,High Risk (Dropout),0.95,0.05
+1302,High Risk (Dropout),0.8,0.2
+1303,Likely Graduate,0.35,0.65
+1304,Likely Graduate,0.49,0.51
+1305,Likely Graduate,0.29,0.71
+1306,Likely Graduate,0.49,0.51
+1307,Likely Graduate,0.68,0.32
+1308,Likely Graduate,0.43,0.57
+1309,High Risk (Dropout),0.97,0.03
+1310,Likely Graduate,0.6,0.4
 1311,High Risk (Dropout),0.74,0.26
-1312,Likely Graduate,0.43,0.57
-1313,Likely Graduate,0.6,0.4
-1314,Likely Graduate,0.35,0.65
-1315,Likely Graduate,0.49,0.51
-1316,High Risk (Dropout),0.71,0.29
-1317,Likely Graduate,0.31,0.69
-1318,High Risk (Dropout),0.89,0.11
-1319,High Risk (Dropout),0.84,0.16
+1312,Likely Graduate,0.37,0.63
+1313,Likely Graduate,0.61,0.39
+1314,Likely Graduate,0.39,0.61
+1315,Likely Graduate,0.5,0.5
+1316,Likely Graduate,0.54,0.46
+1317,Likely Graduate,0.37,0.63
+1318,High Risk (Dropout),0.84,0.16
+1319,High Risk (Dropout),0.83,0.17
 1320,Likely Graduate,0.46,0.54
-1321,High Risk (Dropout),0.92,0.08
-1322,Likely Graduate,0.59,0.41
-1323,Likely Graduate,0.35,0.65
-1324,Likely Graduate,0.57,0.43
-1325,Likely Graduate,0.68,0.32
-1326,High Risk (Dropout),0.79,0.21
-1327,High Risk (Dropout),0.79,0.21
-1328,Likely Graduate,0.44,0.56
+1321,High Risk (Dropout),0.9,0.1
+1322,Likely Graduate,0.69,0.31
+1323,Likely Graduate,0.38,0.62
+1324,Likely Graduate,0.53,0.47
+1325,High Risk (Dropout),0.82,0.18
+1326,High Risk (Dropout),0.74,0.26
+1327,High Risk (Dropout),0.86,0.14
+1328,Likely Graduate,0.46,0.54
 1329,Likely Graduate,0.47,0.53
-1330,Likely Graduate,0.38,0.62
-1331,High Risk (Dropout),0.81,0.19
-1332,Likely Graduate,0.66,0.34
-1333,Likely Graduate,0.39,0.61
-1334,Likely Graduate,0.43,0.57
-1335,Likely Graduate,0.55,0.45
-1336,Likely Graduate,0.47,0.53
-1337,Likely Graduate,0.68,0.32
-1338,High Risk (Dropout),0.75,0.25
-1339,Likely Graduate,0.54,0.46
-1340,Likely Graduate,0.6,0.4
-1341,High Risk (Dropout),0.77,0.23
-1342,Likely Graduate,0.27,0.73
-1343,High Risk (Dropout),0.89,0.11
-1344,High Risk (Dropout),0.84,0.16
-1345,Likely Graduate,0.35,0.65
-1346,Likely Graduate,0.46,0.54
-1347,High Risk (Dropout),0.86,0.14
-1348,Likely Graduate,0.53,0.47
-1349,Likely Graduate,0.29,0.71
-1350,High Risk (Dropout),0.82,0.18
-1351,Likely Graduate,0.52,0.48
-1352,High Risk (Dropout),0.82,0.18
-1353,High Risk (Dropout),0.89,0.11
-1354,Likely Graduate,0.48,0.52
-1355,Likely Graduate,0.51,0.49
-1356,Likely Graduate,0.3,0.7
-1357,Likely Graduate,0.41,0.59
-1358,High Risk (Dropout),0.81,0.19
-1359,Likely Graduate,0.36,0.64
-1360,Likely Graduate,0.36,0.64
-1361,Likely Graduate,0.47,0.53
+1330,Likely Graduate,0.3,0.7
+1331,High Risk (Dropout),0.72,0.28
+1332,High Risk (Dropout),0.81,0.19
+1333,Likely Graduate,0.3,0.7
+1334,Likely Graduate,0.47,0.53
+1335,Likely Graduate,0.48,0.52
+1336,Likely Graduate,0.51,0.49
+1337,Likely Graduate,0.66,0.34
+1338,Likely Graduate,0.68,0.32
+1339,Likely Graduate,0.48,0.52
+1340,Likely Graduate,0.58,0.42
+1341,Likely Graduate,0.64,0.36
+1342,Likely Graduate,0.34,0.66
+1343,High Risk (Dropout),0.92,0.08
+1344,High Risk (Dropout),0.83,0.17
+1345,Likely Graduate,0.37,0.63
+1346,Likely Graduate,0.53,0.47
+1347,High Risk (Dropout),0.89,0.11
+1348,Likely Graduate,0.4,0.6
+1349,Likely Graduate,0.35,0.65
+1350,High Risk (Dropout),0.88,0.12
+1351,Likely Graduate,0.51,0.49
+1352,High Risk (Dropout),0.84,0.16
+1353,High Risk (Dropout),0.9,0.1
+1354,Likely Graduate,0.52,0.48
+1355,Likely Graduate,0.44,0.56
+1356,Likely Graduate,0.37,0.63
+1357,Likely Graduate,0.37,0.63
+1358,High Risk (Dropout),0.87,0.13
+1359,Likely Graduate,0.43,0.57
+1360,Likely Graduate,0.35,0.65
+1361,Likely Graduate,0.4,0.6
 1362,High Risk (Dropout),0.84,0.16
-1363,High Risk (Dropout),0.8,0.2
-1364,Likely Graduate,0.5,0.5
-1365,Likely Graduate,0.54,0.46
-1366,Likely Graduate,0.66,0.34
-1367,Likely Graduate,0.56,0.44
-1368,High Risk (Dropout),0.72,0.28
-1369,Likely Graduate,0.59,0.41
-1370,High Risk (Dropout),0.71,0.29
-1371,Likely Graduate,0.33,0.67
-1372,Likely Graduate,0.51,0.49
-1373,Likely Graduate,0.45,0.55
-1374,Likely Graduate,0.53,0.47
-1375,Likely Graduate,0.62,0.38
+1363,High Risk (Dropout),0.75,0.25
+1364,Likely Graduate,0.48,0.52
+1365,Likely Graduate,0.5,0.5
+1366,Likely Graduate,0.61,0.39
+1367,Likely Graduate,0.52,0.48
+1368,High Risk (Dropout),0.77,0.23
+1369,Likely Graduate,0.54,0.46
+1370,High Risk (Dropout),0.79,0.21
+1371,Likely Graduate,0.45,0.55
+1372,Likely Graduate,0.6,0.4
+1373,Likely Graduate,0.48,0.52
+1374,Likely Graduate,0.57,0.43
+1375,Likely Graduate,0.53,0.47
 1376,Likely Graduate,0.46,0.54
-1377,Likely Graduate,0.62,0.38
+1377,Likely Graduate,0.66,0.34
 1378,Likely Graduate,0.41,0.59
-1379,Likely Graduate,0.62,0.38
-1380,Likely Graduate,0.34,0.66
-1381,Likely Graduate,0.35,0.65
-1382,High Risk (Dropout),0.77,0.23
-1383,Likely Graduate,0.4,0.6
-1384,Likely Graduate,0.41,0.59
-1385,Likely Graduate,0.35,0.65
-1386,High Risk (Dropout),0.92,0.08
-1387,Likely Graduate,0.4,0.6
-1388,Likely Graduate,0.45,0.55
-1389,Likely Graduate,0.62,0.38
+1379,Likely Graduate,0.59,0.41
+1380,Likely Graduate,0.36,0.64
+1381,Likely Graduate,0.3,0.7
+1382,Likely Graduate,0.69,0.31
+1383,Likely Graduate,0.45,0.55
+1384,Likely Graduate,0.37,0.63
+1385,Likely Graduate,0.44,0.56
+1386,High Risk (Dropout),0.94,0.06
+1387,Likely Graduate,0.39,0.61
+1388,Likely Graduate,0.51,0.49
+1389,Likely Graduate,0.68,0.32
 1390,High Risk (Dropout),0.94,0.06
-1391,Likely Graduate,0.45,0.55
-1392,Likely Graduate,0.32,0.68
-1393,Likely Graduate,0.33,0.67
-1394,High Risk (Dropout),0.96,0.04
-1395,Likely Graduate,0.39,0.61
-1396,High Risk (Dropout),0.82,0.18
-1397,Likely Graduate,0.27,0.73
+1391,Likely Graduate,0.43,0.57
+1392,Likely Graduate,0.3,0.7
+1393,Likely Graduate,0.38,0.62
+1394,High Risk (Dropout),0.93,0.07
+1395,Likely Graduate,0.4,0.6
+1396,High Risk (Dropout),0.87,0.13
+1397,Likely Graduate,0.37,0.63
 1398,Likely Graduate,0.36,0.64
-1399,High Risk (Dropout),0.71,0.29
-1400,High Risk (Dropout),0.95,0.05
-1401,Likely Graduate,0.51,0.49
-1402,Likely Graduate,0.46,0.54
-1403,Likely Graduate,0.48,0.52
-1404,Likely Graduate,0.56,0.44
-1405,Likely Graduate,0.45,0.55
-1406,High Risk (Dropout),0.8,0.2
-1407,Likely Graduate,0.39,0.61
-1408,Likely Graduate,0.65,0.35
-1409,High Risk (Dropout),0.81,0.19
-1410,Likely Graduate,0.49,0.51
-1411,Likely Graduate,0.53,0.47
-1412,Likely Graduate,0.41,0.59
-1413,Likely Graduate,0.58,0.42
+1399,Likely Graduate,0.67,0.33
+1400,High Risk (Dropout),0.97,0.03
+1401,Likely Graduate,0.53,0.47
+1402,Likely Graduate,0.5,0.5
+1403,Likely Graduate,0.41,0.59
+1404,Likely Graduate,0.47,0.53
+1405,Likely Graduate,0.56,0.44
+1406,High Risk (Dropout),0.76,0.24
+1407,Likely Graduate,0.31,0.69
+1408,Likely Graduate,0.68,0.32
+1409,High Risk (Dropout),0.83,0.17
+1410,Likely Graduate,0.55,0.45
+1411,Likely Graduate,0.63,0.37
+1412,Likely Graduate,0.51,0.49
+1413,Likely Graduate,0.6,0.4
 1414,Likely Graduate,0.57,0.43
-1415,Likely Graduate,0.68,0.32
-1416,Likely Graduate,0.39,0.61
-1417,High Risk (Dropout),0.84,0.16
-1418,High Risk (Dropout),0.83,0.17
-1419,Likely Graduate,0.39,0.61
-1420,High Risk (Dropout),0.8,0.2
-1421,Likely Graduate,0.48,0.52
-1422,Likely Graduate,0.56,0.44
-1423,Likely Graduate,0.29,0.71
-1424,Likely Graduate,0.69,0.31
-1425,Likely Graduate,0.58,0.42
-1426,Likely Graduate,0.44,0.56
-1427,Likely Graduate,0.49,0.51
-1428,Likely Graduate,0.67,0.33
+1415,High Risk (Dropout),0.83,0.17
+1416,Likely Graduate,0.38,0.62
+1417,High Risk (Dropout),0.82,0.18
+1418,High Risk (Dropout),0.76,0.24
+1419,Likely Graduate,0.43,0.57
+1420,High Risk (Dropout),0.85,0.15
+1421,Likely Graduate,0.52,0.48
+1422,High Risk (Dropout),0.71,0.29
+1423,Likely Graduate,0.37,0.63
+1424,High Risk (Dropout),0.74,0.26
+1425,Likely Graduate,0.49,0.51
+1426,Likely Graduate,0.41,0.59
+1427,Likely Graduate,0.58,0.42
+1428,High Risk (Dropout),0.78,0.22
 1429,High Risk (Dropout),0.71,0.29
