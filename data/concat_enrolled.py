@@ -4,9 +4,9 @@ import pandas as pd
 base_dir = os.path.abspath(os.path.dirname(__file__))
 
 # Define file paths
-enrolled_file1 = os.path.join(base_dir, 'test', 'enrolled1.csv')
-enrolled_file2 = os.path.join(base_dir, 'test', 'enrolled2.csv')
-output_file = os.path.join(base_dir, 'test', 'enrolled_dataset.csv')
+enrolled_file1 = os.path.join(base_dir, 'test', 'raw_enrolled1.csv')
+enrolled_file2 = os.path.join(base_dir, 'test', 'raw_enrolled2.csv')
+output_file = os.path.join(base_dir, 'test', 'raw_enrolled_dataset.csv')
 
 # Load the datasets
 print("Loading enrolled datasets...")
