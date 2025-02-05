@@ -1,0 +1,56 @@
+QUEEN'S UNIVERSITY OF BELFAST COMPUTER SCIENCE
+
+Minute of Project Supervision Meeting
+======================================
+
+Student Name: Andrew Hyde
+
+
+Project Module Code: CSC3002
+
+Project Supervisor: Baharak Ahmaderaghi
+
+
+Meeting Number: 6
+
+
+Date of Meeting: 28/01/25
+
+Progress since last meeting, and decisions arrived at during meeting:
+
+Progress - Prepared predictions so results could be compared against raw data.
+         - Trained KNN and logical regression classifiers, benchmarked them against the randomforest model.
+         - Implemented optimisation techniques such as k-fold cross validation
+
+
+Decisions - Need to adjust my threshold for dropout predictions, e.g. implement a precision-recall curve
+          - Recalibrate my prediction scale
+          - Research using a weighted model
+          - Refine features
+
+
+
+
+Action Points:
+
+- Recalibrate my prediction scale
+- Research using a weighted model
+- Refine features
+
+
+
+Date of next meeting:
+====================
+
+11/02/25
+
+
+Agreed minute should be initialled by the supervisor.
+
+Supervisor's Initials:	_____________________________________________	Date: _________________
+
+
+
+Supervisor's Comments:
+=======================
+
