@@ -1,0 +1,55 @@
+QUEEN'S UNIVERSITY OF BELFAST COMPUTER SCIENCE
+
+Minute of Project Supervision Meeting
+======================================
+
+Student Name: Andrew Hyde
+
+
+Project Module Code: CSC3002
+
+Project Supervisor: Baharak Ahmaderaghi
+
+
+Meeting Number: 6
+
+
+Date of Meeting: 27/02/25
+
+Progress since last meeting, and decisions arrived at during meeting:
+
+Progress - Refined Data pipeline
+         - Updated Prediction Script
+
+
+Decisions - Need to implement data analytics (such as OLS regression)
+          - Data pipeline needs further refinement
+          - Need to create a second model which can make predictions without scores
+
+
+
+
+
+Action Points:
+
+- Implement data analytics
+- Reduce Features (PCA)
+- Adjust for Dataset Imbalance
+
+
+
+Date of next meeting:
+====================
+
+12/03/25
+
+
+Agreed minute should be initialled by the supervisor.
+
+Supervisor's Initials:	_____________________________________________	Date: _________________
+
+
+
+Supervisor's Comments:
+=======================
+
