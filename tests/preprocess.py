@@ -6,11 +6,9 @@ sys.path.append(base_dir)
 from pipeline.preprocess_student_dropout_data import preprocess_student_dropout_data
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-input_file = os.path.join(script_dir, '../data/raw/raw_dataset1.csv')
-train_file = os.path.join(script_dir, '../data/processed/preprocessed1.csv')
-test_file = os.path.join(script_dir, '../data/test/enrolled1.csv')
-raw_test = os.path.join(script_dir, '../data/test/raw_enrolled1.csv')
+input_file = os.path.join(script_dir, '../data/raw/combined_raw_dataset.csv')
+output_dir = os.path.join(script_dir, '../data/processed/')
+preprocessed_enrolled = os.path.join(script_dir, '../data/enrolled/preprocessed_enrolled.csv')
+raw_enrolled = os.path.join(script_dir, '../data/enrolled/raw_enrolled.csv')
 
-
-
-preprocess_student_dropout_data(input_file, train_file, test_file, raw_test)
+preprocess_student_dropout_data(input_file, output_dir, preprocessed_enrolled, raw_enrolled)

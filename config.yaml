@@ -1,0 +1,5 @@
+# config.yaml
+model:
+  threshold: 0.6
+  # calibration: isotonic  # Optional model calibration method
+  # class_weights: {0: 1, 1: 2}  # Optional class weighting

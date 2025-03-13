@@ -1,5 +1,6 @@
 import os
 import sys
+import pandas as pd
 
 # Define paths
 base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -15,6 +16,7 @@ model_dir = os.path.join(base_dir, 'models')  # Directory to save models and sca
 
 # Train the model
 print("Starting the training process...")
+
 train_random_forest(
     train_dataset_path=train_dataset_path,
     test_dataset_path=test_dataset_path,
