@@ -1,44 +1,34 @@
 import pandas as pd
-import miceforest as mf
 
-def align_and_impute_datasets(df1, df2, impute_columns, iterations=5):
+def align_datasets_and_combine(df1, df2, required_columns):
     """
-    Ensures both datasets have the same structure by aligning columns and 
-    applying MICE imputation to missing numeric values.
+    Aligns two datasets by ensuring they have the same columns, then combines them.
 
     Parameters:
-    df1 (pd.DataFrame): First dataset.
-    df2 (pd.DataFrame): Second dataset.
-    impute_columns (list): List of numeric columns to apply MICE on.
-    iterations (int): Number of MICE iterations.
+        df1 (pd.DataFrame): First dataset (e.g., data with missing values)
+        df2 (pd.DataFrame): Second dataset (e.g., reference dataset with more complete values)
+        required_columns (list): List of required columns to ensure consistency
 
     Returns:
-    tuple: Aligned and imputed df1, df2.
+        pd.DataFrame: A combined dataset with aligned columns
     """
-    all_columns = set(df1.columns).union(set(df2.columns))
 
-    # Add missing columns to each dataset (fill with NaN so MICE can handle it)
-    for col in all_columns:
+    # Ensure both dataframes have all required columns
+    for col in required_columns:
         if col not in df1.columns:
-            df1[col] = None  # Preserve NaNs for imputation
+            df1[col] = pd.NA  # Add missing columns with NaN
         if col not in df2.columns:
-            df2[col] = None
+            df2[col] = pd.NA
 
-    # Reorder both datasets to match column order
-    df1 = df1[list(all_columns)]
-    df2 = df2[list(all_columns)]
+    # Ensure column order is the same for both datasets
+    df1 = df1[sorted(df1.columns)]
+    df2 = df2[sorted(df2.columns)]
 
-    # Apply MICE only to selected numeric columns
-    available_impute_columns = [col for col in impute_columns if col in df1.columns]
+    # Add marker column to track original datasets
+    df1["dataset_marker"] = "df1"
+    df2["dataset_marker"] = "df2"
 
-    if available_impute_columns:
-        print(f"🔍 Applying MICE to: {available_impute_columns}")
+    # Combine the datasets
+    combined_df = pd.concat([df1, df2], ignore_index=True)
 
-        for df in [df1, df2]:
-            kernel = mf.ImputationKernel(df[available_impute_columns], datasets=5, save_all_iterations=True, random_state=42)
-            kernel.mice(iterations)
-            df[available_impute_columns] = kernel.complete_data()
-
-        print("✅ MICE Imputation Completed.")
-
-    return df1, df2
+    return combined_df
