@@ -11,15 +11,17 @@ Project Module Code: CSC3002
 Project Supervisor: Baharak Ahmaderaghi
 
 
-Meeting Number: 7
-
+Meeting Number: 8
 
 Date of Meeting: 27/02/25
 
 Progress since last meeting, and decisions arrived at during meeting:
 
-Progress - Refined Data pipeline
-         - Updated Prediction Script
+Progress - Modulised pipeline into aligner, cleaner, imputer loader,
+        preprocessor, splitter.
+         - Created a 'main' file which calls each function in order to
+        correctly prepare data for the model.
+
 
 
 Decisions - Need to implement data analytics (such as OLS regression)
@@ -41,7 +43,7 @@ Action Points:
 Date of next meeting:
 ====================
 
-12/03/25
+03/04/25
 
 
 Agreed minute should be initialled by the supervisor.
