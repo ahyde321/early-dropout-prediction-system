@@ -1,12 +1,12 @@
 import os
 import pandas as pd
-from data_loader import load_data
-from data_imputer import apply_mice_imputation
-from data_cleaner import clean_data, separate_enrolled_students
-from feature_selector import remove_highly_correlated_features, select_best_features
-from data_aligner import align_datasets_and_combine, align_enrolled_pupils
-from data_preprocessor import preprocess_data
-from data_splitter import split_train_val_test
+from utils.data_loader import load_data
+from utils.data_imputer import apply_mice_imputation
+from utils.data_cleaner import clean_data, separate_enrolled_students
+from utils.feature_selector import remove_highly_correlated_features, select_best_features
+from utils.data_aligner import align_datasets_and_combine, align_enrolled_pupils
+from utils.data_preprocessor import preprocess_data
+from utils.data_splitter import split_train_val_test
 
 # Get the absolute path of the project directory
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
