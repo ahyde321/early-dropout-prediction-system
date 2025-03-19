@@ -4,7 +4,7 @@ from data_loader import load_data
 from data_imputer import apply_mice_imputation
 from data_cleaner import clean_data, separate_enrolled_students
 from feature_selector import remove_highly_correlated_features, select_best_features
-from data_aligner import align_datasets_and_combine
+from data_aligner import align_datasets_and_combine, align_enrolled_pupils
 
 # Get the absolute path of the project directory
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -42,8 +42,8 @@ print(imputed_combined_df[["Admission grade", "Previous qualification (grade)"]]
 # Step 5: Separate 'Enrolled' Students and Save Both Datasets
 cleaned_combined_df = separate_enrolled_students(
     imputed_combined_df,
-    enrolled_path="data/filtered/enrolled.csv",
-    filtered_path="data/filtered/past.csv"
+    enrolled_path="data/filtered/enrolled_pupils.csv",
+    filtered_path="data/filtered/past_pupils.csv"
 )
 
 print(f"🚀 Final Training Dataset Shape: {cleaned_combined_df.shape}")
@@ -51,10 +51,21 @@ print(f"🚀 Final Training Dataset Shape: {cleaned_combined_df.shape}")
 # Step 6: Remove Highly Correlated Features from the Combined Dataset
 cleaned_combined_df = remove_highly_correlated_features(cleaned_combined_df)
 
-# Step 7: Select the Best Features for Model Training
+refined_past_pupil_path = os.path.join(BASE_DIR, "../data/refined/refined_past_pupil_dataset.csv")
+refined_enrolled_pupil_path= os.path.join(BASE_DIR, "../data/refined/refined_enrolled_pupil_dataset.csv")
+
+# Step 7: Select the Best Features for Model Training and Save
 final_dataset = select_best_features(cleaned_combined_df)
+final_dataset.to_csv(refined_past_pupil_path, index=False)
 
 print(f"✅ Final Dataset Shape After Feature Selection: {final_dataset.shape}")
+
+# Step 8: Align enrolled_pupil dataset to the past_pupil dataset
+aligned_enrolled_df = align_enrolled_pupils(
+    enrolled_path="data/filtered/enrolled_pupils.csv",
+    final_dataset=final_dataset,
+    output_path="data/refined/aligned_enrolled_pupils.csv"
+)
 
 
 

@@ -32,3 +32,27 @@ def align_datasets_and_combine(df1, df2, required_columns):
     combined_df = pd.concat([df1, df2], ignore_index=True)
 
     return combined_df
+
+def align_enrolled_pupils(enrolled_path, final_dataset, output_path):
+    """
+    Align the enrolled pupils dataset with the final training dataset by selecting the same features.
+
+    Parameters:
+    - enrolled_path (str): Path to the enrolled pupils dataset.
+    - final_dataset (pd.DataFrame): The final dataset after feature selection.
+    - output_path (str): Path to save the aligned enrolled pupils dataset.
+
+    Returns:
+    - pd.DataFrame: Aligned enrolled pupils dataset.
+    """
+    # Load the enrolled pupils dataset
+    enrolled_df = pd.read_csv(enrolled_path)
+
+    # Ensure enrolled dataset has only the selected features from the final dataset
+    aligned_enrolled_df = enrolled_df[final_dataset.columns]
+
+    # Save the aligned dataset
+    aligned_enrolled_df.to_csv(output_path, index=False)
+
+    print(f"✅ Enrolled Dataset Aligned and Saved: {output_path}")
+    return aligned_enrolled_df
