@@ -5,6 +5,7 @@ from data_imputer import apply_mice_imputation
 from data_cleaner import clean_data, separate_enrolled_students
 from feature_selector import remove_highly_correlated_features, select_best_features
 from data_aligner import align_datasets_and_combine, align_enrolled_pupils
+from data_preprocessor import preprocess_data
 
 # Get the absolute path of the project directory
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -67,16 +68,20 @@ aligned_enrolled_df = align_enrolled_pupils(
     output_path="data/refined/aligned_enrolled_pupils.csv"
 )
 
+# Step 9: Preprocess Enrolled and Past Pupil datasets
+model_dir = os.path.join(BASE_DIR, "../models")
 
+preprocessed_past_pupils = preprocess_data(
+    input_path=refined_past_pupil_path,
+    output_path="data/preprocessed/preprocessed_past_pupils.csv",
+    model_dir=model_dir
+)
 
-# # Step 6: Feature Selection
-# df1 = remove_highly_correlated_features(df1)
-# df2 = remove_highly_correlated_features(df2)
-# print(f"📉 After Feature Selection: Dataset 1 - {df1.shape}, Dataset 2 - {df2.shape}")
-
-# # Step 7: Preprocess for ML
-# df1, encoders, scaler = preprocess_data(df1)
-# df2, _, _ = preprocess_data(df2)
+preprocessed_enrolled_pupils = preprocess_data(
+    input_path="data/refined/aligned_enrolled_pupils.csv",
+    output_path="data/preprocessed/preprocessed_enrolled_pupils.csv",
+    model_dir=model_dir
+)
 
 # # Step 8: Train Model
 # model, accuracy = train_model(df1)
