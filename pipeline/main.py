@@ -6,6 +6,7 @@ from data_cleaner import clean_data, separate_enrolled_students
 from feature_selector import remove_highly_correlated_features, select_best_features
 from data_aligner import align_datasets_and_combine, align_enrolled_pupils
 from data_preprocessor import preprocess_data
+from data_splitter import split_train_val_test
 
 # Get the absolute path of the project directory
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -41,22 +42,22 @@ print(imputed_combined_df[["Admission grade", "Previous qualification (grade)"]]
 print(imputed_combined_df[["Admission grade", "Previous qualification (grade)"]].tail(10))
 
 # Step 5: Separate 'Enrolled' Students and Save Both Datasets
-cleaned_combined_df = separate_enrolled_students(
+past_pupils_df = separate_enrolled_students(
     imputed_combined_df,
     enrolled_path="data/filtered/enrolled_pupils.csv",
     filtered_path="data/filtered/past_pupils.csv"
 )
 
-print(f"🚀 Final Training Dataset Shape: {cleaned_combined_df.shape}")
+print(f"🚀 Final Training Dataset Shape: {past_pupils_df.shape}")
 
 # Step 6: Remove Highly Correlated Features from the Combined Dataset
-cleaned_combined_df = remove_highly_correlated_features(cleaned_combined_df)
+past_pupils_df = remove_highly_correlated_features(past_pupils_df)
 
 refined_past_pupil_path = os.path.join(BASE_DIR, "../data/refined/refined_past_pupil_dataset.csv")
 refined_enrolled_pupil_path= os.path.join(BASE_DIR, "../data/refined/refined_enrolled_pupil_dataset.csv")
 
 # Step 7: Select the Best Features for Model Training and Save
-final_dataset = select_best_features(cleaned_combined_df)
+final_dataset = select_best_features(past_pupils_df)
 final_dataset.to_csv(refined_past_pupil_path, index=False)
 
 print(f"✅ Final Dataset Shape After Feature Selection: {final_dataset.shape}")
@@ -68,7 +69,13 @@ aligned_enrolled_df = align_enrolled_pupils(
     output_path="data/refined/aligned_enrolled_pupils.csv"
 )
 
-# Step 9: Preprocess Enrolled and Past Pupil datasets
+# Step 9: Split data into 
+split_train_val_test(
+    input_path="data/refined/refined_past_pupil_dataset.csv",
+    output_dir="data/ready"
+)
+
+# Step 10: Preprocess Enrolled and Past Pupil datasets
 model_dir = os.path.join(BASE_DIR, "../models")
 
 preprocessed_past_pupils = preprocess_data(
