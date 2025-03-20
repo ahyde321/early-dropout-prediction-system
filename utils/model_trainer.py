@@ -1,4 +1,3 @@
-import os
 import pickle
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
@@ -17,17 +16,3 @@ def train_model(X_train_path, y_train_path, model_path):
         pickle.dump(model, f)
 
     print(f"✅ Model trained and saved at: {model_path}")
-
-def evaluate_model(model_path, X_path, y_path):
-    """
-    Evaluates a trained model.
-    """
-    X = pd.read_csv(X_path)
-    y = pd.read_csv(y_path).values.ravel()
-
-    with open(model_path, "rb") as f:
-        model = pickle.load(f)
-
-    y_pred = model.predict(X)
-    accuracy = (y_pred == y).mean()
-    print(f"📊 Accuracy: {accuracy:.4f}")

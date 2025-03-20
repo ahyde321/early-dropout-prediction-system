@@ -1,8 +1,14 @@
 import os
-from utils.model_trainer import train_model, evaluate_model
+import sys
+
+# Get the absolute path of the project root directory
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(BASE_DIR)
+
+from utils.model_trainer import train_model
+from utils.model_evaluator import evaluate_model
 
 # Paths
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, "models")
 DATA_DIR = os.path.join(BASE_DIR, "data/ready")
 
@@ -15,9 +21,8 @@ train_model(
     model_path=os.path.join(MODEL_DIR, "random_forest_model.pkl")
 )
 
-# Evaluate model
 evaluate_model(
-    model_path=os.path.join(MODEL_DIR, "random_forest_model.pkl"),
-    X_path=os.path.join(DATA_DIR, "X_val.csv"),
-    y_path=os.path.join(DATA_DIR, "y_val.csv")
+    x_val_path=os.path.join(DATA_DIR, "X_val.csv"),
+    y_val_path=os.path.join(DATA_DIR, "y_val.csv"),
+    model_path=os.path.join(MODEL_DIR, "random_forest_model.pkl")
 )
