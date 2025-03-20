@@ -2,13 +2,13 @@ import pandas as pd
 import pickle
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
 
-def evaluate_model(model_path, x_val_path, y_val_path):
+def evaluate_model(model_path, x_path, y_path):
     """
     Evaluates a trained model using multiple performance metrics.
     """
     # Load data
-    X = pd.read_csv(x_val_path)
-    y = pd.read_csv(y_val_path).values.ravel()
+    X = pd.read_csv(x_path)
+    y = pd.read_csv(y_path).values.ravel()
 
     # Load model
     with open(model_path, "rb") as f:
