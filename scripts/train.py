@@ -21,6 +21,7 @@ train_random_forest(
     model_path=os.path.join(MODEL_DIR, "random_forest_model.pkl")
 )
 
+
 evaluate_model(
     x_path=os.path.join(DATA_DIR, "X_train.csv"),
     y_path=os.path.join(DATA_DIR, "y_train.csv"),

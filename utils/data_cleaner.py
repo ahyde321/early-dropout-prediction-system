@@ -14,6 +14,7 @@ def clean_data(df):
     """
     df = df.drop_duplicates()  # Remove duplicate rows
     df = df.dropna(how="all")  # Drop only fully empty rows
+    df = df.drop(columns=["Application Mode"])
 
     print(f"✅ Cleaned Data: {df.shape[0]} rows remaining after cleaning.")
     return df
