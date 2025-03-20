@@ -95,6 +95,3 @@ preprocessed_enrolled_pupils = preprocess_data(
     model_dir=model_dir
 )
 
-# # Step 8: Train Model
-# model, accuracy = train_model(df1)
-# print(f"🚀 Model Accuracy: {accuracy:.2f}")
