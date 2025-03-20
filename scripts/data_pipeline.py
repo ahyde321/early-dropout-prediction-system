@@ -1,5 +1,10 @@
 import os
-import pandas as pd
+import sys
+
+# Get the absolute path of the project root directory
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(BASE_DIR)
+
 from utils.data_loader import load_data
 from utils.data_imputer import apply_mice_imputation
 from utils.data_cleaner import clean_data, separate_enrolled_students
