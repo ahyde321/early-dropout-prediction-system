@@ -21,7 +21,7 @@ SCRIPTS_DIR = os.path.join(FINAL_DIR, "scripts")
 TESTS_DIR = os.path.join(FINAL_DIR, "tests")
 
 # 📂 Subdirectories for data pipeline
-RAW_DIR = os.path.join(DATA_DIR, "raw")
+RAW_DIR = os.path.join(MODEL_DIR, "data", "raw")
 FILTERED_DIR = os.path.join(DATA_DIR, "filtered")
 REFINED_DIR = os.path.join(DATA_DIR, "refined")
 PREPROCESSED_DIR = os.path.join(DATA_DIR, "preprocessed")
