@@ -1,0 +1,44 @@
+import os
+import sys
+
+# 📁 Absolute path to the "final" directory
+FINAL_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# 📁 Go up one level to get to "model"
+MODEL_DIR = os.path.dirname(FINAL_DIR)
+
+# 📁 Path to the shared "utils" directory
+UTILS_DIR = os.path.join(MODEL_DIR, "utils")
+
+# ➕ Add utils directory to sys.path so imports work
+if UTILS_DIR not in sys.path:
+    sys.path.append(UTILS_DIR)
+
+# 📂 Define key directories used across scripts/tests
+DATA_DIR = os.path.join(FINAL_DIR, "data")
+ARTIFACTS_DIR = os.path.join(FINAL_DIR, "artifacts")  # renamed from models
+SCRIPTS_DIR = os.path.join(FINAL_DIR, "scripts")
+TESTS_DIR = os.path.join(FINAL_DIR, "tests")
+
+# 📂 Subdirectories for data pipeline
+RAW_DIR = os.path.join(DATA_DIR, "raw")
+FILTERED_DIR = os.path.join(DATA_DIR, "filtered")
+REFINED_DIR = os.path.join(DATA_DIR, "refined")
+PREPROCESSED_DIR = os.path.join(DATA_DIR, "preprocessed")
+READY_DIR = os.path.join(DATA_DIR, "ready")
+
+# 🧾 Allow import of everything for convenience
+__all__ = [
+    "FINAL_DIR",
+    "MODEL_DIR",
+    "UTILS_DIR",
+    "DATA_DIR",
+    "ARTIFACTS_DIR",  # updated name
+    "SCRIPTS_DIR",
+    "TESTS_DIR",
+    "RAW_DIR",
+    "FILTERED_DIR",
+    "REFINED_DIR",
+    "PREPROCESSED_DIR",
+    "READY_DIR"
+]

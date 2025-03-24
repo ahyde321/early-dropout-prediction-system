@@ -2,6 +2,8 @@ import os
 import sys
 import pandas as pd
 import joblib
+import numpy as np
+import matplotlib.pyplot as plt
 
 from sklearn.metrics import (
     accuracy_score,
@@ -13,15 +15,23 @@ from sklearn.metrics import (
     roc_curve,
     auc
 )
-import matplotlib.pyplot as plt
-import numpy as np
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.append(BASE_DIR)
+# === Setup: Add final and utils to path ===
+FINAL_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+UTILS_DIR = os.path.abspath(os.path.join(FINAL_DIR, "..", "utils"))
 
-MODEL_PATH = os.path.join(BASE_DIR, "models/random_forest_model.pkl")  # ✅ Uses the trained Random Forest model
-X_TEST_PATH = os.path.join(BASE_DIR, "data/ready", "X_test.csv")
-Y_TEST_PATH = os.path.join(BASE_DIR, "data/ready", "y_test.csv")
+if FINAL_DIR not in sys.path:
+    sys.path.append(FINAL_DIR)
+if UTILS_DIR not in sys.path:
+    sys.path.append(UTILS_DIR)
+
+# ✅ Import updated path constants
+from path_config import ARTIFACTS_DIR, READY_DIR
+
+# === Load model & test data ===
+MODEL_PATH = os.path.join(ARTIFACTS_DIR, "random_forest_model.pkl")
+X_TEST_PATH = os.path.join(READY_DIR, "X_test.csv")
+Y_TEST_PATH = os.path.join(READY_DIR, "y_test.csv")
 
 # --- Load model ---
 model = joblib.load(MODEL_PATH)
@@ -42,13 +52,13 @@ except AttributeError:
     proba_available = False
 
 # ---- Evaluation metrics ----
-print("Evaluation Metrics:")
+print("📊 Evaluation Metrics:")
 print(f"Accuracy:  {accuracy_score(y_test, y_pred):.4f}")
 print(f"Precision: {precision_score(y_test, y_pred):.4f}")
 print(f"Recall:    {recall_score(y_test, y_pred):.4f}")
 print(f"F1 Score:  {f1_score(y_test, y_pred):.4f}")
-print("\nClassification Report:\n", classification_report(y_test, y_pred))
-print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+print("\n📄 Classification Report:\n", classification_report(y_test, y_pred))
+print("🧮 Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
 
 # ---- Optional: Plot ROC Curve ----
 if proba_available and len(np.unique(y_test)) == 2:
@@ -65,4 +75,4 @@ if proba_available and len(np.unique(y_test)) == 2:
     plt.grid()
     plt.show()
 else:
-    print("ROC curve not plotted (predict_proba not available or multiclass case).")
+    print("⚠️ ROC curve not plotted (predict_proba not available or not binary classification).")
