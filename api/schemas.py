@@ -14,6 +14,6 @@ class StudentCreate(BaseModel):
     tuition_fees_up_to_date: int
 
 class StudentUpdate(BaseModel):
-    curricular_units_1st_sem_approved: Optional[int]
-    curricular_units_1st_sem_grade: Optional[float]
-    curricular_units_2nd_sem_grade: Optional[float]
+    curricular_units_1st_sem_approved: Optional[int] = None
+    curricular_units_1st_sem_grade: Optional[float] = None
+    curricular_units_2nd_sem_grade: Optional[float] = None
