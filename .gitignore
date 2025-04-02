@@ -1,2 +1,22 @@
 /pipeline/__pycache__
 __pycache__/
+
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+venv/
+.env
+
+# SQLite DB (if local only)
+*.db
+
+# VS Code / IDE stuff
+.vscode/
+.idea/
+
+# Mac system files
+.DS_Store

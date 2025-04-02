@@ -1,7 +1,7 @@
 import os
 import sys
 
-# 📁 Absolute path to the "early" directory
+# 📁 Absolute path to the "mid" directory
 MID_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # 📁 Go up one level to get to "models"
