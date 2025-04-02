@@ -1,6 +1,7 @@
 # api/routes/students.py
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import UploadFile, File, APIRouter, Depends, HTTPException
+import pandas as pd
 from sqlalchemy.orm import Session
 from db.models import Student
 from db.database import SessionLocal
@@ -8,6 +9,20 @@ from api.schemas import StudentCreate, StudentUpdate
 from typing import List
 
 router = APIRouter()
+
+# CSV Header -> Model Field Name
+COLUMN_MAP = {
+    "Age at enrollment": "age_at_enrollment",
+    "Application order": "application_order",
+    "Curricular units 1st sem (enrolled)": "curricular_units_1st_sem_enrolled",
+    "Daytime/evening attendance": "daytime_evening_attendance",
+    "Debtor": "debtor",
+    "Displaced": "displaced",
+    "Gender": "gender",
+    "Marital status": "marital_status",
+    "Scholarship holder": "scholarship_holder",
+    "Tuition fees up to date": "tuition_fees_up_to_date"
+}
 
 # Dependency
 def get_db():
@@ -47,3 +62,34 @@ def update_student(student_id: int, updates: StudentUpdate, db: Session = Depend
 def list_students(db: Session = Depends(get_db)):
     students = db.query(Student).all()
     return [s.__dict__ for s in students]
+
+@router.post("/students/bulk-upload-file")
+async def bulk_upload_students(file: UploadFile = File(...), db: Session = Depends(get_db)):
+    if not file.filename.endswith(".csv"):
+        raise HTTPException(status_code=400, detail="Only CSV files are supported.")
+
+    try:
+        df = pd.read_csv(file.file)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Failed to read CSV: {str(e)}")
+    
+    df.rename(columns=COLUMN_MAP, inplace=True)
+
+    success = []
+    failed = []
+
+    for i, row in df.iterrows():
+        try:
+            student_data = row.to_dict()
+            student = Student(**student_data)
+            db.add(student)
+            success.append(student_data)
+        except Exception as e:
+            failed.append({"row": i, "error": str(e)})
+
+    db.commit()
+    return {
+        "added": len(success),
+        "failed": len(failed),
+        "details": {"failures": failed}
+    }
