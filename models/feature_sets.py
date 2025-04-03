@@ -1,5 +1,5 @@
 EARLY_FIELDS = [
-    "age_at_enrollment", "application_order", "curricular_units_1st_sem_enrolled",
+    "student_number", "first_name", "last_name","age_at_enrollment", "application_order", "curricular_units_1st_sem_enrolled",
     "daytime_evening_attendance", "debtor", "displaced", "gender",
     "marital_status", "scholarship_holder", "tuition_fees_up_to_date"
 ]

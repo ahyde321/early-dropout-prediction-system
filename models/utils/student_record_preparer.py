@@ -4,7 +4,10 @@ import uuid
 
 # Step 1: Convert headers to snake_case
 def to_snake_case_columns(df: pd.DataFrame) -> pd.DataFrame:
-    df.columns = [re.sub(r'\W+', '_', col).strip().lower() for col in df.columns]
+    df.columns = [
+        re.sub(r'_+', '_', re.sub(r'\W+', '_', col)).strip().lower().strip('_')
+        for col in df.columns
+    ]
     return df
 
 # Step 2: Assign first/last name and student number (if not present)

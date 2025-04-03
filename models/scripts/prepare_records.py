@@ -11,8 +11,8 @@ if UTILS_DIR not in sys.path:
 from student_record_preparer import process_student_upload  # ✅ Now works
 
 # 📁 Input/output paths
-INPUT_FILE = os.path.join(MODELS_DIR, "final", "data", "refined", "aligned_enrolled_pupils.csv")
-OUTPUT_FILE = os.path.join(MODELS_DIR, "data", "enrolled", "final_prepared_enrolled_pupils.csv")
+INPUT_FILE = os.path.join(MODELS_DIR, "early", "data", "refined", "aligned_enrolled_pupils.csv")
+OUTPUT_FILE = os.path.join(MODELS_DIR, "data", "enrolled", "early_prepared_enrolled_pupils.csv")
 
 print("[INFO] Loading dataset...")
 df = pd.read_csv(INPUT_FILE)

@@ -10,20 +10,6 @@ from typing import List
 
 router = APIRouter()
 
-# CSV Header -> Model Field Name
-COLUMN_MAP = {
-    "Age at enrollment": "age_at_enrollment",
-    "Application order": "application_order",
-    "Curricular units 1st sem (enrolled)": "curricular_units_1st_sem_enrolled",
-    "Daytime/evening attendance": "daytime_evening_attendance",
-    "Debtor": "debtor",
-    "Displaced": "displaced",
-    "Gender": "gender",
-    "Marital status": "marital_status",
-    "Scholarship holder": "scholarship_holder",
-    "Tuition fees up to date": "tuition_fees_up_to_date"
-}
-
 # Dependency
 def get_db():
     db = SessionLocal()
@@ -33,8 +19,8 @@ def get_db():
         db.close()
 
 @router.post("/students/")
-def create_student(data: StudentCreate, db: Session = Depends(get_db)):
-    student = Student(**data.dict())
+def create_student(student: StudentCreate, db: Session = Depends(get_db)):
+    student = Student(**student.model_dump())
     db.add(student)
     db.commit()
     db.refresh(student)
@@ -72,8 +58,6 @@ async def bulk_upload_students(file: UploadFile = File(...), db: Session = Depen
         df = pd.read_csv(file.file)
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Failed to read CSV: {str(e)}")
-    
-    df.rename(columns=COLUMN_MAP, inplace=True)
 
     success = []
     failed = []
@@ -93,3 +77,9 @@ async def bulk_upload_students(file: UploadFile = File(...), db: Session = Depen
         "failed": len(failed),
         "details": {"failures": failed}
     }
+
+@router.delete("/dev/wipe-students")
+def wipe_students(db: Session = Depends(get_db)):
+    db.query(Student).delete()
+    db.commit()
+    return {"message": "All student records deleted"}
