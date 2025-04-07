@@ -14,6 +14,13 @@ UTILS_DIR = os.path.join(MODEL_DIR, "utils")
 if UTILS_DIR not in sys.path:
     sys.path.append(UTILS_DIR)
 
+# ➕ Add subdirectories of utils to sys.path
+SYSTEM_UTILS_DIR = os.path.join(UTILS_DIR, "system")
+DATA_UTILS_DIR = os.path.join(UTILS_DIR, "data")
+
+if SYSTEM_UTILS_DIR not in sys.path:
+    sys.path.append(SYSTEM_UTILS_DIR)
+
 # 📂 Define key directories used across scripts/tests
 DATA_DIR = os.path.join(FINAL_DIR, "data")
 ARTIFACTS_DIR = os.path.join(FINAL_DIR, "artifacts")  # renamed from models
@@ -27,13 +34,15 @@ REFINED_DIR = os.path.join(DATA_DIR, "refined")
 PREPROCESSED_DIR = os.path.join(DATA_DIR, "preprocessed")
 READY_DIR = os.path.join(DATA_DIR, "ready")
 
-# 🧾 Allow import of everything for convenience
+# 🗞 Allow import of everything for convenience
 __all__ = [
     "FINAL_DIR",
     "MODEL_DIR",
     "UTILS_DIR",
+    "SYSTEM_UTILS_DIR",
+    "DATA_UTILS_DIR",
     "DATA_DIR",
-    "ARTIFACTS_DIR",  # updated name
+    "ARTIFACTS_DIR",
     "SCRIPTS_DIR",
     "TESTS_DIR",
     "RAW_DIR",
