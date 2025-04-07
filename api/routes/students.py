@@ -87,23 +87,4 @@ def wipe_students(db: Session = Depends(get_db)):
     db.commit()
     return {"message": "All student records deleted"}
 
-@router.get("/predict/by-number/{student_number}")
-def predict_by_student_number(student_number: str, db: Session = Depends(get_db)):
-    student = db.query(Student).filter(Student.student_number == student_number).first()
-    if not student:
-        raise HTTPException(status_code=404, detail="Student not found")
-
-    student_dict = student.__dict__.copy()
-    student_dict.pop("_sa_instance_state", None)
-
-    try:
-        risk_score = predict_student(student_dict)
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-    return {
-        "student_number": student_number,
-        "risk_score": round(risk_score, 3),
-        "risk_level": get_risk_level(risk_score)
-    }
 
