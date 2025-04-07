@@ -12,3 +12,16 @@ MID_FIELDS = EARLY_FIELDS[:1] + [  # starts with shared fields
 FINAL_FIELDS = MID_FIELDS + [
     "curricular_units_2nd_sem_grade"
 ]
+
+RISK_THRESHOLDS = {
+    "low": 0.4,
+    "medium": 0.7
+}
+
+def get_risk_level(score: float) -> str:
+    if score < RISK_THRESHOLDS["low"]:
+        return "low"
+    elif score < RISK_THRESHOLDS["medium"]:
+        return "medium"
+    else:
+        return "high"

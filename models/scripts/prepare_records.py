@@ -8,7 +8,7 @@ UTILS_DIR = os.path.join(MODELS_DIR, "utils")
 if UTILS_DIR not in sys.path:
     sys.path.append(UTILS_DIR)
 
-from student_record_preparer import process_student_upload  # ✅ Now works
+from misc.student_record_preparer import process_student_upload  # ✅ Now works
 
 # 📁 Input/output paths
 INPUT_FILE = os.path.join(MODELS_DIR, "early", "data", "refined", "aligned_enrolled_pupils.csv")

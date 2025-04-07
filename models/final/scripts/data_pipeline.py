@@ -9,13 +9,13 @@ from path_config import (
     RAW_DIR, FILTERED_DIR, REFINED_DIR, PREPROCESSED_DIR, READY_DIR, ARTIFACTS_DIR
 )
 
-from data_loader import load_data
-from data_imputer import apply_mice_imputation
-from data_cleaner import clean_data, separate_enrolled_students
-from feature_selector import remove_highly_correlated_features, select_best_features
-from data_aligner import align_datasets_and_combine, align_enrolled_pupils
-from data_preprocessor import preprocess_train, preprocess_new
-from data_splitter import split_train_val_test
+from data.data_loader import load_data
+from data.data_imputer import apply_mice_imputation
+from data.data_cleaner import clean_data, separate_enrolled_students
+from data.feature_selector import remove_highly_correlated_features, select_best_features
+from data.data_aligner import align_datasets_and_combine, align_enrolled_pupils
+from data.data_preprocessor import preprocess_train, preprocess_new
+from data.data_splitter import split_train_val_test
 
 # === Step 1: Load and Clean Data ===
 raw_dataset1 = os.path.join(RAW_DIR, "raw_dataset1.csv")

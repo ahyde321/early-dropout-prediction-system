@@ -13,8 +13,8 @@ if UTILS_DIR not in sys.path:
 
 # ✅ Imports
 from path_config import ARTIFACTS_DIR, READY_DIR
-from logreg_trainer import train_logistic_regression
-from model_evaluator import evaluate_model
+from training.logreg_trainer import train_logistic_regression
+from data.model_evaluator import evaluate_model
 
 # === Ensure required directories exist ===
 os.makedirs(ARTIFACTS_DIR, exist_ok=True)

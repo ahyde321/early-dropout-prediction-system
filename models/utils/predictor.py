@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import pickle
 
+
 def load_model(model_path):
     """Load the trained model from file."""
     with open(model_path, "rb") as f:
@@ -38,3 +39,6 @@ def predict_new_data(model_path, data_path, output_path):
 
     print(f"✅ Predictions saved at: {output_path}")
     return predictions_df
+
+
+

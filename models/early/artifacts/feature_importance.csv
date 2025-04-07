@@ -1,11 +1,11 @@
 Feature,Importance
-Age at enrollment,0.297324246266739
-Curricular units 1st sem (enrolled),0.17683300052620754
-Tuition fees up to date,0.17549822590568762
-Scholarship holder,0.09111913565842471
-Application order,0.08301665277957318
-Gender,0.056171931234911564
-Debtor,0.04411092538979333
-Displaced,0.0350764562347939
-Marital status,0.02300503733396967
-Daytime/evening attendance,0.017844388669899573
+age_at_enrollment,0.297324246266739
+curricular_units_1st_sem_enrolled,0.17683300052620754
+tuition_fees_up_to_date,0.17549822590568762
+scholarship_holder,0.09111913565842471
+application_order,0.08301665277957318
+gender,0.056171931234911564
+debtor,0.04411092538979333
+displaced,0.0350764562347939
+marital_status,0.02300503733396967
+daytime_evening_attendance,0.017844388669899573

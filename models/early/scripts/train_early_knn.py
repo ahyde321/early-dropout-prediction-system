@@ -13,8 +13,8 @@ if UTILS_DIR not in sys.path:
 
 # ✅ Import path constants and trainers
 from path_config import READY_DIR, ARTIFACTS_DIR
-from knn_trainer import train_optimized_knn
-from model_evaluator import evaluate_model
+from training.knn_trainer import train_optimized_knn
+from data.model_evaluator import evaluate_model
 
 # === Ensure required directories exist ===
 os.makedirs(ARTIFACTS_DIR, exist_ok=True)

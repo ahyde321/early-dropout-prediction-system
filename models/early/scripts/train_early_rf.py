@@ -13,8 +13,8 @@ if UTILS_DIR not in sys.path:
 
 # ✅ Import from early model's path config and shared utils
 from path_config import READY_DIR, ARTIFACTS_DIR
-from randomforest_trainer import train_random_forest
-from model_evaluator import evaluate_model
+from training.randomforest_trainer import train_random_forest
+from data.model_evaluator import evaluate_model
 
 # === Ensure required directories exist ===
 os.makedirs(ARTIFACTS_DIR, exist_ok=True)

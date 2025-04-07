@@ -27,6 +27,13 @@ FILTERED_DIR = os.path.join(DATA_DIR, "filtered")
 REFINED_DIR = os.path.join(DATA_DIR, "refined")
 PREPROCESSED_DIR = os.path.join(DATA_DIR, "preprocessed")
 READY_DIR = os.path.join(DATA_DIR, "ready")
+# ➕ Add to path_config.py
+SYSTEM_UTILS_DIR = os.path.join(UTILS_DIR, "system")
+DATA_UTILS_DIR = os.path.join(UTILS_DIR, "data")
+
+if SYSTEM_UTILS_DIR not in sys.path:
+    sys.path.append(SYSTEM_UTILS_DIR)
+
 
 # 🧾 Allow import of everything for convenience
 __all__ = [
@@ -42,4 +49,6 @@ __all__ = [
     "REFINED_DIR",
     "PREPROCESSED_DIR",
     "READY_DIR"
+    "SYSTEM_UTILS_DIR"
+    "DATA_UTILS_DIR"
 ]

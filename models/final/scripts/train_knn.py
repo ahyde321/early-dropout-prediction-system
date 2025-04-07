@@ -5,8 +5,8 @@ import sys
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(BASE_DIR)
 
-from utils.knn_trainer import train_optimized_knn
-from utils.model_evaluator import evaluate_model
+from training.knn_trainer import train_optimized_knn
+from data.model_evaluator import evaluate_model
 
 # Paths
 MODEL_DIR = os.path.join(BASE_DIR, "models")

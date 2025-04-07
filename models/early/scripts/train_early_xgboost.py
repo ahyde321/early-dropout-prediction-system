@@ -13,8 +13,8 @@ if UTILS_DIR not in sys.path:
 
 # ✅ Import utilities and paths
 from path_config import ARTIFACTS_DIR, READY_DIR
-from xgboost_trainer import train_xgboost
-from model_evaluator import evaluate_model
+from training.xgboost_trainer import train_xgboost
+from data.model_evaluator import evaluate_model
 
 # ✅ Ensure required directories exist
 os.makedirs(ARTIFACTS_DIR, exist_ok=True)

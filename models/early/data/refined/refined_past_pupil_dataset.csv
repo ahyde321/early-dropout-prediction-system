@@ -1,4 +1,4 @@
-Age at enrollment,Application order,Curricular units 1st sem (enrolled),Daytime/evening attendance,Debtor,Displaced,Gender,Marital status,Scholarship holder,Tuition fees up to date,Target
+age_at_enrollment,application_order,curricular_units_1st_sem_enrolled,daytime_evening_attendance,debtor,displaced,gender,marital_status,scholarship_holder,tuition_fees_up_to_date,target
 20,5,0,1,0,1,1,1,0,1,Dropout
 19,1,6,1,0,1,1,1,0,0,Graduate
 19,5,6,1,0,1,1,1,0,0,Dropout
