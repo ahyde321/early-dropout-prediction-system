@@ -15,8 +15,6 @@ def predict_student(student: dict, base_model_dir: str = "models/", return_phase
     else:
         raise ValueError("Not enough data to make a prediction.")
 
-    print(f"Using {phase.upper()} model for prediction")
-
     model_dir = os.path.join(base_model_dir, phase, "artifacts")
 
     # Load trained model

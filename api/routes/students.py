@@ -5,10 +5,11 @@ import pandas as pd
 from sqlalchemy.orm import Session
 from db.models import Student
 from db.database import SessionLocal
-from api.schemas import StudentCreate, StudentUpdate
+from api.schemas import StudentCreate, StudentUpdate, StudentSchema
 from models.utils.system.prediction import predict_student
 from typing import List
 from models.feature_sets import get_risk_level
+from fastapi.responses import StreamingResponse
 
 router = APIRouter()
 
@@ -29,12 +30,14 @@ def create_student(student: StudentCreate, db: Session = Depends(get_db)):
     db.refresh(student)
     return student
 
-@router.get("/students/{student_id}")
-def get_student(student_id: int, db: Session = Depends(get_db)):
-    student = db.query(Student).get(student_id)
+
+@router.get("/students/{student_number}", response_model=StudentSchema)
+def get_student_by_number(student_number: str, db: Session = Depends(get_db)):
+    student = db.query(Student).filter(Student.student_number == student_number).first()
     if not student:
-        raise HTTPException(404, detail="Student not found")
+        raise HTTPException(status_code=404, detail="Student not found")
     return student
+
 
 @router.patch("/students/{student_id}")
 def update_student(student_id: int, updates: StudentUpdate, db: Session = Depends(get_db)):
@@ -51,6 +54,7 @@ def update_student(student_id: int, updates: StudentUpdate, db: Session = Depend
 def list_students(db: Session = Depends(get_db)):
     students = db.query(Student).all()
     return [s.__dict__ for s in students]
+
 
 @router.post("/students/bulk-upload-file")
 async def bulk_upload_students(file: UploadFile = File(...), db: Session = Depends(get_db)):
@@ -81,10 +85,20 @@ async def bulk_upload_students(file: UploadFile = File(...), db: Session = Depen
         "details": {"failures": failed}
     }
 
-@router.delete("/dev/wipe-students")
-def wipe_students(db: Session = Depends(get_db)):
-    db.query(Student).delete()
-    db.commit()
-    return {"message": "All student records deleted"}
+from fastapi.responses import StreamingResponse
+import io
 
+@router.get("/download/students")
+def download_students(db: Session = Depends(get_db)):
+    students = db.query(Student).all()
+    df = pd.DataFrame([s.__dict__ for s in students])
+    df = df.drop(columns=["_sa_instance_state"], errors="ignore")
+
+    stream = io.StringIO()
+    df.to_csv(stream, index=False)
+    stream.seek(0)
+
+    return StreamingResponse(stream, media_type="text/csv", headers={
+        "Content-Disposition": "attachment; filename=students.csv"
+    })
 

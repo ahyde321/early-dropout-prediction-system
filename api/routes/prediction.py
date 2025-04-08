@@ -2,6 +2,7 @@
 
 from fastapi import UploadFile, File, APIRouter, Depends, HTTPException
 import pandas as pd
+import io
 from sqlalchemy.orm import Session
 from db.models import Student
 from db.database import SessionLocal
@@ -9,6 +10,8 @@ from api.schemas import StudentCreate, StudentUpdate
 from models.utils.system.prediction import predict_student
 from typing import List
 from models.feature_sets import get_risk_level
+from fastapi.responses import StreamingResponse
+
 
 router = APIRouter()
 
@@ -144,3 +147,35 @@ def get_all_predictions(db: Session = Depends(get_db)):
     predictions = db.query(RiskPrediction).order_by(RiskPrediction.timestamp.desc()).all()
     return [RiskPredictionSchema.model_validate(p) for p in predictions]
 
+@router.get("/predictions/{student_number}", response_model=List[RiskPredictionSchema])
+def get_predictions_for_student(student_number: str, db: Session = Depends(get_db)):
+    from db.models import RiskPrediction
+
+    predictions = (
+        db.query(RiskPrediction)
+        .filter(RiskPrediction.student_number == student_number)
+        .order_by(RiskPrediction.timestamp.asc())  # Optional: sort oldest → newest
+        .all()
+    )
+
+    if not predictions:
+        raise HTTPException(status_code=404, detail="No predictions found for this student.")
+
+    return [RiskPredictionSchema.model_validate(p) for p in predictions]
+
+
+@router.get("/download/predictions")
+def download_predictions(db: Session = Depends(get_db)):
+    from db.models import RiskPrediction
+
+    predictions = db.query(RiskPrediction).all()
+    df = pd.DataFrame([p.__dict__ for p in predictions])
+    df = df.drop(columns=["_sa_instance_state"], errors="ignore")
+
+    stream = io.StringIO()
+    df.to_csv(stream, index=False)
+    stream.seek(0)
+
+    return StreamingResponse(stream, media_type="text/csv", headers={
+        "Content-Disposition": "attachment; filename=predictions.csv"
+    })

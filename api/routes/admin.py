@@ -27,3 +27,10 @@ def wipe_students(db: Session = Depends(get_db)):
     db.commit()
     return {"message": "All student records deleted"}
 
+@router.delete("/dev/wipe-predictions")
+def wipe_predictions(db: Session = Depends(get_db)):
+    from db.models import RiskPrediction
+
+    deleted = db.query(RiskPrediction).delete()
+    db.commit()
+    return {"message": f"All {deleted} prediction records deleted"}
