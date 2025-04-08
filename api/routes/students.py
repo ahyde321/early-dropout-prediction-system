@@ -53,8 +53,14 @@ def update_student(student_id: int, updates: StudentUpdate, db: Session = Depend
 @router.get("/students/")
 def list_students(db: Session = Depends(get_db)):
     students = db.query(Student).all()
-    return [s.__dict__ for s in students]
-
+    return [
+        {
+            "student_number": s.student_number,
+            "first_name": s.first_name,
+            "last_name": s.last_name
+        }
+        for s in students
+    ]
 
 @router.post("/students/bulk-upload-file")
 async def bulk_upload_students(file: UploadFile = File(...), db: Session = Depends(get_db)):
@@ -101,4 +107,47 @@ def download_students(db: Session = Depends(get_db)):
     return StreamingResponse(stream, media_type="text/csv", headers={
         "Content-Disposition": "attachment; filename=students.csv"
     })
+
+@router.get("/students/{student_number}/status")
+def get_student_status(student_number: str, db: Session = Depends(get_db)):
+    from db.models import Student, RiskPrediction
+    from api.schemas import StudentSchema, RiskPredictionSchema
+
+    student = db.query(Student).filter(Student.student_number == student_number).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    # Get the latest prediction (if any), by timestamp
+    latest_prediction = (
+        db.query(RiskPrediction)
+        .filter(RiskPrediction.student_number == student_number)
+        .order_by(RiskPrediction.timestamp.desc())
+        .first()
+    )
+
+    return {
+        "student": StudentSchema.model_validate(student),
+        "latest_prediction": RiskPredictionSchema.model_validate(latest_prediction) if latest_prediction else None
+    }
+
+@router.get("/students/{student_number}/history")
+def get_student_history(student_number: str, db: Session = Depends(get_db)):
+    from db.models import Student, RiskPrediction
+    from api.schemas import StudentSchema, RiskPredictionSchema
+
+    student = db.query(Student).filter(Student.student_number == student_number).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    predictions = (
+        db.query(RiskPrediction)
+        .filter(RiskPrediction.student_number == student_number)
+        .order_by(RiskPrediction.timestamp.asc())
+        .all()
+    )
+
+    return {
+        "student": StudentSchema.model_validate(student),
+        "predictions": [RiskPredictionSchema.model_validate(p) for p in predictions]
+    }
 
