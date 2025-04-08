@@ -1,5 +1,7 @@
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
+from datetime import datetime
+from typing import List
 
 class StudentCreate(BaseModel):
     student_number: str
@@ -25,3 +27,17 @@ class StudentUpdate(BaseModel):
     curricular_units_2nd_sem_grade: Optional[float] = None
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class RiskPredictionSchema(BaseModel):
+    student_number: str
+    risk_score: float
+    risk_level: str
+    model_phase: str
+    timestamp: datetime  # formatted string
+
+    model_config = {
+        "from_attributes": True
+    }
+
+
