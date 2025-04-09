@@ -22,7 +22,7 @@ def get_db():
         db.close()
 
 
-@router.post("/students/")
+@router.post("/students/create")
 def create_student(student: StudentCreate, db: Session = Depends(get_db)):
     student = Student(**student.model_dump())
     db.add(student)
@@ -31,7 +31,7 @@ def create_student(student: StudentCreate, db: Session = Depends(get_db)):
     return student
 
 
-@router.get("/students/{student_number}", response_model=StudentSchema)
+@router.get("/students/by-number/{student_number}", response_model=StudentSchema)
 def get_student_by_number(student_number: str, db: Session = Depends(get_db)):
     student = db.query(Student).filter(Student.student_number == student_number).first()
     if not student:
@@ -50,8 +50,8 @@ def update_student(student_id: int, updates: StudentUpdate, db: Session = Depend
     db.refresh(student)
     return {"message": "Student updated", "student": student.id}
 
-@router.get("/students/")
-def list_students(db: Session = Depends(get_db)):
+@router.get("/students/list")
+def get_all_students(db: Session = Depends(get_db)):
     students = db.query(Student).all()
     return [
         {
