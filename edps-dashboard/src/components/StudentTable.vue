@@ -1,7 +1,8 @@
 <script setup>
+import { ref, computed, toRef } from 'vue'
+import { useRouter } from 'vue-router'
 import RiskBadge from './RiskBadge.vue'
 import BasePagination from './BasePagination.vue'
-import { ref, computed, toRef } from 'vue'
 
 // Props
 const props = defineProps({
@@ -15,15 +16,18 @@ const props = defineProps({
   },
 })
 
-// Emits
-const emit = defineEmits(['view-student'])
-
 const students = toRef(props, 'students')
 const loading = toRef(props, 'loading')
+
+const router = useRouter()
 
 const search = ref('')
 const currentPage = ref(1)
 const itemsPerPage = 10
+
+// Sorting state
+const sortBy = ref('student_number')
+const sortAsc = ref(true)
 
 // Filtering
 const filtered = computed(() => {
@@ -35,15 +39,53 @@ const filtered = computed(() => {
   )
 })
 
+// Sorting
+const sorted = computed(() => {
+  const list = [...filtered.value]
+  list.sort((a, b) => {
+    let aVal = a[sortBy.value]
+    let bVal = b[sortBy.value]
+
+    // If sorting by name, combine first + last
+    if (sortBy.value === 'name') {
+      aVal = `${a.first_name} ${a.last_name}`
+      bVal = `${b.first_name} ${b.last_name}`
+    }
+
+    if (typeof aVal === 'string') {
+      return sortAsc.value
+        ? aVal.localeCompare(bVal)
+        : bVal.localeCompare(aVal)
+    }
+
+    return sortAsc.value ? aVal - bVal : bVal - aVal
+  })
+  return list
+})
+
 // Pagination
 const paginated = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
-  return filtered.value.slice(start, start + itemsPerPage)
+  return sorted.value.slice(start, start + itemsPerPage)
 })
 
 const totalPages = computed(() =>
-  Math.ceil(filtered.value.length / itemsPerPage)
+  Math.ceil(sorted.value.length / itemsPerPage)
 )
+
+const toggleSort = (field) => {
+  if (sortBy.value === field) {
+    sortAsc.value = !sortAsc.value
+  } else {
+    sortBy.value = field
+    sortAsc.value = true
+  }
+}
+
+// Navigation to profile
+const goToProfile = (student) => {
+  router.push(`/students/${student.student_number}`)
+}
 
 // CSV Export
 const exportCSV = () => {
@@ -89,13 +131,37 @@ const exportCSV = () => {
     </div>
 
     <!-- Table -->
-    <div v-else-if="filtered.length" class="overflow-x-auto rounded border border-gray-200">
+    <div v-else-if="sorted.length" class="overflow-x-auto rounded border border-gray-200">
       <table class="min-w-full bg-white text-sm">
         <thead class="bg-gray-50 text-gray-600">
           <tr>
-            <th class="px-4 py-3 text-center">Student #</th>
-            <th class="px-4 py-3 text-center">Name</th>
-            <th class="px-4 py-3 text-center">Risk</th>
+            <th
+              class="px-4 py-3 text-center cursor-pointer hover:underline"
+              @click="toggleSort('student_number')"
+            >
+              Student #
+              <span v-if="sortBy === 'student_number'">
+                {{ sortAsc ? '▲' : '▼' }}
+              </span>
+            </th>
+            <th
+              class="px-4 py-3 text-center cursor-pointer hover:underline"
+              @click="toggleSort('name')"
+            >
+              Name
+              <span v-if="sortBy === 'name'">
+                {{ sortAsc ? '▲' : '▼' }}
+              </span>
+            </th>
+            <th
+              class="px-4 py-3 text-center cursor-pointer hover:underline"
+              @click="toggleSort('risk_score')"
+            >
+              Risk
+              <span v-if="sortBy === 'risk_score'">
+                {{ sortAsc ? '▲' : '▼' }}
+              </span>
+            </th>
             <th class="px-4 py-3 text-center">Actions</th>
           </tr>
         </thead>
@@ -117,7 +183,7 @@ const exportCSV = () => {
             <td class="px-4 py-2 text-center">
               <button
                 class="text-sm text-blue-600 hover:underline"
-                @click="emit('view-student', student)"
+                @click="goToProfile(student)"
               >
                 View Details
               </button>
