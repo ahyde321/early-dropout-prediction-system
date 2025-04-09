@@ -18,10 +18,3 @@ RISK_THRESHOLDS = {
     "medium": 0.7
 }
 
-def get_risk_level(score: float) -> str:
-    if score < RISK_THRESHOLDS["low"]:
-        return "low"
-    elif score < RISK_THRESHOLDS["medium"]:
-        return "medium"
-    else:
-        return "high"

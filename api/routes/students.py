@@ -8,7 +8,6 @@ from db.database import SessionLocal
 from api.schemas import StudentCreate, StudentUpdate, StudentSchema
 from models.utils.system.prediction import predict_student
 from typing import List
-from models.feature_sets import get_risk_level
 from fastapi.responses import StreamingResponse
 
 router = APIRouter()

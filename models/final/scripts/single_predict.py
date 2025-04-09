@@ -40,7 +40,6 @@ student_data = {
 }
 
 # Convert to DataFrame
-# Turn your hardcoded dictionary into a DataFrame
 student_df = pd.DataFrame([student_data])
 
 # Fill any missing features with 0 (if not in student_data)
@@ -64,18 +63,35 @@ num_cols = student_df.select_dtypes(include=["int64", "float64"]).columns.tolist
 if scaler and num_cols:
     student_df[num_cols] = scaler.transform(student_df[num_cols])
 
-# Align columns
+# Align columns again after scaling just to be safe
 for col in feature_names:
     if col not in student_df.columns:
         student_df[col] = 0
 student_df = student_df[feature_names]
 
-# === Run Prediction ===
+# === Run Prediction and Get Risk Score ===
 try:
     with open(MODEL_PATH, "rb") as f:
         model = pickle.load(f)
     prediction = model.predict(student_df)[0]
+    probability = model.predict_proba(student_df)[0][1]  # Probability of class 1 (Graduate)
     prediction_label = "Graduate" if prediction == 1 else "Dropout"
+
+    # Reversed score: high probability of dropout = high score
+    risk_score = 1 - probability  # Higher means higher risk
+
+    # Assign risk level based on reversed score
+    if risk_score >= 0.8:
+        rating = "Very High Risk"
+    elif risk_score >= 0.6:
+        rating = "High Risk"
+    elif risk_score >= 0.4:
+        rating = "Moderate Risk"
+    elif risk_score >= 0.2:
+        rating = "Low Risk"
+    else:
+        rating = "Very Low Risk"
+
 except Exception as e:
     print(f"❌ Prediction error: {e}")
     sys.exit(1)
@@ -86,3 +102,4 @@ for key, value in student_data.items():
     print(f"   • {key.replace('_', ' ').capitalize()}: {value}")
 
 print(f"\n🧠 Predicted Outcome: {prediction_label} ({prediction})")
+print(f"📊 Risk Score: {risk_score:.2f} → {rating}")
