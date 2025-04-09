@@ -1,4 +1,4 @@
-Age at enrollment,Curricular units 1st sem (approved),Curricular units 1st sem (enrolled),Curricular units 1st sem (grade),Curricular units 2nd sem (grade),Debtor,Displaced,Gender,Scholarship holder,Tuition fees up to date,Predicted Outcome,Predicted Label
+age_at_enrollment,curricular_units_1st_sem_approved,curricular_units_1st_sem_enrolled,curricular_units_1st_sem_grade,curricular_units_2nd_sem_grade,debtor,displaced,gender,scholarship_holder,tuition_fees_up_to_date,Predicted Outcome,Predicted Label
 18,1,6,12.0,11.0,0,1,0,0,1,0,Dropout
 18,6,7,11.666666666666666,13.5,0,1,0,0,1,1,Graduate
 20,7,7,11.4375,11.425,0,1,0,0,1,1,Graduate
