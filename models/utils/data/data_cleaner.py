@@ -30,48 +30,48 @@ def clean_data(df):
     return df
 
 
-def separate_enrolled_students(combined_df, enrolled_path="data/filtered/enrolled.csv", filtered_path="data/filtered/past.csv"):
+from pathlib import Path
+import pandas as pd
+
+def separate_enrolled_students(combined_df, enrolled_path=None, filtered_path=None):
     """
-    Separates students labeled as 'Enrolled' from the combined dataset and saves them separately.
-    Saves 'Enrolled' students in one file and 'Graduate' + 'Dropout' students in another.
-    
+    Separates students labeled as 'Enrolled' from the combined dataset.
+    Optionally saves 'Enrolled' and 'Graduate' + 'Dropout' students to CSVs.
+
     Parameters:
         combined_df (pd.DataFrame): The dataset containing student records.
-        enrolled_path (str): Path to save 'Enrolled' students.
-        filtered_path (str): Path to save 'Graduate' and 'Dropout' students.
-    
+        enrolled_path (str, optional): Path to save 'Enrolled' students.
+        filtered_path (str, optional): Path to save 'Graduate' and 'Dropout' students.
+
     Returns:
-        pd.DataFrame: Dataset with only 'Graduate' and 'Dropout' students.
-    
+        pd.DataFrame: DataFrame of 'Enrolled' students only.
+
     Raises:
-        ValueError: If the 'Target' column is missing.
+        ValueError: If the 'target' column is missing.
     """
-    # Check for the 'Target' column
     if "target" not in combined_df.columns:
         raise ValueError("The 'target' column is missing from the dataset.")
-    
-    # Separate 'Enrolled' students and 'Graduate' + 'Dropout' students
+
     enrolled_df = combined_df[combined_df["target"] == "Enrolled"]
     df_filtered = combined_df[combined_df["target"].isin(["Graduate", "Dropout"])]
 
-    # Ensure the output directories exist
-    enrolled_dir = Path(enrolled_path).parent
-    filtered_dir = Path(filtered_path).parent
-    enrolled_dir.mkdir(parents=True, exist_ok=True)
-    filtered_dir.mkdir(parents=True, exist_ok=True)
+    # Conditionally save if paths are provided
+    if enrolled_path:
+        enrolled_dir = Path(enrolled_path).parent
+        enrolled_dir.mkdir(parents=True, exist_ok=True)
+        try:
+            enrolled_df.to_csv(enrolled_path, index=False)
+            print(f"🚀 Saved {len(enrolled_df)} 'Enrolled' students to {enrolled_path}.")
+        except Exception as e:
+            raise IOError(f"Error saving 'Enrolled' students to {enrolled_path}: {e}")
 
-    # Save the enrolled students dataset with error handling
-    try:
-        enrolled_df.to_csv(enrolled_path, index=False)
-        print(f"🚀 Saved {len(enrolled_df)} 'Enrolled' students to {enrolled_path}.")
-    except Exception as e:
-        raise IOError(f"Error saving 'Enrolled' students to {enrolled_path}: {e}")
+    if filtered_path:
+        filtered_dir = Path(filtered_path).parent
+        filtered_dir.mkdir(parents=True, exist_ok=True)
+        try:
+            df_filtered.to_csv(filtered_path, index=False)
+            print(f"✅ Saved {df_filtered.shape[0]} 'Graduate' & 'Dropout' students to {filtered_path}.")
+        except Exception as e:
+            raise IOError(f"Error saving filtered students to {filtered_path}: {e}")
 
-    # Save the filtered (Graduate & Dropout) dataset with error handling
-    try:
-        df_filtered.to_csv(filtered_path, index=False)
-        print(f"✅ Saved {df_filtered.shape[0]} 'Graduate' & 'Dropout' students to {filtered_path}.")
-    except Exception as e:
-        raise IOError(f"Error saving filtered students to {filtered_path}: {e}")
-
-    return df_filtered
+    return enrolled_df

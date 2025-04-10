@@ -8,6 +8,11 @@ MODELS_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(MODELS_DIR, "data")
 ENROLLED_DIR = os.path.join(DATA_DIR, "enrolled")
 RAW_DIR = os.path.join(DATA_DIR, "raw")
+FILTERED_DIR = os.path.join(DATA_DIR, "filtered")   # ✅ Add this
+REFINED_DIR = os.path.join(DATA_DIR, "refined")     # ✅ Add this
+PREPROCESSED_DIR = os.path.join(DATA_DIR, "preprocessed")  # ✅ Optional, for compatibility
+READY_DIR = os.path.join(DATA_DIR, "ready")         # ✅ Optional
+ARTIFACTS_DIR = os.path.join(MODELS_DIR, "artifacts")  # ✅ Optional, fallback artifacts path
 
 EARLY_DIR = os.path.join(MODELS_DIR, "early")
 EARLY_DATA_DIR = os.path.join(EARLY_DIR, "data")
@@ -29,7 +34,9 @@ if UTILS_DIR not in sys.path:
 __all__ = [
     "MODELS_DIR",
     "DATA_DIR", "ENROLLED_DIR", "RAW_DIR",
+    "FILTERED_DIR", "REFINED_DIR", "PREPROCESSED_DIR", "READY_DIR",
     "EARLY_DIR", "EARLY_DATA_DIR", "EARLY_ARTIFACTS_DIR", "EARLY_SCRIPTS_DIR", "EARLY_TESTS_DIR",
     "FINAL_DIR", "MID_DIR",
+    "ARTIFACTS_DIR",
     "UTILS_DIR", "SCRIPTS_DIR"
 ]
