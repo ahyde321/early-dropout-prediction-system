@@ -1,113 +1,3 @@
-<script setup>
-import { ref, computed, toRef } from 'vue'
-import { useRouter } from 'vue-router'
-import RiskBadge from './RiskBadge.vue'
-import BasePagination from './BasePagination.vue'
-
-// Props
-const props = defineProps({
-  students: {
-    type: Array,
-    required: true,
-  },
-  loading: {
-    type: Boolean,
-    default: false,
-  },
-})
-
-const students = toRef(props, 'students')
-const loading = toRef(props, 'loading')
-
-const router = useRouter()
-
-const search = ref('')
-const currentPage = ref(1)
-const itemsPerPage = 10
-
-// Sorting state
-const sortBy = ref('student_number')
-const sortAsc = ref(true)
-
-// Filtering
-const filtered = computed(() => {
-  const q = search.value.toLowerCase()
-  return (students.value || []).filter((s) =>
-    [s.student_number, s.first_name, s.last_name].some((v) =>
-      v?.toLowerCase?.().includes(q)
-    )
-  )
-})
-
-// Sorting
-const sorted = computed(() => {
-  const list = [...filtered.value]
-  list.sort((a, b) => {
-    let aVal = a[sortBy.value]
-    let bVal = b[sortBy.value]
-
-    // If sorting by name, combine first + last
-    if (sortBy.value === 'name') {
-      aVal = `${a.first_name} ${a.last_name}`
-      bVal = `${b.first_name} ${b.last_name}`
-    }
-
-    if (typeof aVal === 'string') {
-      return sortAsc.value
-        ? aVal.localeCompare(bVal)
-        : bVal.localeCompare(aVal)
-    }
-
-    return sortAsc.value ? aVal - bVal : bVal - aVal
-  })
-  return list
-})
-
-// Pagination
-const paginated = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage
-  return sorted.value.slice(start, start + itemsPerPage)
-})
-
-const totalPages = computed(() =>
-  Math.ceil(sorted.value.length / itemsPerPage)
-)
-
-const toggleSort = (field) => {
-  if (sortBy.value === field) {
-    sortAsc.value = !sortAsc.value
-  } else {
-    sortBy.value = field
-    sortAsc.value = true
-  }
-}
-
-// Navigation to profile
-const goToProfile = (student) => {
-  router.push(`/students/${student.student_number}`)
-}
-
-// CSV Export
-const exportCSV = () => {
-  const rows = [
-    ['Student Number', 'First Name', 'Last Name', 'Risk Score'],
-    ...filtered.value.map(s => [
-      s.student_number,
-      s.first_name,
-      s.last_name,
-      s.risk_score,
-    ])
-  ]
-
-  const csvContent = rows.map(r => r.join(',')).join('\n')
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
-  const link = document.createElement('a')
-  link.href = URL.createObjectURL(blob)
-  link.setAttribute('download', 'students.csv')
-  link.click()
-}
-</script>
-
 <template>
   <div class="bg-white p-6 rounded-lg shadow border border-gray-200">
     <div class="flex justify-between items-center mb-4">
@@ -155,10 +45,10 @@ const exportCSV = () => {
             </th>
             <th
               class="px-4 py-3 text-center cursor-pointer hover:underline"
-              @click="toggleSort('risk_score')"
+              @click="toggleSort('risk_level')"
             >
               Risk
-              <span v-if="sortBy === 'risk_score'">
+              <span v-if="sortBy === 'risk_level'">
                 {{ sortAsc ? '▲' : '▼' }}
               </span>
             </th>
@@ -178,15 +68,15 @@ const exportCSV = () => {
               {{ student.first_name }} {{ student.last_name }}
             </td>
             <td class="px-4 py-2 text-center">
-              <RiskBadge :score="student.risk_score" />
+              <RiskBadge :risk="student.risk_level" />
             </td>
             <td class="px-4 py-2 text-center">
-              <button
+              <RouterLink
+                :to="`/students/${student.student_number}`"
                 class="text-sm text-blue-600 hover:underline"
-                @click="goToProfile(student)"
               >
                 View Details
-              </button>
+              </RouterLink>
             </td>
           </tr>
         </tbody>
@@ -208,3 +98,110 @@ const exportCSV = () => {
     />
   </div>
 </template>
+
+<script setup>
+import { ref, computed, toRef } from 'vue'
+import { RouterLink } from 'vue-router'
+import RiskBadge from './RiskBadge.vue'
+import BasePagination from './BasePagination.vue'
+
+const props = defineProps({
+  students: {
+    type: Array,
+    required: true,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const students = toRef(props, 'students')
+const loading = toRef(props, 'loading')
+
+const search = ref('')
+const currentPage = ref(1)
+const itemsPerPage = 10
+const sortBy = ref('student_number')
+const sortAsc = ref(true)
+
+const riskOrder = {
+  high: 3,
+  moderate: 2,
+  low: 1,
+  null: 0,
+  undefined: 0,
+}
+
+const filtered = computed(() => {
+  const q = search.value.toLowerCase()
+  return (students.value || []).filter((s) => {
+    const studentName = `${s.first_name} ${s.last_name}`.toLowerCase()
+    return (
+      s.student_number?.toLowerCase().includes(q) ||
+      studentName.includes(q)
+    )
+  })
+})
+
+const sorted = computed(() => {
+  const list = [...filtered.value]
+  list.sort((a, b) => {
+    let aVal = a[sortBy.value]
+    let bVal = b[sortBy.value]
+
+    if (sortBy.value === 'name') {
+      aVal = `${a.first_name} ${a.last_name}`.toLowerCase()
+      bVal = `${b.first_name} ${b.last_name}`.toLowerCase()
+    }
+
+    if (sortBy.value === 'risk_level') {
+      aVal = riskOrder[a.risk_level] ?? 0
+      bVal = riskOrder[b.risk_level] ?? 0
+    }
+
+    if (typeof aVal === 'string' && typeof bVal === 'string') {
+      return sortAsc.value ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal)
+    }
+    return sortAsc.value ? aVal - bVal : bVal - aVal
+  })
+  return list
+})
+
+const paginated = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  return sorted.value.slice(start, start + itemsPerPage)
+})
+
+const totalPages = computed(() =>
+  Math.ceil(sorted.value.length / itemsPerPage)
+)
+
+const toggleSort = (field) => {
+  if (sortBy.value === field) {
+    sortAsc.value = !sortAsc.value
+  } else {
+    sortBy.value = field
+    sortAsc.value = true
+  }
+}
+
+const exportCSV = () => {
+  const rows = [
+    ['Student Number', 'First Name', 'Last Name', 'Risk Level'],
+    ...filtered.value.map(s => [
+      s.student_number,
+      s.first_name,
+      s.last_name,
+      s.risk_level || 'N/A',
+    ])
+  ]
+
+  const csvContent = rows.map(r => r.join(',')).join('\n')
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+  const link = document.createElement('a')
+  link.href = URL.createObjectURL(blob)
+  link.setAttribute('download', 'students.csv')
+  link.click()
+}
+</script>

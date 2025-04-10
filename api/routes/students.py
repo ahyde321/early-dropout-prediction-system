@@ -49,18 +49,32 @@ def update_student(student_id: int, updates: StudentUpdate, db: Session = Depend
     db.refresh(student)
     return {"message": "Student updated", "student": student.id}
 
+from db.models import RiskPrediction
+
+def get_latest_risk(student_number: str, db: Session):
+    return (
+        db.query(RiskPrediction)
+        .filter(RiskPrediction.student_number == student_number)
+        .order_by(RiskPrediction.timestamp.desc())
+        .first()
+    )
+
 @router.get("/students/list")
 def get_all_students(db: Session = Depends(get_db)):
     students = db.query(Student).all()
-    return [
-        {
+    results = []
+
+    for s in students:
+        prediction = get_latest_risk(s.student_number, db)
+
+        results.append({
             "student_number": s.student_number,
             "first_name": s.first_name,
-            "last_name": s.last_name
-        }
-        for s in students
-    ]
+            "last_name": s.last_name,
+            "risk_level": prediction.risk_level if prediction else None
+        })
 
+    return results
 
 from fastapi.responses import StreamingResponse
 import io
