@@ -1,11 +1,11 @@
 Feature,Importance
-Curricular units 1st sem (approved),0.3327138656971276
-Curricular units 1st sem (grade),0.2636459766777888
-Age at enrollment,0.1127521740537836
-Tuition fees up to date,0.0887571072580617
-Curricular units 1st sem (enrolled),0.07621727477222072
-Scholarship holder,0.03895587333132009
-Debtor,0.028644776246133898
-Gender,0.028213649716373333
-Displaced,0.020299416803254516
-Marital status,0.009799885443935707
+curricular_units_1st_sem_approved,0.3327138656971276
+curricular_units_1st_sem_grade,0.2636459766777888
+age_at_enrollment,0.1127521740537836
+tuition_fees_up_to_date,0.0887571072580617
+curricular_units_1st_sem_enrolled,0.07621727477222072
+scholarship_holder,0.03895587333132009
+debtor,0.028644776246133898
+gender,0.028213649716373333
+displaced,0.020299416803254516
+marital_status,0.009799885443935707
