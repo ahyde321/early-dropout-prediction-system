@@ -30,12 +30,11 @@ RISK_THRESHOLDS = {
 
 def get_risk_level(score: float) -> str:
     """
-    Convert a risk score (0-1) to a risk level label.
-    Assumes 0 = low risk (likely to graduate), 1 = high risk (likely to drop out).
+    Convert a risk score (0–1) to a four-tier risk level.
     """
-    if score < RISK_THRESHOLDS["low"]:
+    if score <= 0.5:
         return "low"
-    elif score < RISK_THRESHOLDS["medium"]:
+    elif score <= 0.75:
         return "moderate"
     else:
         return "high"
