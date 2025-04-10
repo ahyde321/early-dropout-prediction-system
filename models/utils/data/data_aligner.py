@@ -42,8 +42,8 @@ def align_enrolled_pupils(enrolled_path, final_dataset, output_path):
     """
     Aligns the enrolled pupils dataset with the final training dataset.
     - Loads the enrolled dataset from a file.
-    - Drops the 'Target' column if present.
-    - Reindexes to include all features from the final_dataset (excluding 'Target').
+    - Drops the 'target' column if present.
+    - Reindexes to include all features from the final_dataset (excluding 'target').
     - Saves the aligned dataset.
     """
     # Ensure the enrolled file exists
@@ -56,12 +56,12 @@ def align_enrolled_pupils(enrolled_path, final_dataset, output_path):
     except Exception as e:
         raise RuntimeError(f"Error reading enrolled dataset at {enrolled_path}: {e}")
 
-    # Drop 'Target' column if it exists
+    # Drop 'target' column if it exists
     if "target" in enrolled_df.columns:
         enrolled_df = enrolled_df.drop(columns=["target"])
-        print("🚀 'Target' column dropped from enrolled pupils dataset.")
+        print("🚀 'target' column dropped from enrolled pupils dataset.")
 
-    # Define the target feature set (final dataset columns excluding 'Target')
+    # Define the target feature set (final dataset columns excluding 'target')
     target_features = [col for col in final_dataset.columns if col != "target"]
     
     # Reindex the enrolled dataframe to include missing columns as NA

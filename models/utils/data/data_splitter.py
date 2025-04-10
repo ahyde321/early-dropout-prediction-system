@@ -9,7 +9,7 @@ def split_train_val_test(input_path, output_dir, test_size=0.15, val_size=0.15, 
     Enhancements:
     - Checks for the existence and readability of the input file.
     - Verifies that the DataFrame is not empty.
-    - Confirms the 'Target' column is present.
+    - Confirms the 'target' column is present.
     - Wraps the split and file saving operations in try/except blocks.
     - Logs dataset shapes at each step.
 
@@ -39,7 +39,7 @@ def split_train_val_test(input_path, output_dir, test_size=0.15, val_size=0.15, 
 
     # Verify that the target column exists
     if "target" not in df.columns:
-        raise ValueError("The 'Target' column is missing from the dataset.")
+        raise ValueError("The 'target' column is missing from the dataset.")
 
     # Separate features and target
     try:

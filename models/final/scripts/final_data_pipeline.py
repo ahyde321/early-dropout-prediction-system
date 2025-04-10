@@ -1,5 +1,6 @@
 import os
 import sys
+import pandas as pd
 
 FINAL_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(FINAL_DIR)
@@ -56,15 +57,18 @@ except Exception as e:
 
 # === Step 3: Separate Enrolled & Past Pupils ===
 try:
-    past_pupils_df = separate_enrolled_students(
+    enrolled_df = separate_enrolled_students(
         combined_df=imputed_df,
         enrolled_path=os.path.join(FILTERED_DIR, "enrolled_pupils.csv"),
         filtered_path=os.path.join(FILTERED_DIR, "past_pupils.csv")
     )
+    # ✅ Re-load the correct past pupils data from the CSV you just saved
+    past_pupils_df = pd.read_csv(os.path.join(FILTERED_DIR, "past_pupils.csv"))
     print(f"🚀 Past Pupils: {past_pupils_df.shape}")
 except Exception as e:
     print(f"Error during separation of enrolled students: {e}")
     sys.exit(1)
+
 
 # === Step 4: Feature Engineering ===
 try:
@@ -73,6 +77,14 @@ try:
 except Exception as e:
     print(f"Error during removal of correlated features: {e}")
     sys.exit(1)
+
+print("🧪 [DEBUG] Unique target values before feature selection:", past_pupils_df_reduced["target"].unique())
+print("🧪 [DEBUG] Value counts:\n", past_pupils_df_reduced["target"].value_counts())
+numerical_cols = past_pupils_df_reduced.select_dtypes(include=['int64', 'float64']).columns
+print("🧪 [DEBUG] Numerical columns to be used:", numerical_cols.tolist())
+print("🧪 [DEBUG] NaN counts per column:\n", past_pupils_df_reduced[numerical_cols].isna().sum())
+print("🧪 [DEBUG] Zero variance columns:", [col for col in numerical_cols if past_pupils_df_reduced[col].nunique() <= 1])
+
 
 try:
     final_dataset = select_best_features(past_pupils_df_reduced, target_column="target", importance_threshold=0.95)

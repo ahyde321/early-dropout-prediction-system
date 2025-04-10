@@ -88,7 +88,7 @@ def select_best_features(combined_df, target_column="target", importance_thresho
     """
     # Check if target column exists
     if target_column not in combined_df.columns:
-        raise ValueError(f"Target column '{target_column}' is not present in the dataset.")
+        raise ValueError(f"target column '{target_column}' is not present in the dataset.")
 
     # Drop non-relevant columns (e.g., "dataset_marker") if present
     if "dataset_marker" in combined_df.columns:
@@ -98,7 +98,7 @@ def select_best_features(combined_df, target_column="target", importance_thresho
     try:
         X = combined_df.drop(columns=[target_column])
     except KeyError:
-        raise ValueError(f"Target column '{target_column}' not found in dataset.")
+        raise ValueError(f"target column '{target_column}' not found in dataset.")
     y = combined_df[target_column]
 
     if X.empty:

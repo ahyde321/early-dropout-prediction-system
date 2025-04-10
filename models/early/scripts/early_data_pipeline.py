@@ -1,5 +1,6 @@
 import os
 import sys
+import pandas as pd
 
 EARLY_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(EARLY_DIR)
@@ -72,11 +73,13 @@ except Exception as e:
 
 # === Step 3: Separate Enrolled & Past Pupils ===
 try:
-    past_pupils_df = separate_enrolled_students(
+    enrolled_df = separate_enrolled_students(
         combined_df=imputed_df,
         enrolled_path=os.path.join(FILTERED_DIR, "enrolled_pupils.csv"),
         filtered_path=os.path.join(FILTERED_DIR, "past_pupils.csv")
     )
+    # ✅ Re-load the correct past pupils data from the CSV you just saved
+    past_pupils_df = pd.read_csv(os.path.join(FILTERED_DIR, "past_pupils.csv"))
     print(f"🚀 Past Pupils: {past_pupils_df.shape}")
 except Exception as e:
     print(f"Error during separation of enrolled students: {e}")
