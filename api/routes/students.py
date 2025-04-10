@@ -61,34 +61,6 @@ def get_all_students(db: Session = Depends(get_db)):
         for s in students
     ]
 
-@router.post("/students/bulk-upload-file")
-async def bulk_upload_students(file: UploadFile = File(...), db: Session = Depends(get_db)):
-    if not file.filename.endswith(".csv"):
-        raise HTTPException(status_code=400, detail="Only CSV files are supported.")
-
-    try:
-        df = pd.read_csv(file.file)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Failed to read CSV: {str(e)}")
-
-    success = []
-    failed = []
-
-    for i, row in df.iterrows():
-        try:
-            student_data = row.to_dict()
-            student = Student(**student_data)
-            db.add(student)
-            success.append(student_data)
-        except Exception as e:
-            failed.append({"row": i, "error": str(e)})
-
-    db.commit()
-    return {
-        "added": len(success),
-        "failed": len(failed),
-        "details": {"failures": failed}
-    }
 
 from fastapi.responses import StreamingResponse
 import io
