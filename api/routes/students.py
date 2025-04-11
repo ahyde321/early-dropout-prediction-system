@@ -65,16 +65,39 @@ def get_all_students(db: Session = Depends(get_db)):
     results = []
 
     for s in students:
-        prediction = get_latest_risk(s.student_number, db)
+        predictions = (
+            db.query(RiskPrediction)
+            .filter(RiskPrediction.student_number == s.student_number)
+            .order_by(RiskPrediction.timestamp.desc())
+            .limit(2)
+            .all()
+        )
+
+        latest = predictions[0] if len(predictions) > 0 else None
+        previous = predictions[1] if len(predictions) > 1 else None
+
+        risk_trend = None
+        if latest and previous:
+            if latest.risk_level != previous.risk_level:
+                symbol = "↑" if latest.risk_level > previous.risk_level else "↓"
+            else:
+                symbol = "→"
+            risk_trend = {
+                "previous": previous.risk_level,
+                "current": latest.risk_level,
+                "change": symbol
+            }
 
         results.append({
             "student_number": s.student_number,
             "first_name": s.first_name,
             "last_name": s.last_name,
-            "risk_level": prediction.risk_level if prediction else None
+            "risk_level": latest.risk_level if latest else None,
+            "risk_trend": risk_trend
         })
 
     return results
+
 
 from fastapi.responses import StreamingResponse
 import io
