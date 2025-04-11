@@ -186,3 +186,42 @@ def download_predictions(db: Session = Depends(get_db)):
     return StreamingResponse(stream, media_type="text/csv", headers={
         "Content-Disposition": "attachment; filename=predictions.csv"
     })
+
+@router.get("/insights/risk-increase")
+def get_biggest_risk_increases(db: Session = Depends(get_db), limit: int = 5):
+    from db.models import RiskPrediction, Student
+    from collections import defaultdict
+
+    # Step 1: Get all predictions ordered by student then timestamp
+    all_preds = db.query(RiskPrediction).order_by(
+        RiskPrediction.student_number, RiskPrediction.timestamp
+    ).all()
+
+    # Step 2: Group predictions by student
+    grouped = defaultdict(list)
+    for pred in all_preds:
+        grouped[pred.student_number].append(pred)
+
+    # Step 3: Calculate score increases
+    diffs = []
+    for student_number, preds in grouped.items():
+        if len(preds) < 2:
+            continue
+        prev, latest = preds[-2], preds[-1]
+        increase = latest.risk_score - prev.risk_score
+        if increase > 0:
+            # Grab student name info
+            student = db.query(Student).filter(Student.student_number == student_number).first()
+            if student:
+                diffs.append({
+                    "student_number": student_number,
+                    "first_name": student.first_name,
+                    "last_name": student.last_name,
+                    "increase": round(increase, 2),
+                    "previous_score": round(prev.risk_score, 2),
+                    "current_score": round(latest.risk_score, 2)
+                })
+
+    # Step 4: Return top increases
+    diffs.sort(key=lambda d: d["increase"], reverse=True)
+    return diffs[:limit]
