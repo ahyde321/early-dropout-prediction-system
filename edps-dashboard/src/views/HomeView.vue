@@ -2,21 +2,23 @@
   <div class="p-6 space-y-6">
     <h1 class="text-2xl font-bold text-gray-800">📊 Dashboard Overview</h1>
 
-    <!-- Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <RiskSummaryCard label="Total Students" :value="total.value" color="blue" />
-      <RiskSummaryCard label="High Risk" :value="high.value" color="red" />
-      <RiskSummaryCard label="Medium Risk" :value="moderate.value" color="yellow" />
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <RiskSummaryCard label="Total Students" :value="students.length" color="blue" />
+      <RiskSummaryCard label="High Risk" :value="summary.high.count" :trend="summary.high.trend" color="red" />
+      <RiskSummaryCard label="Medium Risk" :value="summary.moderate.count" :trend="summary.moderate.trend" color="yellow" />
+      <RiskSummaryCard label="Low Risk" :value="summary.low.count" :trend="summary.low.trend" color="green" />
     </div>
+
 
     <!-- Charts -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <RiskPieChart :students="students.value" />
+      <RiskPieChart :students="students" />
       <RiskTrendChart />
     </div>
 
-    <!-- High Risk Students -->
-    <HighRiskStudentList :students="students.value" />
+    <!-- High Risk Students List -->
+    <HighRiskStudentList :students="students" />
   </div>
 </template>
 
@@ -29,20 +31,30 @@ import RiskPieChart from '@/components/RiskPieChart.vue'
 import RiskTrendChart from '@/components/RiskTrendChart.vue'
 import HighRiskStudentList from '@/components/HighRiskStudentList.vue'
 
+// Reactive state
 const students = ref([])
-const total = ref(0)
-const high = ref(0)
-const moderate = ref(0)
-
-onMounted(async () => {
-  try {
-    const response = await api.get('/students/list')
-    students.value = response.data
-    total.value = students.value.length
-    high.value = students.value.filter(s => s.risk_level === 'high').length
-    moderate.value = students.value.filter(s => s.risk_level === 'moderate').length
-  } catch (err) {
-    console.error('Failed to load student data:', err)
-  }
+const summary = ref({
+  high: { count: 0, trend: 0 },
+  moderate: { count: 0, trend: 0 },
+  low: { count: 0, trend: 0 },
 })
+
+// === Fetch summary card values and student list ===
+const fetchDashboardData = async () => {
+  try {
+    // Fetch summary totals + trends
+    const summaryRes = await api.get('/students/summary')
+    summary.value = summaryRes.data
+
+    // Fetch student list (with optional trend info per student)
+    const studentsRes = await api.get('/students/list')
+    students.value = studentsRes.data
+
+  } catch (error) {
+    console.error('❌ Dashboard data fetch failed:', error)
+  }
+}
+
+onMounted(fetchDashboardData)
 </script>
+

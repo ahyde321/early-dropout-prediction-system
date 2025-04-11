@@ -13,8 +13,8 @@ import axios from 'axios'
 const students = ref([])
 
 onMounted(async () => {
-  const baseURL = process.env.VUE_APP_API_BASE_URL || 'http://localhost:8000'
-  const { data } = await axios.get(`${baseURL}/students/list`)
+  const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
+  const { data } = await axios.get(`${baseURL}api/students/list`)
   students.value = data
 })
 </script>
