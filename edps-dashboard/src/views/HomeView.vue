@@ -13,7 +13,7 @@
 
     <!-- Charts -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <RiskPieChart :students="students" />
+      <RiskPieChart :summary="summary" :onFilter="filterByRisk" />
       <RiskTrendChart />
     </div>
 
@@ -39,12 +39,19 @@ const summary = ref({
   low: { count: 0, trend: 0 },
 })
 
+const filterByRisk = (riskLevel) => {
+  console.log('🔍 Show only students with risk level:', riskLevel)
+  students.value = allStudents.value.filter(s => s.risk_level === riskLevel)
+}
+
+
 // === Fetch summary card values and student list ===
 const fetchDashboardData = async () => {
   try {
     // Fetch summary totals + trends
     const summaryRes = await api.get('/students/summary')
     summary.value = summaryRes.data
+    console.log('✅ Summary data:', summary.value)
 
     // Fetch student list (with optional trend info per student)
     const studentsRes = await api.get('/students/list')

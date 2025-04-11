@@ -2,3 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Optional: Make chart canvas fill its parent */
+canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
