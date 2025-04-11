@@ -1,26 +1,38 @@
 <template>
-  <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
-    <!-- Title Header -->
-    <div class="flex items-center gap-3 mb-4">
-      <div class="bg-indigo-100 text-indigo-500 rounded-full p-2 shadow-sm">
-        <span class="text-xl">📊</span>
+  <div
+  class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-3xl border border-gray-200 shadow-md hover:shadow-xl hover:scale-[1.015] transition-transform duration-300"
+  >
+    <!-- Header with Icon -->
+    <div class="flex items-center gap-4 mb-5">
+      <div
+        class="p-2 rounded-full bg-gradient-to-br from-indigo-100 to-indigo-200 text-indigo-700 shadow-md ring-2 ring-indigo-300">
+        <PieChart class="w-6 h-6" stroke-width="2" />
       </div>
-      <h2 class="text-lg font-bold text-gray-800 tracking-tight">
-        <span class="bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+
+      <div>
+        <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide">
+          Overview
+        </h2>
+        <h3
+          class="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent tracking-tight"
+        >
           Risk Distribution
-        </span>
-      </h2>
+        </h3>
+      </div>
     </div>
 
-    <!-- Chart Canvas -->
+
+    <!-- Chart Container -->
     <div class="relative h-64 w-full">
       <canvas ref="canvasRef" class="w-full h-full"></canvas>
     </div>
   </div>
 </template>
 
+
 <script setup>
 import { ref, watch, nextTick, onMounted } from 'vue'
+import { PieChart } from 'lucide-vue-next'
 import {
   Chart,
   PieController,
