@@ -1,16 +1,16 @@
 <template>
-  <div class="bg-gradient-to-br from-white to-red-50 p-6 rounded-3xl shadow-md border border-red-200">
+  <div class="bg-gradient-to-br from-white to-orange-50 p-6 rounded-3xl shadow-md border border-orange-200">
     <!-- Header -->
     <div class="flex items-center gap-3 mb-4">
-      <div class="bg-red-100 text-red-600 p-2 rounded-full ring-2 ring-red-300 shadow-inner">
-        <AlertTriangle class="w-5 h-5" />
+      <div class="bg-orange-100 text-orange-600 p-2 rounded-full ring-2 ring-orange-300 shadow-inner">
+        <ArrowUpRight class="w-5 h-5" />
       </div>
       <div>
         <h2 class="text-sm text-gray-500 uppercase font-semibold tracking-wide">
-          Highest Risk
+          Risk Shift
         </h2>
         <h3 class="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-          Students to Watch
+          Biggest Score Increases
         </h3>
       </div>
     </div>
@@ -30,42 +30,42 @@
           <div>
             <p class="font-semibold text-gray-800">
               {{ s.first_name }} {{ s.last_name }}
+              <span class="text-sm text-gray-500 font-normal ml-2">
+                {{ s.previous_score.toFixed(2) }} → {{ s.current_score.toFixed(2) }}
+              </span>
             </p>
           </div>
 
-          <!-- Risk Score -->
+          <!-- Increase Badge -->
           <span
-            class="ml-4 inline-block bg-red-100 text-red-600 text-xs font-semibold px-2.5 py-0.5 rounded-full shadow-sm"
+            class="ml-4 inline-block bg-orange-100 text-orange-600 text-xs font-semibold px-2.5 py-0.5 rounded-full shadow-sm"
           >
-            {{ s.risk_score.toFixed(2) }}
+            +{{ s.increase.toFixed(2) }}
           </span>
         </li>
       </RouterLink>
     </ul>
 
-    <!-- Empty state -->
-    <p v-else class="text-sm text-gray-500">No high-risk students found.</p>
+    <!-- Empty State -->
+    <p v-else class="text-sm text-gray-500">No significant increases found.</p>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { AlertTriangle } from 'lucide-vue-next'
+import { ArrowUpRight } from 'lucide-vue-next'
 import api from '@/services/api'
 
 const students = ref([])
 
-const fetchHighRiskStudents = async () => {
+const fetchIncreases = async () => {
   try {
-    const { data } = await api.get('/students/list')
+    const { data } = await api.get('/insights/risk-increase')
     students.value = data
-      .filter(s => s.risk_level === 'high' && typeof s.risk_score === 'number')
-      .sort((a, b) => b.risk_score - a.risk_score)
-      .slice(0, 5)
-  } catch (error) {
-    console.error('❌ Failed to fetch students:', error)
+  } catch (err) {
+    console.error('❌ Failed to fetch risk increases:', err)
   }
 }
 
-onMounted(fetchHighRiskStudents)
+onMounted(fetchIncreases)
 </script>

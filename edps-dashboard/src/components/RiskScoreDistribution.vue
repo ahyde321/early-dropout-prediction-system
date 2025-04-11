@@ -30,9 +30,9 @@
   </template>
   
   <script setup>
-  import { ref, watch } from 'vue'
-  import { Bar } from 'vue-chartjs'
-  import {
+    import { ref, watch } from 'vue'
+    import { Bar } from 'vue-chartjs'
+    import {
     Chart as ChartJS,
     Title,
     Tooltip,
@@ -40,31 +40,31 @@
     BarElement,
     CategoryScale,
     LinearScale
-  } from 'chart.js'
-  import { BarChart2 } from 'lucide-vue-next'
-  
-  ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
-  
-  const BarChart = Bar
-  
-  const props = defineProps({
+    } from 'chart.js'
+    import { BarChart2 } from 'lucide-vue-next'
+
+    ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+
+    const BarChart = Bar
+
+    const props = defineProps({
     students: {
-      type: Array,
-      required: true
+        type: Array,
+        required: true
     }
-  })
-  
-  const chartData = ref({ labels: [], datasets: [] })
-  
-  const chartOptions = {
+    })
+
+    const chartData = ref({ labels: [], datasets: [] })
+
+    const chartOptions = ref({
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: false },
-      tooltip: {
+        legend: { display: false },
+        tooltip: {
         callbacks: {
-          title: ctx => `Score ≈ ${ctx[0].label}`,
-          label: ctx => `${ctx.raw} students`
+            title: ctx => `Score ≈ ${ctx[0].label}`,
+            label: ctx => `${ctx.raw} students`
         },
         backgroundColor: '#1f2937',
         titleColor: '#fff',
@@ -73,83 +73,85 @@
         borderWidth: 1,
         padding: 10,
         displayColors: false
-      }
+        }
     },
     scales: {
-      y: {
+        y: {
         beginAtZero: true,
         ticks: {
-          color: '#6b7280',
-          stepSize: 50,
-          precision: 0
+            color: '#6b7280',
+            precision: 0
         },
         grid: { color: '#e5e7eb' }
-      },
-      x: {
+        },
+        x: {
         title: {
-          display: true,
-          text: 'Risk Score Range',
-          color: '#4b5563',
-          font: {
-            size: 13,
-            weight: '600'
-          },
-          padding: { top: 10 }
+            display: true,
+            text: 'Risk Score Range',
+            color: '#4b5563',
+            font: { size: 13, weight: '600' },
+            padding: { top: 10 }
         },
         ticks: {
-          color: '#6b7280',
-          font: { size: 11, weight: '500' },
-          padding: 6,
-          maxRotation: 0,
-          minRotation: 0
+            color: '#6b7280',
+            font: { size: 11, weight: '500' },
+            padding: 6,
+            maxRotation: 0,
+            minRotation: 0
         },
         grid: { display: false }
-      }
+        }
     }
-  }
-  
-  watch(
+    })
+
+    watch(
     () => props.students,
     (students) => {
-      const buckets = Array(10).fill(0)
-  
-      students.forEach(student => {
+        const buckets = Array(10).fill(0)
+
+        students.forEach(student => {
         const score = student.risk_score
         if (typeof score === 'number') {
-          const index = Math.min(Math.floor(score * 10), 9)
-          buckets[index]++
+            const index = Math.min(Math.floor(score * 10), 9)
+            buckets[index]++
         }
-      })
-  
-      const maxBucket = Math.max(...buckets)
-      const step = getNiceStep(maxBucket)
-      const roundedMax = Math.ceil(maxBucket / step) * step
-  
-      chartOptions.scales.y.ticks.stepSize = step
-      chartOptions.scales.y.suggestedMax = roundedMax
-  
-      chartData.value.labels = Array.from({ length: 10 }, (_, i) =>
-        ((i + 1) * 0.1).toFixed(1)
-      )
-  
-      chartData.value.datasets = [
+        })
+
+        const maxBucket = Math.max(...buckets)
+        const step = getNiceStep(maxBucket)
+        const roundedMax = Math.ceil(maxBucket / step) * step
+
+        chartOptions.value.scales.y = {
+        beginAtZero: true,
+        suggestedMax: roundedMax,
+        ticks: {
+            color: '#6b7280',
+            stepSize: step,
+            precision: 0,
+            callback: value => value
+        },
+        grid: { color: '#e5e7eb' }
+        }
+
+        chartData.value.labels = Array.from({ length: 10 }, (_, i) => ((i + 1) * 0.1).toFixed(1))
+
+        chartData.value.datasets = [
         {
-          label: 'Students per risk range',
-          data: buckets,
-          backgroundColor: '#8b5cf6',
-          borderRadius: { topLeft: 6, topRight: 6 },
-          barPercentage: 0.9
+            label: 'Students per risk range',
+            data: buckets,
+            backgroundColor: '#8b5cf6',
+            borderRadius: { topLeft: 6, topRight: 6 },
+            barPercentage: 0.9
         }
-      ]
+        ]
     },
     { immediate: true }
-  )
-  
-  function getNiceStep(max) {
+    )
+
+    function getNiceStep(max) {
     if (max <= 10) return 1
     if (max <= 100) return 10
     if (max <= 500) return 50
     return 100
-  }
-  </script>
-  
+    }
+    </script>

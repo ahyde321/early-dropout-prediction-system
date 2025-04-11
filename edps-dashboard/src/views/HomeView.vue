@@ -10,7 +10,6 @@
       <RiskSummaryCard label="Low Risk" :value="summary.low.count" :trend="summary.low.trend" color="green" />
     </div>
 
-
     <!-- Charts -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <RiskPieChart :summary="summary" :onFilter="filterByRisk" />
@@ -18,9 +17,12 @@
       <RiskScoreDistribution :students="students" />
     </div>
 
-
-    <!-- High Risk Students List -->
-    <HighRiskStudentList :students="students" />
+    <!-- Lists -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <HighRiskStudentList />
+      <BiggestRiskIncreases />
+      <StudentsRequiringReview />
+    </div>
   </div>
 </template>
 
@@ -28,11 +30,14 @@
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 
-import RiskScoreDistribution from '@/components/RiskScoreDistribution.vue'
+// Components
+import StudentsRequiringReview from '@/components/StudentsRequiringReview.vue'
 import RiskSummaryCard from '@/components/RiskSummaryCard.vue'
 import RiskPieChart from '@/components/RiskPieChart.vue'
 import RiskTrendChart from '@/components/RiskTrendChart.vue'
+import RiskScoreDistribution from '@/components/RiskScoreDistribution.vue'
 import HighRiskStudentList from '@/components/HighRiskStudentList.vue'
+import BiggestRiskIncreases from '@/components/BiggestRiskIncrease.vue'
 
 // Reactive state
 const allStudents = ref([])
@@ -43,37 +48,27 @@ const summary = ref({
   low: { count: 0, trend: 0 },
 })
 
+// Filter function for pie chart
 const filterByRisk = (riskLevel) => {
   console.log('🔍 Show only students with risk level:', riskLevel)
   students.value = allStudents.value.filter(s => s.risk_level === riskLevel)
 }
 
-
-// === Fetch summary card values and student list ===
+// Load dashboard data
 const fetchDashboardData = async () => {
   try {
-    // Fetch summary totals + trends
     const summaryRes = await api.get('/students/summary')
     summary.value = summaryRes.data
-    console.log('✅ Summary data:', summary.value)
 
-    // Fetch student list (with optional trend info per student)
     const studentsRes = await api.get('/students/list')
     allStudents.value = studentsRes.data
     students.value = studentsRes.data
 
+    console.log('✅ Dashboard data loaded')
   } catch (error) {
     console.error('❌ Dashboard data fetch failed:', error)
   }
 }
 
 onMounted(fetchDashboardData)
-onMounted(async () => {
-  const studentsRes = await api.get('/students/list')
-  console.log("📈 Students loaded:", studentsRes.data)
-  allStudents.value = studentsRes.data
-  students.value = studentsRes.data
-})
-
 </script>
-
