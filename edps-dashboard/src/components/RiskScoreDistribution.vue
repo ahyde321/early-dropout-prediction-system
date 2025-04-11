@@ -47,7 +47,6 @@
   
   const BarChart = Bar
   
-  // Props
   const props = defineProps({
     students: {
       type: Array,
@@ -55,7 +54,6 @@
     }
   })
   
-  // Chart state
   const chartData = ref({ labels: [], datasets: [] })
   
   const chartOptions = {
@@ -65,7 +63,7 @@
       legend: { display: false },
       tooltip: {
         callbacks: {
-          title: ctx => `Score ~ ${ctx[0].label}`,
+          title: ctx => `Score ≈ ${ctx[0].label}`,
           label: ctx => `${ctx.raw} students`
         },
         backgroundColor: '#1f2937',
@@ -82,6 +80,7 @@
         beginAtZero: true,
         ticks: {
           color: '#6b7280',
+          stepSize: 50,
           precision: 0
         },
         grid: { color: '#e5e7eb' }
@@ -90,11 +89,17 @@
         title: {
           display: true,
           text: 'Risk Score Range',
-          color: '#6b7280',
-          font: { size: 13 }
+          color: '#4b5563',
+          font: {
+            size: 13,
+            weight: '600'
+          },
+          padding: { top: 10 }
         },
         ticks: {
           color: '#6b7280',
+          font: { size: 11, weight: '500' },
+          padding: 6,
           maxRotation: 0,
           minRotation: 0
         },
@@ -103,7 +108,6 @@
     }
   }
   
-  // Compute bucket distribution and nice Y-axis ticks
   watch(
     () => props.students,
     (students) => {
@@ -118,19 +122,22 @@
       })
   
       const maxBucket = Math.max(...buckets)
-      const niceStep = getNiceStepSize(maxBucket)
-      const roundedMax = Math.ceil(maxBucket / niceStep) * niceStep
+      const step = getNiceStep(maxBucket)
+      const roundedMax = Math.ceil(maxBucket / step) * step
   
-      chartOptions.scales.y.ticks.stepSize = niceStep
+      chartOptions.scales.y.ticks.stepSize = step
       chartOptions.scales.y.suggestedMax = roundedMax
   
-      chartData.value.labels = buckets.map((_, i) => ((i + 0.5) * 0.1).toFixed(1))
+      chartData.value.labels = Array.from({ length: 10 }, (_, i) =>
+        ((i + 1) * 0.1).toFixed(1)
+      )
+  
       chartData.value.datasets = [
         {
           label: 'Students per risk range',
           data: buckets,
           backgroundColor: '#8b5cf6',
-          borderRadius: 4,
+          borderRadius: { topLeft: 6, topRight: 6 },
           barPercentage: 0.9
         }
       ]
@@ -138,11 +145,11 @@
     { immediate: true }
   )
   
-  // Utility to generate nice rounded steps like 50, 100, etc.
-  function getNiceStepSize(max) {
-    const rawStep = max / 4
-    const rounded = Math.ceil(rawStep / 50) * 50
-    return rounded || 50
+  function getNiceStep(max) {
+    if (max <= 10) return 1
+    if (max <= 100) return 10
+    if (max <= 500) return 50
+    return 100
   }
   </script>
   
