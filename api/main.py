@@ -26,6 +26,7 @@ from api.routes import (
 load_dotenv()
 ENV = os.getenv("ENV", "production")
 FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:8080')
+print("🌱 Loaded FRONTEND_URL from .env:", FRONTEND_URL)
 
 # === FastAPI App ===
 app = FastAPI(title="Early Dropout Prediction System", version="1.0")
@@ -65,7 +66,7 @@ app.include_router(admin.router, prefix="/api", tags=["Admin"])
 app.include_router(summary.router, prefix="/api", tags=["Summary"])
 
 # Optional: Enable auth
-# app.include_router(auth.router, prefix="/api", tags=["Auth"])
+app.include_router(auth.router, prefix="/api", tags=["Auth"])
 
 # === Environment Info ===
 print(f"🚀 Environment: {ENV}")

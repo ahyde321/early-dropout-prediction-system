@@ -30,7 +30,8 @@ class Student(Base):
     curricular_units_1st_sem_grade = Column(Float, nullable=True)
     curricular_units_2nd_sem_grade = Column(Float, nullable=True)
 
-    from sqlalchemy import Column, Integer, Float, String, ForeignKey, DateTime
+    
+from sqlalchemy import Column, Integer, Float, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
@@ -46,3 +47,25 @@ class RiskPrediction(Base):
 
     student = relationship("Student", back_populates="predictions")
     __table_args__ = (UniqueConstraint('student_number', 'model_phase', name='uq_prediction_per_phase'),)
+
+from sqlalchemy import Column, Integer, String, Boolean
+from db.database import Base
+
+from sqlalchemy import Column, Integer, String, Boolean, DateTime
+from datetime import datetime
+from db.database import Base
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String, unique=True, index=True, nullable=False)
+    hashed_password = Column(String, nullable=False)
+    first_name = Column(String, nullable=False)
+    last_name = Column(String, nullable=False)
+    role = Column(String, default="advisor")  # 'advisor', 'admin', etc.
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+

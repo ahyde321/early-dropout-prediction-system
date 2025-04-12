@@ -1,6 +1,6 @@
 # api/routes/students.py
 
-from fastapi import UploadFile, File, APIRouter, Depends, HTTPException
+from fastapi import UploadFile, File, APIRouter, Depends, HTTPException, Query
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from typing import List
@@ -140,3 +140,28 @@ def get_student_history(student_number: str, db: Session = Depends(get_db)):
         "student": StudentSchema.model_validate(student),
         "predictions": [RiskPredictionSchema.model_validate(p) for p in predictions]
     }
+
+@router.get("/students/distinct-values")
+def get_distinct_values(field: str = Query(...), db: Session = Depends(get_db)):
+    from db.models import Student
+
+    valid_fields = {
+        "age_at_enrollment": Student.age_at_enrollment,
+        "application_order": Student.application_order,
+        "curricular_units_1st_sem_enrolled": Student.curricular_units_1st_sem_enrolled,
+        "daytime_evening_attendance": Student.daytime_evening_attendance,
+        "debtor": Student.debtor,
+        "displaced": Student.displaced,
+        "gender": Student.gender,
+        "marital_status": Student.marital_status,
+        "scholarship_holder": Student.scholarship_holder,
+        "tuition_fees_up_to_date": Student.tuition_fees_up_to_date,
+    }
+
+    if field not in valid_fields:
+            return {"error": "Invalid field"}
+
+
+    column = valid_fields[field]
+    distinct = db.query(column).distinct().all()
+    return [d[0] for d in distinct]
