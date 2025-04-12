@@ -1,28 +1,32 @@
 <template>
-  <div class="p-6 space-y-6">
-    <h1 class="text-2xl font-bold text-gray-800">📊 Dashboard Overview</h1>
-
+  <div class="p-6 space-y-10">
     <!-- Summary Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <RiskSummaryCard label="Total Students" :value="students.length" color="blue" />
-      <RiskSummaryCard label="High Risk" :value="summary.high.count" :trend="summary.high.trend" color="red" />
-      <RiskSummaryCard label="Medium Risk" :value="summary.moderate.count" :trend="summary.moderate.trend" color="yellow" />
-      <RiskSummaryCard label="Low Risk" :value="summary.low.count" :trend="summary.low.trend" color="green" />
-    </div>
+    <section>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <RiskSummaryCard label="Total Students" :value="students.length" color="blue" />
+        <RiskSummaryCard label="High Risk" :value="summary.high.count" :trend="summary.high.trend" color="red" />
+        <RiskSummaryCard label="Medium Risk" :value="summary.moderate.count" :trend="summary.moderate.trend" color="yellow" />
+        <RiskSummaryCard label="Low Risk" :value="summary.low.count" :trend="summary.low.trend" color="green" />
+      </div>
+    </section>
 
     <!-- Charts -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <RiskPieChart :summary="summary" :onFilter="filterByRisk" />
-      <RiskTrendChart />
-      <RiskScoreDistribution :students="students" />
-    </div>
+    <section>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <RiskPieChart :summary="summary" :onFilter="filterByRisk" />
+        <RiskTrendChart />
+        <RiskScoreDistribution :students="students" />
+      </div>
+    </section>
 
-    <!-- Lists -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <HighRiskStudentList />
-      <BiggestRiskIncreases />
-      <StudentsRequiringReview />
-    </div>
+    <!-- Lists / Insights -->
+    <section>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <HighRiskStudentList />
+        <BiggestRiskIncreases />
+        <StudentsRequiringReview />
+      </div>
+    </section>
   </div>
 </template>
 
@@ -39,7 +43,7 @@ import RiskScoreDistribution from '@/components/RiskScoreDistribution.vue'
 import HighRiskStudentList from '@/components/HighRiskStudentList.vue'
 import BiggestRiskIncreases from '@/components/BiggestRiskIncrease.vue'
 
-// Reactive state
+// State
 const allStudents = ref([])
 const students = ref([])
 const summary = ref({
@@ -48,25 +52,27 @@ const summary = ref({
   low: { count: 0, trend: 0 },
 })
 
-// Filter function for pie chart
+// Filter handler
 const filterByRisk = (riskLevel) => {
-  console.log('🔍 Show only students with risk level:', riskLevel)
   students.value = allStudents.value.filter(s => s.risk_level === riskLevel)
 }
 
-// Load dashboard data
+// Fetch data function
 const fetchDashboardData = async () => {
   try {
-    const summaryRes = await api.get('/students/summary')
-    summary.value = summaryRes.data
+    const [summaryRes, studentsRes] = await Promise.all([
+      api.get('/students/summary'),
+      api.get('/students/list')
+    ])
 
-    const studentsRes = await api.get('/students/list')
+    // Assign fetched data to reactive states
+    summary.value = summaryRes.data
     allStudents.value = studentsRes.data
     students.value = studentsRes.data
 
     console.log('✅ Dashboard data loaded')
   } catch (error) {
-    console.error('❌ Dashboard data fetch failed:', error)
+    console.error('❌ Failed to load dashboard data:', error)
   }
 }
 

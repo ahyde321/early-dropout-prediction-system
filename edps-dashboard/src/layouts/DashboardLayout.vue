@@ -1,23 +1,18 @@
 <template>
-    <div class="flex h-screen bg-gray-100 text-gray-900">
-      <!-- Sidebar -->
-      <SideBar />
-  
-      <!-- Main Content -->
-      <div class="flex-1 flex flex-col overflow-hidden">
-        <!-- Topbar -->
-        <TopBar />
-  
-        <!-- Page Content -->
-        <main class="flex-1 overflow-y-auto p-6">
-          <router-view />
-        </main>
-      </div>
+  <div class="flex h-screen bg-gray-50 text-gray-900">
+    <SideBar />
+
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <TopBar />
+
+      <main class="flex-1 overflow-y-auto px-6 py-4">
+        <router-view />
+      </main>
     </div>
-  </template>
-  
-  <script setup>
-  import SideBar from '@/components/SideBar.vue'
-  import TopBar from '@/components/TopBar.vue'
-  </script>
-  
+  </div>
+</template>
+
+<script setup>
+import SideBar from '@/components/SideBar.vue'
+import TopBar from '@/components/TopBar.vue'
+</script>
