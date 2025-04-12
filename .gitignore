@@ -32,3 +32,20 @@ env.bak/
 
 # Local environment settings
 .env
+
+# Test and coverage reports
+*.coveragerc
+.coverage
+nosetests.xml
+test-*.xml
+tox.ini
+*.log
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# PyCharm
+.idea/
+
+# Flutter and React Native build folders
+.build/
