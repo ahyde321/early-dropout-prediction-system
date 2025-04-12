@@ -11,9 +11,11 @@ export default defineConfig({
   },
   server: {
     port: 8080,
+    historyApiFallback: true, // 👈 required for HTML5 routing on dev server
+
   },
   hmr: {
     protocol: 'ws',
     host: 'localhost'
-  }
+  },
 })

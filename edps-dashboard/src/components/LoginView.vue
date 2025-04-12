@@ -66,13 +66,16 @@
     error.value = ''
     loading.value = true
     try {
-      await auth.login(email.value, password.value, rememberMe.value, toast) // pass it
-      router.push('/')
+        await auth.login(email.value, password.value, rememberMe.value)
+        console.log("✅ Login success, navigating to Home")
+        await router.push('/') // this should trigger HomeView
     } catch (err) {
-      error.value = 'Invalid credentials'
+        console.error('Login error:', err)
+        error.value = 'Invalid credentials'
     } finally {
-      loading.value = false
+        loading.value = false
     }
-  }
+    }
+
   </script>
   

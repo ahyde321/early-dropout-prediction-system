@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import DashboardLayout from '@/layouts/DashboardLayout.vue'
 import HomeView from '@/views/HomeView.vue'
 import StudentListPage from '@/views/StudentListPage.vue'
@@ -44,6 +44,12 @@ const routes = [
         component: UploadPage,
         meta: { title: 'Upload CSV', requiresAuth: true },
       },
+      {
+        path: 'admin',
+        name: 'Admin',
+        component: () => import('@/views/AdminView.vue'),
+        meta: { title: 'Admin Panel', requiresAuth: true, requiresAdmin: true }
+      }      
     ],
   },
   {
@@ -55,7 +61,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 })
 

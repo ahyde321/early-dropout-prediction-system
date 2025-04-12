@@ -1,42 +1,81 @@
 <template>
-  <aside class="w-64 h-full bg-white shadow-lg flex flex-col">
-    <div class="p-6 border-b border-gray-200">
-      <h1 class="text-2xl font-bold text-gray-800">EDPS</h1>
-      <p class="text-sm text-gray-500">Advisor Dashboard</p>
+  <aside class="w-64 h-full bg-white shadow-lg flex flex-col justify-between">
+    <!-- Header -->
+    <div>
+      <div class="p-6 border-b border-gray-200">
+        <h1 class="text-2xl font-bold text-gray-800">EDPS</h1>
+        <p class="text-sm text-gray-500">
+          {{ auth.isAdmin ? 'Admin' : 'Advisor' }} Dashboard
+        </p>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="flex flex-col gap-1 p-4 text-gray-700">
+        <RouterLink
+          to="/"
+          class="sidebar-link"
+          :class="isActiveExact('/')"
+        >
+          🏠 Dashboard
+        </RouterLink>
+
+        <RouterLink
+          to="/students"
+          class="sidebar-link"
+          :class="isActive('/students')"
+        >
+          👥 Students
+        </RouterLink>
+
+        <RouterLink
+          to="/upload"
+          class="sidebar-link"
+          :class="isActive('/upload')"
+        >
+          📤 Upload CSV
+        </RouterLink>
+
+        <!-- Admin-only -->
+        <RouterLink
+          v-if="auth.isAdmin"
+          to="/admin"
+          class="sidebar-link text-red-600 hover:bg-red-50"
+          :class="isActive('/admin')"
+        >
+          🔐 Admin Panel
+        </RouterLink>
+      </nav>
     </div>
 
-    <nav class="flex flex-col gap-2 p-4 text-gray-700">
+    <!-- Footer: Settings & Logout -->
+    <div class="p-4 border-t border-gray-200 flex flex-col gap-2">
       <RouterLink
-        to="/"
-        class="block px-4 py-2 rounded hover:bg-blue-100"
-        :class="isActiveExact('/')"
+        to="/settings"
+        class="sidebar-link"
+        :class="isActive('/settings')"
       >
-        Dashboard
+        ⚙️ Settings
       </RouterLink>
 
-      <RouterLink
-        to="/students"
-        class="block px-4 py-2 rounded hover:bg-blue-100"
-        :class="isActive('/students')"
+      <button
+        @click="handleLogout"
+        class="sidebar-link text-left text-sm text-gray-600 hover:bg-gray-100 hover:text-red-600 transition"
       >
-        Students
-      </RouterLink>
-
-      <RouterLink
-        to="/upload"
-        class="block px-4 py-2 rounded hover:bg-blue-100"
-        :class="isActive('/upload')"
-      >
-        Upload CSV
-      </RouterLink>
-    </nav>
+        🚪 Logout
+      </button>
+    </div>
   </aside>
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore'
+import { useToast } from 'vue-toastification'
 
 const route = useRoute()
+const router = useRouter()
+const auth = useAuthStore()
+const toast = useToast()
 
 const isActive = (path) => {
   return route.path.startsWith(path)
@@ -49,4 +88,16 @@ const isActiveExact = (path) => {
     ? 'bg-blue-100 font-semibold text-blue-700'
     : ''
 }
+
+const handleLogout = () => {
+  auth.logout()
+  toast.info('Logged out')
+  router.push('/login')
+}
 </script>
+
+<style scoped>
+.sidebar-link {
+  @apply block px-4 py-2 rounded text-sm transition hover:bg-blue-50 hover:text-blue-700;
+}
+</style>
