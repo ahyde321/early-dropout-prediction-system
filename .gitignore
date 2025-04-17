@@ -10,7 +10,7 @@ env/
 .venv/
 myvenv/
 env.bak/
-myenv/        # ← your actual virtual environment
+myenv/
 
 # Distribution / packaging
 *.egg-info/
