@@ -1,14 +1,8 @@
-# Python bytecode
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-
-# Distribution / packaging
-*.egg
-*.egg-info/
-dist/
-build/
 
 # Virtual environments
 venv/
@@ -16,36 +10,32 @@ env/
 .venv/
 myvenv/
 env.bak/
+myenv/        # ← your actual virtual environment
 
-# Python SQLite DB (if local only)
-*.db
-
-# VS Code / IDE configuration
-.vscode/
-.idea/
-
-# Mac system files
-.DS_Store
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
 
 # Logs
 *.log
 
-# Local environment settings
+# SQLite database files
+*.db
+
+# Environment variables
 .env
 
-# Test and coverage reports
-*.coveragerc
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code / PyCharm
+.vscode/
+.idea/
+
+# Test and coverage
 .coverage
+*.coveragerc
 nosetests.xml
 test-*.xml
 tox.ini
-*.log
-
-# Jupyter Notebooks
-.ipynb_checkpoints/
-
-# PyCharm
-.idea/
-
-# Flutter and React Native build folders
-.build/

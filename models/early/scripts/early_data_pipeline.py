@@ -7,20 +7,17 @@ sys.path.append(EARLY_DIR)
 
 # === Setup ===
 from path_config import (
-    RAW_DIR, FILTERED_DIR, REFINED_DIR, PREPROCESSED_DIR, READY_DIR, ARTIFACTS_DIR,
-    SYSTEM_UTILS_DIR, DATA_UTILS_DIR
+    RAW_DIR, FILTERED_DIR, REFINED_DIR, PREPROCESSED_DIR, READY_DIR, ARTIFACTS_DIR
 )
 
 from data.data_loader import load_data
 from data.data_imputer import apply_mice_imputation
-from data.data_cleaner import clean_data, separate_enrolled_students
+from data.data_cleaner import clean_data
 from data.feature_selector import remove_highly_correlated_features, select_best_features
-from data.data_aligner import align_datasets_and_combine, align_enrolled_pupils
-from data.data_preprocessor import preprocess_train, preprocess_new
+from data.data_aligner import align_datasets_and_combine
+from data.data_preprocessor import preprocess_train
 from data.data_splitter import split_train_val_test
 from formatting import to_snake_case
-
-
 
 EXCLUDE_COLS = [
     "curricular_units_1st_sem_evaluations",
@@ -65,94 +62,65 @@ except Exception as e:
     sys.exit(1)
 
 try:
+    combined_df = combined_df[combined_df["target"] != "Enrolled"]
+    combined_df = combined_df.reset_index(drop=True)
+    print(f"🚫 Dropped enrolled students: {combined_df.shape}")
+except Exception as e:
+    print(f"Error filtering enrolled students: {e}")
+    sys.exit(1)
+
+try:
     imputed_df = apply_mice_imputation(combined_df, ["admission_grade", "previous_qualification_grade"])
     print(f"📈 Imputed: {imputed_df.shape}")
 except Exception as e:
     print(f"Error during imputation: {e}")
     sys.exit(1)
 
-# === Step 3: Separate Enrolled & Past Pupils ===
+# === Step 3: Feature Engineering ===
 try:
-    enrolled_df = separate_enrolled_students(
-        combined_df=imputed_df,
-        enrolled_path=os.path.join(FILTERED_DIR, "enrolled_pupils.csv"),
-        filtered_path=os.path.join(FILTERED_DIR, "past_pupils.csv")
-    )
-    # ✅ Re-load the correct past pupils data from the CSV you just saved
-    past_pupils_df = pd.read_csv(os.path.join(FILTERED_DIR, "past_pupils.csv"))
-    print(f"🚀 Past Pupils: {past_pupils_df.shape}")
+    reduced_df = remove_highly_correlated_features(imputed_df)
+    print(f"🔍 After removing correlated features: {reduced_df.shape}")
 except Exception as e:
-    print(f"Error during separation of enrolled students: {e}")
-    sys.exit(1)
-
-# === Step 4: Feature Engineering ===
-try:
-    past_pupils_df_reduced = remove_highly_correlated_features(past_pupils_df)
-    print(f"🔍 Dataset shape after removing correlated features: {past_pupils_df_reduced.shape}")
-except Exception as e:
-    print(f"Error during removal of correlated features: {e}")
+    print(f"Error during feature reduction: {e}")
     sys.exit(1)
 
 try:
-    final_dataset = select_best_features(past_pupils_df_reduced, target_column="target", importance_threshold=0.95)
-    print(f"✅ Final Dataset shape after feature selection: {final_dataset.shape}")
+    final_dataset = select_best_features(reduced_df, target_column="target", importance_threshold=0.95)
+    print(f"✅ Final feature selection result: {final_dataset.shape}")
 except Exception as e:
     print(f"Error during feature selection: {e}")
     sys.exit(1)
 
+# === Step 4: Save Refined Data ===
 try:
-    refined_past_path = os.path.join(REFINED_DIR, "refined_past_pupil_dataset.csv")
-    final_dataset.to_csv(refined_past_path, index=False)
-    print(f"✅ Refined dataset saved at: {refined_past_path}")
+    refined_path = os.path.join(REFINED_DIR, "refined_past_pupil_dataset.csv")
+    final_dataset.to_csv(refined_path, index=False)
+    print(f"✅ Refined dataset saved at: {refined_path}")
 except Exception as e:
     print(f"Error saving refined dataset: {e}")
     sys.exit(1)
 
-try:
-    aligned_enrolled_df = align_enrolled_pupils(
-        enrolled_path=os.path.join(FILTERED_DIR, "enrolled_pupils.csv"),
-        final_dataset=final_dataset,
-        output_path=os.path.join(REFINED_DIR, "aligned_enrolled_pupils.csv")
-    )
-    print(f"✅ Aligned enrolled pupils dataset shape: {aligned_enrolled_df.shape}")
-except Exception as e:
-    print(f"Error during enrolled pupils alignment: {e}")
-    sys.exit(1)
-
-# ✅ Step 5: Preprocess for Random Forest
-preprocessed_past_path = os.path.join(PREPROCESSED_DIR, "preprocessed_past_pupils.csv")
+# === Step 5: Preprocessing ===
+preprocessed_path = os.path.join(PREPROCESSED_DIR, "preprocessed_past_pupils.csv")
 try:
     preprocess_train(
-        input_path=refined_past_path,
-        output_path=preprocessed_past_path,
+        input_path=refined_path,
+        output_path=preprocessed_path,
         model_dir=ARTIFACTS_DIR,
         target_col="target"
     )
-    print(f"✅ Preprocessed past pupils dataset saved to: {preprocessed_past_path}")
+    print(f"✅ Preprocessed dataset saved to: {preprocessed_path}")
 except Exception as e:
-    print(f"Error during preprocessing training data: {e}")
-    sys.exit(1)
-
-preprocessed_enrolled_path = os.path.join(PREPROCESSED_DIR, "preprocessed_enrolled_pupils.csv")
-try:
-    preprocess_new(
-        input_path=os.path.join(REFINED_DIR, "aligned_enrolled_pupils.csv"),
-        output_path=preprocessed_enrolled_path,
-        model_dir=ARTIFACTS_DIR,
-        target_col="target"
-    )
-    print(f"✅ Preprocessed enrolled pupils dataset saved to: {preprocessed_enrolled_path}")
-except Exception as e:
-    print(f"Error during preprocessing enrolled data: {e}")
+    print(f"Error during preprocessing: {e}")
     sys.exit(1)
 
 # === Step 6: Train/Val/Test Split ===
 try:
-    if not os.path.exists(preprocessed_past_path):
-        raise FileNotFoundError(f"Preprocessed past dataset not found: {preprocessed_past_path}")
-    
+    if not os.path.exists(preprocessed_path):
+        raise FileNotFoundError(f"Preprocessed dataset not found: {preprocessed_path}")
+
     split_train_val_test(
-        input_path=preprocessed_past_path,
+        input_path=preprocessed_path,
         output_dir=READY_DIR
     )
     print(f"✅ Train/Val/Test split completed. Files saved to: {READY_DIR}")
