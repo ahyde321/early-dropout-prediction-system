@@ -7,6 +7,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,  // Important for CORS with credentials
 })
 
 // Attach token to every request if available
@@ -15,6 +16,12 @@ api.interceptors.request.use((config) => {
   if (auth?.token) {
     config.headers.Authorization = `Bearer ${auth.token}`
   }
+  
+  // Special handling for login endpoint
+  if (config.url === '/auth/login') {
+    config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+  }
+  
   return config
 })
 

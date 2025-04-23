@@ -67,10 +67,18 @@ def require_admin(current_user: User = Depends(get_current_user)):
 # === Auth Routes ===
 @router.post("/auth/login", response_model=Token)
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    print("🔐 Login attempt for:", form_data.username)
     user = db.query(User).filter(User.email == form_data.username).first()
-    if not user or not verify_password(form_data.password, user.hashed_password):
+    
+    if not user:
+        print("❌ User not found:", form_data.username)
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+        
+    if not verify_password(form_data.password, user.hashed_password):
+        print("❌ Invalid password for user:", form_data.username)
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
+    print("✅ Login successful for:", form_data.username)
     access_token = create_access_token(data={"sub": user.email})
     return {"access_token": access_token, "token_type": "bearer"}
 

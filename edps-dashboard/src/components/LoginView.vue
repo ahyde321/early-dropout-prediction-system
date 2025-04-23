@@ -60,22 +60,23 @@
   
   const router = useRouter()
   const auth = useAuthStore()
-  const toast = useToast() // ✅ Moved here
+  const toast = useToast()
   
   const handleLogin = async () => {
     error.value = ''
     loading.value = true
     try {
-        await auth.login(email.value, password.value, rememberMe.value)
+        await auth.login(email.value, password.value, rememberMe.value, toast)
         console.log("✅ Login success, navigating to Home")
-        await router.push('/') // this should trigger HomeView
+        await router.push('/')
     } catch (err) {
         console.error('Login error:', err)
         error.value = 'Invalid credentials'
+        toast.error('Login failed: Invalid credentials')
     } finally {
         loading.value = false
     }
-    }
+  }
 
   </script>
   
