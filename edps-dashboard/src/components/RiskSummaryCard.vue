@@ -1,12 +1,7 @@
+￼
+
 <script setup>
-import {
-  toRefs,
-  computed,
-  ref,
-  watch,
-  onMounted,
-  nextTick
-} from 'vue'
+import { toRefs, computed, ref, watch } from 'vue'
 import {
   AlertCircle,
   BarChart2,
@@ -30,7 +25,6 @@ const props = defineProps({
   to: { type: String, default: null }
 })
 
-const isHovered = ref(false)
 const { label, value, color, trend, to } = toRefs(props)
 
 const tooltipText = computed(() => {
@@ -44,13 +38,13 @@ const tooltipText = computed(() => {
 
 const cardClasses = computed(() => {
   const bg = {
-    blue: 'from-blue-100 to-blue-50 border-blue-200 ring-blue-200 shadow-blue-100',
-    red: 'from-red-100 to-red-50 border-red-200 ring-red-300 shadow-red-100 animate-pulse-soft',
-    yellow: 'from-yellow-100 to-yellow-50 border-yellow-200 ring-yellow-200 shadow-yellow-100',
-    green: 'from-green-100 to-green-50 border-green-200 ring-green-200 shadow-green-100',
-    gray: 'from-gray-100 to-gray-50 border-gray-200 ring-gray-200 shadow-gray-100'
+    blue: 'from-blue-50 via-blue-100 to-blue-50 border-blue-200 ring-blue-200 shadow-blue-100/50',
+    red: 'from-red-50 via-red-100 to-red-50 border-red-200 ring-red-300 shadow-red-100/50 animate-pulse-soft',
+    yellow: 'from-yellow-50 via-yellow-100 to-yellow-50 border-yellow-200 ring-yellow-200 shadow-yellow-100/50',
+    green: 'from-green-50 via-green-100 to-green-50 border-green-200 ring-green-200 shadow-green-100/50',
+    gray: 'from-gray-50 via-gray-100 to-gray-50 border-gray-200 ring-gray-200 shadow-gray-100/50'
   }
-  return `bg-gradient-to-br ${bg[color.value] || bg.gray} border p-4 rounded-2xl shadow-md group hover:ring-2 transition-all`
+  return `bg-gradient-to-br ${bg[color.value] || bg.gray} border p-5 rounded-2xl shadow-lg group hover:ring-2 transition-all duration-300 ease-in-out`
 })
 
 const iconComponent = computed(() => {
@@ -65,79 +59,55 @@ const iconComponent = computed(() => {
 
 const displayValue = ref(0)
 const animateCounter = () => {
-  const duration = 600
+  const duration = 1000
   const startTime = performance.now()
   const start = displayValue.value
   const end = value.value
   const step = (now) => {
     const progress = Math.min((now - startTime) / duration, 1)
-    displayValue.value = Math.floor(progress * (end - start) + start)
+    const easeOutQuart = 1 - Math.pow(1 - progress, 4)
+    displayValue.value = Math.floor(easeOutQuart * (end - start) + start)
     if (progress < 1) requestAnimationFrame(step)
   }
   requestAnimationFrame(step)
 }
 watch(value, animateCounter, { immediate: true })
-
-// === Tooltip Positioning Logic ===
-const iconRef = ref(null)
-const tooltipStyle = ref({ top: '0px', left: '0px' })
-
-const updateTooltipPosition = () => {
-  nextTick(() => {
-    if (iconRef.value) {
-      const rect = iconRef.value.getBoundingClientRect()
-      tooltipStyle.value = {
-        top: `${rect.top - 36}px`, // place above
-        left: `${rect.left + rect.width / 2}px`, // center horizontally
-        transform: 'translateX(-50%)',
-        position: 'fixed'
-      }
-    }
-  })
-}
-
-onMounted(() => {
-  updateTooltipPosition()
-  window.addEventListener('scroll', updateTooltipPosition)
-  window.addEventListener('resize', updateTooltipPosition)
-})
 </script>
 
-
 <template>
-  <component :is="to ? 'RouterLink' : 'div'" :to="to" class="block cursor-pointer hover:scale-[1.01] transition-transform duration-200">
-  <div
-    :class="cardClasses"
-    class="flex items-center justify-between gap-4 relative z-10"
-    @mouseenter="() => { isHovered = true; updateTooltipPosition(); }"
-    @mouseleave="isHovered = false"
-  >
-    <div>
-      <p class="text-sm text-gray-600">{{ label }}</p>
-      <p class="text-3xl font-extrabold text-gray-900 tracking-tight">
-        {{ displayValue }}
-      </p>
-    </div>
-
-    <div class="relative z-50">
-      <component
-        :is="iconComponent"
-        ref="iconRef"
-        class="w-9 h-9 text-gray-700 drop-shadow"
-      />
-    </div>
-
-    <Teleport to="body">
-      <div
-        v-if="tooltipText && isHovered"
-        class="fixed px-3 py-1 text-xs text-white bg-gray-800 rounded shadow-lg transition-opacity duration-200 z-50"
-        :style="tooltipStyle"
-      >
-        {{ tooltipText }}
+  <component :is="to ? 'RouterLink' : 'div'" :to="to" class="block cursor-pointer hover:scale-[1.02] transition-transform duration-300">
+    <div
+      :class="cardClasses"
+      class="flex items-center justify-between gap-6 relative z-10 overflow-hidden"
+    >
+      <div class="relative">
+        <p class="text-sm font-medium text-gray-600 mb-1">{{ label }}</p>
+        <p class="text-4xl font-bold tracking-tight" :class="{
+          'text-blue-600': color === 'blue',
+          'text-red-600': color === 'red',
+          'text-yellow-600': color === 'yellow',
+          'text-green-600': color === 'green',
+          'text-gray-900': color === 'gray'
+        }">
+          {{ displayValue }}
+        </p>
       </div>
-    </Teleport>
-  </div>
-</component>
+
+      <div class="relative">
+        <component
+          :is="iconComponent"
+          class="w-10 h-10 transition-transform duration-300 group-hover:scale-110"
+          :class="{
+            'text-blue-500': color === 'blue',
+            'text-red-500': color === 'red',
+            'text-yellow-500': color === 'yellow',
+            'text-green-500': color === 'green',
+            'text-gray-500': color === 'gray'
+          }"
+        />
+      </div>
+    </div>
+  </component>
 </template>
 
 <style scoped>
@@ -146,11 +116,11 @@ onMounted(() => {
     box-shadow: 0 0 0 0 rgba(248, 113, 113, 0.4);
   }
   50% {
-    box-shadow: 0 0 0 8px rgba(248, 113, 113, 0);
+    box-shadow: 0 0 0 12px rgba(248, 113, 113, 0);
   }
 }
 
 .animate-pulse-soft {
-  animation: pulse-soft 1.8s infinite;
+  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 </style>

@@ -2,7 +2,7 @@
   <div
     class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-3xl shadow-md border border-gray-200 hover:shadow-xl hover:scale-[1.01] transition-transform duration-300 relative"
   >
-    <!-- Header + Filters -->
+    <!-- Header -->
     <div class="flex justify-between items-center mb-4">
       <div class="flex items-center gap-4">
         <div class="p-2 rounded-full bg-sky-100 text-sky-600 shadow-inner ring-2 ring-sky-300">
@@ -17,23 +17,9 @@
           </h3>
         </div>
       </div>
-
-      <!-- Reusable FilterPopover Component -->
-      <FilterPopover
-        v-model="filters"
-        :fields="filterFields"
-        :format="formatValue"
-      >
-        <template #icon>
-          <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707v5.172a1 1 0 01-1.447.894l-2-1A1 1 0 0110 17.172V12a1 1 0 00-.293-.707L3.293 6.707A1 1 0 013 6V4z" />
-          </svg>
-          <span>Filters</span>
-        </template>
-      </FilterPopover>
     </div>
 
-    <!-- Legend -->
+    <!-- Legend (Custom, below header) -->
     <div class="flex justify-start gap-6 items-center text-sm font-medium text-gray-600 px-1 mb-2">
       <div class="flex items-center gap-2">
         <span class="inline-block w-3 h-3 rounded-full" style="background-color: #34d399"></span>
@@ -60,6 +46,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, watch, onMounted } from 'vue'
@@ -128,27 +115,34 @@ const fetchTrendData = async () => {
         label: 'Low Risk',
         data: phases.map(p => data[p].low || 0),
         borderColor: '#34d399',
-        backgroundColor: 'rgba(52, 211, 153, 0.2)',
+        backgroundColor: 'rgba(52, 211, 153, 0.25)', // More visible fill
         tension: 0.4,
-        fill: false
+        pointBackgroundColor: '#34d399',
+        pointRadius: 6,
+        pointHoverRadius: 7
       },
       {
         label: 'Moderate Risk',
         data: phases.map(p => data[p].moderate || 0),
         borderColor: '#fbbf24',
-        backgroundColor: 'rgba(251, 191, 36, 0.2)',
+        backgroundColor: 'rgba(251, 191, 36, 0.25)',
         tension: 0.4,
-        fill: false
+        pointBackgroundColor: '#fbbf24',
+        pointRadius: 6,
+        pointHoverRadius: 7
       },
       {
         label: 'High Risk',
         data: phases.map(p => data[p].high || 0),
         borderColor: '#f87171',
-        backgroundColor: 'rgba(248, 113, 113, 0.2)',
+        backgroundColor: 'rgba(248, 113, 113, 0.25)',
         tension: 0.4,
-        fill: false
+        pointBackgroundColor: '#f87171',
+        pointRadius: 6,
+        pointHoverRadius: 7
       }
     ]
+
 
     const hasData = datasets.some(ds => ds.data.some(v => v > 0))
 
