@@ -1,21 +1,21 @@
 <template>
-  <div class="bg-blue-50/50 p-6 rounded-3xl shadow-sm transition-all duration-200 hover:shadow-md hover:bg-blue-50/70">
+  <div class="bg-gradient-to-br from-emerald-50/80 to-emerald-50/40 p-5 rounded-2xl shadow-lg border border-emerald-100/50 transition-all duration-200 hover:shadow-xl hover:scale-[1.02]">
     <!-- Header -->
-    <div class="mb-4">
-      <div class="flex items-center gap-3 mb-1">
-        <div class="p-2 rounded-lg bg-blue-100 text-blue-600 transition-colors duration-200 group-hover:bg-blue-200">
-          <PieChart class="w-4 h-4" />
+    <div class="mb-3">
+      <div class="flex items-center gap-2.5 mb-1">
+        <div class="p-2 rounded-lg bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-600">
+          <PieChart class="w-3.5 h-3.5" />
         </div>
-        <h3 class="text-[15px] font-semibold text-gray-900">
+        <h3 class="text-sm font-semibold text-gray-900">
           Risk Distribution
         </h3>
       </div>
-      <p class="text-sm text-gray-500 ml-9">Overview</p>
+      <p class="text-xs text-gray-500 ml-[38px]">Overview</p>
     </div>
 
     <!-- Chart Container -->
-    <div class="mb-4">
-      <div class="h-[240px]">
+    <div class="mb-3">
+      <div class="h-[200px]">
         <canvas ref="canvasRef" class="w-full h-full"></canvas>
       </div>
     </div>
@@ -75,11 +75,12 @@ const createChart = () => {
       datasets: [
         {
           data,
-          backgroundColor: ['#3b82f6', '#fbbf24', '#f87171'],
+          backgroundColor: ['#10b981', '#fbbf24', '#f87171'],
           borderColor: '#ffffff',
           borderWidth: 2,
           hoverBorderColor: '#ffffff',
           hoverBorderWidth: 3,
+          hoverOffset: 6,
           spacing: 2
         }
       ]
@@ -89,6 +90,7 @@ const createChart = () => {
       maintainAspectRatio: false,
       animation: {
         animateScale: true,
+        animateRotate: true,
         duration: 500
       },
       plugins: {
@@ -96,13 +98,14 @@ const createChart = () => {
           position: 'bottom',
           labels: {
             color: '#374151',
-            boxWidth: 12,
-            boxHeight: 12,
-            padding: 15,
+            boxWidth: 10,
+            boxHeight: 10,
+            padding: 12,
             borderRadius: 3,
             font: {
-              size: 13,
-              family: "'Inter', sans-serif"
+              size: 11,
+              family: "'Inter', sans-serif",
+              weight: '500'
             },
             generateLabels: (chart) => {
               const data = chart.data
@@ -123,14 +126,14 @@ const createChart = () => {
           bodyColor: '#374151',
           borderColor: '#e5e7eb',
           borderWidth: 1,
-          padding: 12,
-          cornerRadius: 8,
+          padding: 10,
+          cornerRadius: 6,
           titleFont: {
-            size: 13,
+            size: 12,
             weight: 600
           },
           bodyFont: {
-            size: 12
+            size: 11
           },
           callbacks: {
             label: (context) => {

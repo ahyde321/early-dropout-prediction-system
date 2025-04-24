@@ -1,21 +1,21 @@
 <template>
-  <div class="bg-cyan-50/50 p-6 rounded-3xl shadow-sm transition-all duration-200 hover:shadow-md hover:bg-cyan-50/70">
+  <div class="bg-gradient-to-br from-cyan-50/80 to-cyan-50/40 p-5 rounded-2xl shadow-lg border border-cyan-100/50 transition-all duration-200 hover:shadow-xl hover:scale-[1.02]">
     <!-- Header -->
-    <div class="mb-4">
-      <div class="flex items-center gap-3 mb-1">
-        <div class="p-2 rounded-lg bg-cyan-100 text-cyan-600 transition-colors duration-200 group-hover:bg-cyan-200">
-          <LineChartIcon class="w-4 h-4" />
+    <div class="mb-3">
+      <div class="flex items-center gap-2.5 mb-1">
+        <div class="p-2 rounded-lg bg-gradient-to-br from-cyan-100 to-cyan-50 text-cyan-600">
+          <LineChartIcon class="w-3.5 h-3.5" />
         </div>
-        <h3 class="text-[15px] font-semibold text-gray-900">
+        <h3 class="text-sm font-semibold text-gray-900">
           Risk Categories Over Time
         </h3>
       </div>
-      <p class="text-sm text-gray-500 ml-9">Historical Trend</p>
+      <p class="text-xs text-gray-500 ml-[38px]">Historical Trend</p>
     </div>
 
     <!-- Chart -->
-    <div class="mb-6">
-      <div class="h-[240px]">
+    <div class="mb-3">
+      <div class="h-[200px]">
         <LineChart
           v-if="chartData.datasets.length"
           :data="chartData"
@@ -26,17 +26,17 @@
     </div>
 
     <!-- Legend -->
-    <div class="flex justify-center gap-6 items-center text-[13px] text-gray-700">
-      <div class="flex items-center gap-2 transition-opacity duration-200 hover:opacity-75">
-        <span class="inline-block w-2 h-2 rounded-full bg-cyan-500"></span>
+    <div class="flex justify-center gap-4 items-center text-xs text-gray-700">
+      <div class="flex items-center gap-1.5 transition-opacity duration-200 hover:opacity-75">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-cyan-500"></span>
         Low Risk
       </div>
-      <div class="flex items-center gap-2 transition-opacity duration-200 hover:opacity-75">
-        <span class="inline-block w-2 h-2 rounded-full bg-amber-400"></span>
+      <div class="flex items-center gap-1.5 transition-opacity duration-200 hover:opacity-75">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400"></span>
         Moderate Risk
       </div>
-      <div class="flex items-center gap-2 transition-opacity duration-200 hover:opacity-75">
-        <span class="inline-block w-2 h-2 rounded-full bg-red-400"></span>
+      <div class="flex items-center gap-1.5 transition-opacity duration-200 hover:opacity-75">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-red-400"></span>
         High Risk
       </div>
     </div>
@@ -83,17 +83,14 @@ const chartOptions = {
       bodyColor: '#374151',
       borderColor: '#e5e7eb',
       borderWidth: 1,
-      padding: 12,
-      displayColors: true,
-      boxPadding: 6,
-      cornerRadius: 8,
-      usePointStyle: true,
+      padding: 10,
+      cornerRadius: 6,
       titleFont: {
-        size: 13,
+        size: 12,
         weight: 600
       },
       bodyFont: {
-        size: 12
+        size: 11
       },
       callbacks: {
         title: (tooltipItems) => {
@@ -114,18 +111,18 @@ const chartOptions = {
         color: '#f0f1f3',
       },
       ticks: {
-        padding: 6,
+        padding: 4,
         color: '#9ca3af',
-        font: { size: 11 }
+        font: { size: 10 }
       }
     },
     x: {
       border: { display: false },
       grid: { display: false },
       ticks: {
-        padding: 6,
+        padding: 4,
         color: '#9ca3af',
-        font: { size: 11 }
+        font: { size: 10 }
       }
     }
   },
@@ -137,6 +134,8 @@ const chartOptions = {
     point: {
       radius: 3,
       hoverRadius: 5,
+      borderWidth: 2,
+      borderColor: 'white',
       hoverBorderWidth: 2,
       hoverBorderColor: 'white'
     }
@@ -144,10 +143,6 @@ const chartOptions = {
   interaction: {
     intersect: false,
     mode: 'index'
-  },
-  hover: {
-    mode: 'index',
-    intersect: false
   }
 }
 
@@ -159,20 +154,20 @@ const fetchTrendData = async () => {
       {
         label: 'Low Risk',
         data: phases.map(p => data[p].low || 0),
-        borderColor: '#06b6d4',  // cyan-500
-        backgroundColor: '#06b6d4'
+        borderColor: '#06b6d4',
+        tension: 0.4
       },
       {
         label: 'Moderate Risk',
         data: phases.map(p => data[p].moderate || 0),
         borderColor: '#fbbf24',
-        backgroundColor: '#fbbf24'
+        tension: 0.4
       },
       {
         label: 'High Risk',
         data: phases.map(p => data[p].high || 0),
         borderColor: '#f87171',
-        backgroundColor: '#f87171'
+        tension: 0.4
       }
     ]
 
