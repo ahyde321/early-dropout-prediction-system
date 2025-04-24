@@ -78,8 +78,17 @@ class RoleUpdateRequest(BaseModel):
     role: str
 
 
+class UserUpdateRequest(BaseModel):
+    user_id: int
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    role: Optional[str] = None
+    is_active: Optional[bool] = None
+
+
 # ===============================
-# 📊 RISK PREDICTION
+# 📊 RISK PREDICTION SCHEMA
 # ===============================
 
 class RiskPredictionSchema(BaseModel):

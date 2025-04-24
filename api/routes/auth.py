@@ -4,9 +4,12 @@ from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from passlib.context import CryptContext
+from typing import List
+
 from db.database import SessionLocal
 from db.models import User
-from api.schemas import Token, UserCreate, UserResponse, RoleUpdateRequest
+from api.schemas import Token, UserCreate, UserResponse, RoleUpdateRequest, UserUpdateRequest
+
 import os
 
 router = APIRouter()
@@ -19,17 +22,20 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 
-# === Utility ===
+# === Utility Functions ===
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
 def get_password_hash(password):
     return pwd_context.hash(password)
 
-def create_access_token(data: dict, expires_delta: timedelta = None):
+def create_access_token(data: dict, user: User, expires_delta: timedelta = None):
     to_encode = data.copy()
     expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
-    to_encode.update({"exp": expire})
+    to_encode.update({
+        "exp": expire,
+        "token_version": user.token_version,
+    })
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 def get_db():
@@ -39,7 +45,7 @@ def get_db():
     finally:
         db.close()
 
-# === Dependencies ===
+# === Auth Dependencies ===
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> User:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -49,14 +55,16 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email: str = payload.get("sub")
-        if email is None:
+        token_version: int = payload.get("token_version")
+        if email is None or token_version is None:
             raise credentials_exception
     except JWTError:
         raise credentials_exception
 
     user = db.query(User).filter(User.email == email).first()
-    if user is None:
+    if user is None or user.token_version != token_version:
         raise credentials_exception
+
     return user
 
 def require_admin(current_user: User = Depends(get_current_user)):
@@ -67,24 +75,12 @@ def require_admin(current_user: User = Depends(get_current_user)):
 # === Auth Routes ===
 @router.post("/auth/login", response_model=Token)
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    print("🔐 Login attempt for:", form_data.username)
     user = db.query(User).filter(User.email == form_data.username).first()
-    
-    if not user:
-        print("❌ User not found:", form_data.username)
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-        
-    if not verify_password(form_data.password, user.hashed_password):
-        print("❌ Invalid password for user:", form_data.username)
+    if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
-    print("✅ Login successful for:", form_data.username)
-    access_token = create_access_token(data={"sub": user.email})
+    access_token = create_access_token(data={"sub": user.email}, user=user)
     return {"access_token": access_token, "token_type": "bearer"}
-
-@router.get("/auth/me", response_model=UserResponse)
-def get_me(current_user: User = Depends(get_current_user)):
-    return current_user
 
 @router.post("/auth/register", response_model=Token)
 def register(
@@ -106,7 +102,7 @@ def register(
     db.commit()
     db.refresh(user)
 
-    access_token = create_access_token(data={"sub": user.email})
+    access_token = create_access_token(data={"sub": user.email}, user=user)
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/auth/refresh", response_model=Token)
@@ -121,12 +117,9 @@ def refresh_token(authorization: str = Header(...), db: Session = Depends(get_db
         raise credentials_exception
 
     token = authorization.split(" ")[1]
-
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email: str = payload.get("sub")
-        if email is None:
-            raise credentials_exception
     except JWTError:
         raise credentials_exception
 
@@ -134,10 +127,20 @@ def refresh_token(authorization: str = Header(...), db: Session = Depends(get_db
     if user is None:
         raise credentials_exception
 
-    new_token = create_access_token(data={"sub": user.email})
+    new_token = create_access_token(data={"sub": user.email}, user=user)
     return {"access_token": new_token, "token_type": "bearer"}
 
-# === Admin-only: Update User Role ===
+@router.post("/auth/logout")
+def logout(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    current_user.token_version += 1
+    db.commit()
+    return {"message": "Logged out. All current tokens are now invalid."}
+
+@router.get("/auth/me", response_model=UserResponse)
+def get_me(current_user: User = Depends(get_current_user)):
+    return current_user
+
+# === Admin Routes ===
 @router.post("/auth/set-role")
 def set_user_role(request: RoleUpdateRequest, db: Session = Depends(get_db), admin_user: User = Depends(require_admin)):
     user = db.query(User).filter(User.id == request.user_id).first()
@@ -147,3 +150,36 @@ def set_user_role(request: RoleUpdateRequest, db: Session = Depends(get_db), adm
     user.role = request.role
     db.commit()
     return {"message": f"User {user.email} role updated to {user.role}"}
+
+@router.get("/admin/users", response_model=List[UserResponse])
+def list_users(db: Session = Depends(get_db), admin_user: User = Depends(require_admin)):
+    return db.query(User).all()
+
+@router.put("/admin/user/edit")
+def edit_user(request: UserUpdateRequest, db: Session = Depends(get_db), admin_user: User = Depends(require_admin)):
+    user = db.query(User).filter(User.id == request.user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if request.first_name: user.first_name = request.first_name
+    if request.last_name: user.last_name = request.last_name
+    if request.email:
+        existing = db.query(User).filter(User.email == request.email).first()
+        if existing and existing.id != user.id:
+            raise HTTPException(status_code=400, detail="Email already taken")
+        user.email = request.email
+    if request.role: user.role = request.role
+    if request.is_active is not None: user.is_active = request.is_active
+
+    db.commit()
+    return {"message": f"User {user.id} updated successfully"}
+
+@router.delete("/admin/user/delete/{user_id}")
+def delete_user(user_id: int, db: Session = Depends(get_db), admin_user: User = Depends(require_admin)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    db.delete(user)
+    db.commit()
+    return {"message": f"User {user.email} deleted successfully"}

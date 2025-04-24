@@ -7,6 +7,7 @@ import StudentProfilePage from '@/views/StudentProfilePage.vue'
 import NotFound from '@/views/NotFound.vue'
 import LoginView from '@/components/LoginView.vue'
 import { useAuthStore } from '@/stores/authStore' // make sure this store exists
+import ModelInsightsView from "@/views/ModelInsightsView.vue"
 
 const routes = [
   {
@@ -43,6 +44,12 @@ const routes = [
         name: 'UploadCSV',
         component: UploadPage,
         meta: { title: 'Upload CSV', requiresAuth: true },
+      },
+      {
+        path: "/insights",
+        name: "ModelInsights",
+        component: ModelInsightsView,
+        meta: { requiresAuth: true }
       },
       {
         path: 'admin',

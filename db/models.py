@@ -1,10 +1,12 @@
-from sqlalchemy import Column, Integer, Float, Boolean, String, ForeignKey, DateTime, UniqueConstraint
-from datetime import timezone
-from db.database import Base
+from datetime import datetime
+from sqlalchemy import (
+    Column, Integer, Float, String, Boolean,
+    ForeignKey, DateTime, UniqueConstraint
+)
 from sqlalchemy.orm import relationship
+from db.database import Base
 
-
-
+# === Student Model ===
 class Student(Base):
     __tablename__ = "students"
 
@@ -23,38 +25,39 @@ class Student(Base):
     marital_status = Column(Integer, nullable=False)
     scholarship_holder = Column(Integer, nullable=False)
     tuition_fees_up_to_date = Column(Integer, nullable=False)
-    predictions = relationship("RiskPrediction", back_populates="student", cascade="all, delete-orphan")
 
-    # Mid/Final data (nullable)
+    # Nullable mid/final academic data
     curricular_units_1st_sem_approved = Column(Integer, nullable=True)
     curricular_units_1st_sem_grade = Column(Float, nullable=True)
     curricular_units_2nd_sem_grade = Column(Float, nullable=True)
 
-    
-from sqlalchemy import Column, Integer, Float, String, ForeignKey, DateTime
-from sqlalchemy.orm import relationship
-from datetime import datetime
+    # Relationships
+    predictions = relationship(
+        "RiskPrediction",
+        back_populates="student",
+        cascade="all, delete-orphan"
+    )
 
+# === Risk Prediction Model ===
 class RiskPrediction(Base):
     __tablename__ = "risk_predictions"
 
     id = Column(Integer, primary_key=True, index=True)
     student_number = Column(String, ForeignKey("students.student_number"))
     risk_score = Column(Float, nullable=False)
-    risk_level = Column(String, nullable=False)
-    model_phase = Column(String, nullable=False)
+    risk_level = Column(String, nullable=False)  # e.g. "low", "medium", "high"
+    model_phase = Column(String, nullable=False)  # e.g. "early", "mid", "final"
     timestamp = Column(DateTime, default=lambda: datetime.now())
 
+    # Relationships
     student = relationship("Student", back_populates="predictions")
-    __table_args__ = (UniqueConstraint('student_number', 'model_phase', name='uq_prediction_per_phase'),)
 
-from sqlalchemy import Column, Integer, String, Boolean
-from db.database import Base
+    # Constraint: 1 prediction per student per model phase
+    __table_args__ = (
+        UniqueConstraint('student_number', 'model_phase', name='uq_prediction_per_phase'),
+    )
 
-from sqlalchemy import Column, Integer, String, Boolean, DateTime
-from datetime import datetime
-from db.database import Base
-
+# === User Model ===
 class User(Base):
     __tablename__ = "users"
 
@@ -63,9 +66,7 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
-    role = Column(String, default="advisor")  # 'advisor', 'admin', etc.
+    role = Column(String, default="advisor")  # 'advisor' or 'admin'
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
-
-
-
+    token_version: int = Column(Integer, default=0)  # Used for stateless logout

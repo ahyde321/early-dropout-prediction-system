@@ -25,7 +25,8 @@ def create_first_admin():
         last_name="Hyde",
         role="admin",
         is_active=True,
-        created_at=datetime.now(timezone.utc)
+        created_at=datetime.now(timezone.utc),
+        token_version=0
     )
 
     db.add(admin)

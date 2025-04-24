@@ -19,7 +19,8 @@ from api.routes import (
     uploads,
     admin,
     auth,
-    summary
+    summary,
+    model
 )
 
 # === Load .env and Set Environment ===
@@ -65,6 +66,8 @@ app.include_router(prediction.router, prefix="/api", tags=["Predictions"])
 app.include_router(uploads.router, prefix="/api", tags=["Uploads"])
 app.include_router(admin.router, prefix="/api", tags=["Admin"])
 app.include_router(summary.router, prefix="/api", tags=["Summary"])
+app.include_router(model.router, prefix="/api", tags=["Model"])
+
 
 # Optional: Enable auth
 app.include_router(auth.router, prefix="/api", tags=["Auth"])
@@ -78,3 +81,7 @@ print(f"🌐 Allowed Frontend Origin: {FRONTEND_URL}")
 @limiter.limit("10/minute")
 def root(request: Request):
     return {"message": "EDPS is live!"}
+
+
+from db.database import engine
+from db.models import Base
