@@ -123,8 +123,10 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import Papa from 'papaparse'
 import { useToast } from 'vue-toastification'
+import PaginatedList from '@/components/PaginatedList.vue'
 
 const toast = useToast()
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
 
 const csvFile = ref(null)
 const fileName = ref('')
@@ -202,7 +204,7 @@ async function upload() {
   formData.append('file', csvFile.value)
 
   try {
-    const { data } = await axios.post('http://localhost:8000/upload/students', formData)
+    const { data } = await axios.post(`${baseURL.replace(/\/$/, '')}/api/upload/students`, formData)
     uploaded.value = true
     uploadSummary.value = data
 

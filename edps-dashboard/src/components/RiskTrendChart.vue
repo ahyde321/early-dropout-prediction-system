@@ -1,9 +1,8 @@
 <template>
-  <div class="bg-gradient-to-br from-cyan-50/80 to-cyan-50/40 p-5 rounded-2xl shadow-lg border border-cyan-100/50 transition-all duration-200 hover:shadow-xl hover:scale-[1.02]">
-    <!-- Header -->
+<div class="bg-gradient-to-br from-blue-50/80 to-blue-50/40 p-5 rounded-2xl shadow-lg border border-blue-100/50 transition-all duration-200 hover:shadow-xl hover:scale-[1.02]">    <!-- Header -->
     <div class="mb-3">
       <div class="flex items-center gap-2.5 mb-1">
-        <div class="p-2 rounded-lg bg-gradient-to-br from-cyan-100 to-cyan-50 text-cyan-600">
+        <div class="p-2 rounded-lg bg-gradient-to-br from-blue-100 to-blue-50 text-blue-600">
           <LineChartIcon class="w-3.5 h-3.5" />
         </div>
         <h3 class="text-sm font-semibold text-gray-900">
@@ -27,16 +26,16 @@
 
     <!-- Legend -->
     <div class="flex justify-center gap-4 items-center text-xs text-gray-700">
-      <div class="flex items-center gap-1.5 transition-opacity duration-200 hover:opacity-75">
-        <span class="inline-block w-1.5 h-1.5 rounded-full bg-cyan-500"></span>
+      <div class="flex items-center gap-1.5 hover:opacity-75 transition-opacity">
+        <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
         Low Risk
       </div>
-      <div class="flex items-center gap-1.5 transition-opacity duration-200 hover:opacity-75">
-        <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+      <div class="flex items-center gap-1.5 hover:opacity-75 transition-opacity">
+        <span class="inline-block w-2 h-2 rounded-full bg-amber-500"></span>
         Moderate Risk
       </div>
-      <div class="flex items-center gap-1.5 transition-opacity duration-200 hover:opacity-75">
-        <span class="inline-block w-1.5 h-1.5 rounded-full bg-red-400"></span>
+      <div class="flex items-center gap-1.5 hover:opacity-75 transition-opacity">
+        <span class="inline-block w-2 h-2 rounded-full bg-rose-500"></span>
         High Risk
       </div>
     </div>
@@ -54,7 +53,8 @@ import {
   LineElement,
   PointElement,
   LinearScale,
-  CategoryScale
+  CategoryScale,
+  Filler
 } from 'chart.js'
 import { LineChart as LineChartIcon } from 'lucide-vue-next'
 import api from '@/services/api'
@@ -66,7 +66,8 @@ ChartJS.register(
   LineElement,
   PointElement,
   LinearScale,
-  CategoryScale
+  CategoryScale,
+  Filler
 )
 
 const LineChart = Line
@@ -78,8 +79,8 @@ const chartOptions = {
   plugins: {
     legend: { display: false },
     tooltip: {
-      backgroundColor: 'white',
-      titleColor: '#374151',
+      backgroundColor: '#ffffff',
+      titleColor: '#111827',
       bodyColor: '#374151',
       borderColor: '#e5e7eb',
       borderWidth: 1,
@@ -93,13 +94,8 @@ const chartOptions = {
         size: 11
       },
       callbacks: {
-        title: (tooltipItems) => {
-          return `Phase: ${tooltipItems[0].label}`
-        },
-        label: (context) => {
-          const value = context.parsed.y
-          return `${context.dataset.label}: ${value.toLocaleString()}`
-        }
+        title: (items) => `Phase: ${items[0].label}`,
+        label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()}`
       }
     }
   },
@@ -108,7 +104,7 @@ const chartOptions = {
       beginAtZero: true,
       border: { display: false },
       grid: {
-        color: '#f0f1f3',
+        color: '#f0f1f3'
       },
       ticks: {
         padding: 4,
@@ -128,16 +124,15 @@ const chartOptions = {
   },
   elements: {
     line: {
-      borderWidth: 2,
-      tension: 0.4
+      borderWidth: 3,
+      tension: 0.4,
+      fill: true
     },
     point: {
-      radius: 3,
-      hoverRadius: 5,
+      radius: 4,
+      hoverRadius: 6,
       borderWidth: 2,
-      borderColor: 'white',
-      hoverBorderWidth: 2,
-      hoverBorderColor: 'white'
+      borderColor: 'white'
     }
   },
   interaction: {
@@ -154,29 +149,32 @@ const fetchTrendData = async () => {
       {
         label: 'Low Risk',
         data: phases.map(p => data[p].low || 0),
-        borderColor: '#06b6d4',
-        tension: 0.4
+        borderColor: '#10b981',
+        backgroundColor: 'rgba(16, 185, 129, 0.15)',
+        fill: false
       },
       {
         label: 'Moderate Risk',
         data: phases.map(p => data[p].moderate || 0),
-        borderColor: '#fbbf24',
-        tension: 0.4
+        borderColor: '#f59e0b',
+        backgroundColor: 'rgba(245, 158, 11, 0.15)',
+        fill: false
       },
       {
         label: 'High Risk',
         data: phases.map(p => data[p].high || 0),
-        borderColor: '#f87171',
-        tension: 0.4
+        borderColor: '#ef4444',
+        backgroundColor: 'rgba(239, 68, 68, 0.15)',
+        fill: false
       }
     ]
 
-    chartData.value = { 
-      labels: phases.map(p => p.charAt(0).toUpperCase() + p.slice(1)), 
-      datasets 
+    chartData.value = {
+      labels: phases.map(p => p.charAt(0).toUpperCase() + p.slice(1)),
+      datasets
     }
   } catch (error) {
-    console.error('Error fetching trend data:', error)
+    console.error('❌ Error fetching trend data:', error)
     chartData.value = { labels: [], datasets: [] }
   }
 }

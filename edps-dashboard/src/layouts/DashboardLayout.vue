@@ -1,11 +1,17 @@
 <template>
-  <div class="flex h-screen bg-gray-50 text-gray-900">
-    <SideBar />
+  <div class="flex h-screen bg-gradient-to-br from-white to-slate-50 text-gray-900 overflow-hidden">
+    <!-- Sidebar -->
+    <div class="w-64 bg-white/70 backdrop-blur-md border-r border-gray-200 shadow-md hidden lg:block">
+      <SideBar />
+    </div>
 
-    <div class="flex-1 flex flex-col overflow-hidden">
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col">
+      <!-- Top Bar -->
       <TopBar />
 
-      <main class="flex-1 overflow-y-auto px-6 py-4">
+      <!-- Page Content -->
+      <main class="flex-1 overflow-y-auto px-4 sm:px-6 py-6">
         <router-view />
       </main>
     </div>

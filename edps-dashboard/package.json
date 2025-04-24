@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "preview": "vite preview",
+    "build:css": "tailwindcss -i ./src/assets/main.css -o ./src/assets/tailwind.css --watch"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",

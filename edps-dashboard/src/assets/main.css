@@ -2,11 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Ensure custom properties are available */
+:root {
+  --edps-primary: #1A1F36;
+  --edps-action: #2563EB;
+  --edps-hover: #F1F5F9;
+}
+
 /* Optional: Make chart canvas fill its parent */
 canvas {
   display: block;
   width: 100% !important;
   height: 100% !important;
+}
+
+/* Reset any conflicting styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Ensure proper text rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 select:hover {

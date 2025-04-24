@@ -1,15 +1,15 @@
-
 <template>
   <header class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
     <!-- Left Section: Title and Breadcrumb -->
     <div class="flex items-center space-x-6">
-      <h1 class="text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+      <h1 class="text-lg font-semibold text-gray-900">
         Early Dropout Prediction System
       </h1>
+
       <nav class="flex items-center space-x-2 text-sm text-gray-500">
         <span>{{ currentSection }}</span>
         <ChevronRight v-if="subSection" class="w-4 h-4" />
-        <span v-if="subSection" class="text-gray-700 font-medium">{{ subSection }}</span>
+        <span v-if="subSection" class="text-gray-900 font-medium">{{ subSection }}</span>
       </nav>
     </div>
 
@@ -18,19 +18,19 @@
       <!-- Quick Actions -->
       <div class="flex items-center space-x-2">
         <button 
-          class="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors relative"
+          class="p-2 text-gray-500 hover:text-blue-700 hover:bg-blue-50/80 rounded-lg transition-colors relative"
           @click="refreshDashboard"
           :disabled="isRefreshing"
           :class="{ 'cursor-not-allowed opacity-50': isRefreshing }"
         >
           <RefreshCw size="18" :class="{ 'animate-spin': isRefreshing }" />
-          <span v-if="refreshError" class="absolute -top-2 -right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+          <span v-if="refreshError" class="absolute -top-2 -right-2 w-2 h-2 bg-red-600 rounded-full"></span>
         </button>
 
         <!-- Notifications Button & Dropdown -->
         <div class="relative">
           <button 
-            class="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+            class="p-2 text-gray-500 hover:text-blue-700 hover:bg-blue-50/80 rounded-lg transition-colors"
             @click="toggleNotifications"
             ref="notificationTrigger"
           >
@@ -38,7 +38,7 @@
               <Bell size="18" />
               <span 
                 v-if="notifications.unread.length" 
-                class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs flex items-center justify-center rounded-full"
+                class="absolute -top-1 -right-1 w-4 h-4 bg-red-600 text-white text-xs flex items-center justify-center rounded-full font-medium"
               >
                 {{ notifications.unread.length }}
               </span>
@@ -51,12 +51,12 @@
             class="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50"
             ref="notificationPanel"
           >
-            <div class="px-4 py-2 border-b border-gray-100 flex justify-between items-center">
-              <h3 class="font-medium text-gray-700">Notifications</h3>
+            <div class="px-4 py-2 border-b border-gray-200 flex justify-between items-center">
+              <h3 class="font-medium text-gray-900">Notifications</h3>
               <button 
                 v-if="notifications.unread.length"
                 @click="markAllAsRead"
-                class="text-xs text-blue-600 hover:text-blue-700"
+                class="text-xs text-blue-700 hover:text-blue-800"
               >
                 Mark all as read
               </button>
@@ -67,8 +67,8 @@
                 <div
                   v-for="notification in allNotifications"
                   :key="notification.id"
-                  class="px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-0"
-                  :class="{ 'bg-blue-50/40': !notification.read }"
+                  class="px-4 py-3 hover:bg-gray-50/80 border-b border-gray-200 last:border-0"
+                  :class="{ 'bg-blue-50/80': !notification.read }"
                 >
                   <div class="flex items-start gap-3">
                     <div 
@@ -78,14 +78,14 @@
                       <component :is="notificationIcons[notification.type]" size="14" />
                     </div>
                     <div>
-                      <p class="text-sm text-gray-700 font-medium">{{ notification.title }}</p>
-                      <p class="text-xs text-gray-500 mt-0.5">{{ notification.message }}</p>
+                      <p class="text-sm text-gray-900 font-medium">{{ notification.title }}</p>
+                      <p class="text-xs text-gray-600 mt-0.5">{{ notification.message }}</p>
                       <div class="flex items-center gap-2 mt-2">
-                        <span class="text-xs text-gray-400">{{ formatTime(notification.timestamp) }}</span>
+                        <span class="text-xs text-gray-500">{{ formatTime(notification.timestamp) }}</span>
                         <button 
                           v-if="!notification.read"
                           @click="markAsRead(notification.id)"
-                          class="text-xs text-blue-600 hover:text-blue-700"
+                          class="text-xs text-blue-700 hover:text-blue-800"
                         >
                           Mark as read
                         </button>
@@ -105,10 +105,10 @@
       <!-- User Info -->
       <div class="flex items-center space-x-3">
         <div class="text-right">
-          <p class="text-sm font-medium text-gray-700">{{ auth.user?.name || 'User' }}</p>
-          <p class="text-xs text-gray-500">{{ auth.isAdmin ? 'Administrator' : 'Advisor' }}</p>
+          <p class="text-sm font-medium text-gray-900">{{ auth.user?.name || 'User' }}</p>
+          <p class="text-xs text-gray-600">{{ auth.isAdmin ? 'Administrator' : 'Advisor' }}</p>
         </div>
-        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 flex items-center justify-center text-white shadow-sm">
+        <div class="w-8 h-8 rounded-full bg-blue-700 flex items-center justify-center text-white shadow-sm font-semibold text-sm">
           {{ userInitials }}
         </div>
       </div>
@@ -168,9 +168,9 @@ const notifications = ref({
 })
 
 const notificationTypeStyles = {
-  alert: 'bg-red-100 text-red-600',
-  info: 'bg-blue-100 text-blue-600',
-  success: 'bg-green-100 text-green-600'
+  alert: 'bg-amber-100 text-amber-700',
+  info: 'bg-blue-100 text-blue-700',
+  success: 'bg-green-100 text-green-700'
 }
 
 const notificationIcons = {

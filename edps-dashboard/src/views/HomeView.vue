@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 space-y-10">
+  <div class="p-6 lg:p-8 space-y-10 bg-gradient-to-br from-slate-50 to-white min-h-screen text-gray-900">
     <!-- Summary Cards -->
     <section>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

@@ -1,9 +1,9 @@
 <template>
-  <div class="bg-gradient-to-br from-emerald-50/80 to-emerald-50/40 p-5 rounded-2xl shadow-lg border border-emerald-100/50 transition-all duration-200 hover:shadow-xl hover:scale-[1.02]">
+  <div class="bg-gradient-to-br from-indigo-50/80 to-indigo-50/40 p-5 rounded-2xl shadow-lg border border-indigo-100/50 transition-all duration-200 hover:shadow-xl hover:scale-[1.02]">
     <!-- Header -->
     <div class="mb-3">
       <div class="flex items-center gap-2.5 mb-1">
-        <div class="p-2 rounded-lg bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-600">
+        <div class="p-2 rounded-lg bg-gradient-to-br from-indigo-100 to-indigo-50 text-indigo-600">
           <PieChart class="w-3.5 h-3.5" />
         </div>
         <h3 class="text-sm font-semibold text-gray-900">
@@ -22,6 +22,7 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref, watch, nextTick, onMounted } from 'vue'
 import { PieChart } from 'lucide-vue-next'
@@ -34,10 +35,10 @@ import {
   Title
 } from 'chart.js'
 
-// Register required components
+// Register components
 Chart.register(PieController, ArcElement, Tooltip, Legend, Title)
 
-// Props from parent
+// Props
 const props = defineProps({
   summary: {
     type: Object,
@@ -49,19 +50,15 @@ const props = defineProps({
   }
 })
 
-// Canvas reference and chart instance
+// Canvas & chart ref
 const canvasRef = ref(null)
 let chartInstance = null
 
-// Chart setup
 const createChart = () => {
   if (!canvasRef.value) return
-  if (chartInstance) {
-    chartInstance.destroy()
-  }
+  if (chartInstance) chartInstance.destroy()
 
   const ctx = canvasRef.value.getContext('2d')
-
   const data = [
     props.summary.low?.count || 0,
     props.summary.moderate?.count || 0,
@@ -72,18 +69,16 @@ const createChart = () => {
     type: 'pie',
     data: {
       labels: ['Low Risk', 'Moderate Risk', 'High Risk'],
-      datasets: [
-        {
-          data,
-          backgroundColor: ['#10b981', '#fbbf24', '#f87171'],
-          borderColor: '#ffffff',
-          borderWidth: 2,
-          hoverBorderColor: '#ffffff',
-          hoverBorderWidth: 3,
-          hoverOffset: 6,
-          spacing: 2
-        }
-      ]
+      datasets: [{
+        data,
+        backgroundColor: ['#10b981', '#f59e0b', '#ef4444'], // unified palette
+        borderColor: '#ffffff',
+        borderWidth: 2,
+        hoverBorderColor: '#ffffff',
+        hoverBorderWidth: 3,
+        hoverOffset: 8,
+        spacing: 2
+      }]
     },
     options: {
       responsive: true,
@@ -91,7 +86,7 @@ const createChart = () => {
       animation: {
         animateScale: true,
         animateRotate: true,
-        duration: 500
+        duration: 600
       },
       plugins: {
         legend: {
@@ -103,26 +98,26 @@ const createChart = () => {
             padding: 12,
             borderRadius: 3,
             font: {
-              size: 11,
+              size: 12,
               family: "'Inter', sans-serif",
               weight: '500'
             },
             generateLabels: (chart) => {
-              const data = chart.data
-              return data.labels.map((label, index) => ({
+              const dataset = chart.data.datasets[0]
+              return chart.data.labels.map((label, i) => ({
                 text: label,
-                fillStyle: data.datasets[0].backgroundColor[index],
-                strokeStyle: data.datasets[0].backgroundColor[index],
+                fillStyle: dataset.backgroundColor[i],
+                strokeStyle: dataset.backgroundColor[i],
                 lineWidth: 0,
                 hidden: false,
-                index: index
+                index: i
               }))
             }
           }
         },
         tooltip: {
-          backgroundColor: 'white',
-          titleColor: '#374151',
+          backgroundColor: '#ffffff',
+          titleColor: '#111827',
           bodyColor: '#374151',
           borderColor: '#e5e7eb',
           borderWidth: 1,
@@ -145,9 +140,7 @@ const createChart = () => {
           }
         }
       },
-      layout: {
-        padding: 20
-      },
+      layout: { padding: 20 },
       onClick: (event, elements) => {
         if (!elements.length || !props.onFilter) return
         const index = elements[0].index
@@ -159,16 +152,6 @@ const createChart = () => {
   })
 }
 
-// Watch for changes
-watch(
-  () => props.summary,
-  () => {
-    nextTick(() => createChart())
-  },
-  { immediate: true }
-)
-
-onMounted(() => {
-  nextTick(() => createChart())
-})
+watch(() => props.summary, () => nextTick(createChart), { immediate: true })
+onMounted(() => nextTick(createChart))
 </script>

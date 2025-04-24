@@ -3,14 +3,14 @@
     <!-- Header -->
     <div class="p-6">
       <div class="flex items-center gap-3 mb-2">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 flex items-center justify-center text-white shadow-lg shadow-blue-200 ring-4 ring-blue-50">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 flex items-center justify-center text-white shadow-lg shadow-blue-200/50 ring-4 ring-blue-50">
           <GraduationCap size="20" strokeWidth={1.5} />
         </div>
         <div>
-          <h1 class="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent tracking-tight">
+          <h1 class="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent tracking-tight">
             EDPS
           </h1>
-          <p class="text-sm font-medium text-gray-500">
+          <p class="text-sm font-medium text-gray-600">
             {{ auth.isAdmin ? 'Admin' : 'Advisor' }} Portal
           </p>
         </div>
@@ -22,7 +22,7 @@
       <!-- Main Navigation -->
       <div class="space-y-1">
         <div class="mb-2 px-3">
-          <h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Main</h2>
+          <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Main</h2>
         </div>
         
         <RouterLink
@@ -32,7 +32,7 @@
         >
           <LayoutDashboard
             size="18"
-            :class="isActiveExact('/') ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-600'"
+            :class="isActiveExact('/') ? 'text-blue-700' : 'text-gray-500 group-hover:text-blue-700'"
           />
           <span>Dashboard</span>
         </RouterLink>
@@ -44,7 +44,7 @@
         >
           <Users
             size="18"
-            :class="isActive('/students') ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-600'"
+            :class="isActive('/students') ? 'text-blue-700' : 'text-gray-500 group-hover:text-blue-700'"
           />
           <span>Students</span>
         </RouterLink>
@@ -56,7 +56,7 @@
         >
           <Upload
             size="18"
-            :class="isActive('/upload') ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-600'"
+            :class="isActive('/upload') ? 'text-blue-700' : 'text-gray-500 group-hover:text-blue-700'"
           />
           <span>Upload CSV</span>
         </RouterLink>
@@ -65,11 +65,11 @@
       <!-- Admin Section -->
       <template v-if="auth.isAdmin">
         <div class="my-6">
-          <div class="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent opacity-75"></div>
+          <div class="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent opacity-60"></div>
         </div>
         <div class="space-y-1">
           <div class="mb-2 px-3">
-            <h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Administration</h2>
+            <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Administration</h2>
           </div>
           <RouterLink
             to="/admin"
@@ -78,7 +78,7 @@
           >
             <ShieldCheck
               size="18"
-              :class="isActive('/admin') ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-600'"
+              :class="isActive('/admin') ? 'text-blue-700' : 'text-gray-500 group-hover:text-blue-700'"
             />
             <span>Admin Panel</span>
           </RouterLink>
@@ -87,9 +87,9 @@
     </nav>
 
     <!-- Footer: Settings & Logout -->
-    <div class="p-3 border-t border-gray-100 space-y-1 bg-gray-50/50">
+    <div class="p-3 border-t border-gray-100 space-y-1 bg-gray-50/80">
       <div class="mb-2 px-3">
-        <h2 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Account</h2>
+        <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Account</h2>
       </div>
       <RouterLink
         to="/settings"
@@ -98,7 +98,7 @@
       >
         <Settings
           size="18"
-          :class="isActive('/settings') ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-600'"
+          :class="isActive('/settings') ? 'text-blue-700' : 'text-gray-500 group-hover:text-blue-700'"
         />
         <span>Settings</span>
       </RouterLink>
@@ -109,9 +109,9 @@
       >
         <LogOut
           size="18"
-          class="text-gray-500 group-hover:text-red-600 transition-colors"
+          class="text-gray-500 group-hover:text-red-700 transition-colors"
         />
-        <span class="group-hover:text-red-600 transition-colors">Logout</span>
+        <span class="group-hover:text-red-700 transition-colors">Logout</span>
       </button>
     </div>
   </aside>
@@ -158,6 +158,6 @@ const handleLogout = () => {
 <style scoped>
 .nav-link {
   @apply flex items-center gap-3 px-3 py-2 text-sm text-gray-600 rounded-lg transition-all duration-200;
-  @apply hover:bg-blue-50/60 hover:text-blue-700;
+  @apply hover:bg-blue-50/70 hover:text-blue-700;
 }
 </style>

@@ -15,7 +15,7 @@
 
     <!-- Chart -->
     <div class="mb-3">
-      <div class="h-[200px]">
+      <div class="h-[240px]">
         <BarChart
           v-if="chartData.labels.length"
           :key="renderKey"
