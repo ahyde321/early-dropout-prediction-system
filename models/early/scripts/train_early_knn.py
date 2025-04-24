@@ -34,21 +34,24 @@ def check_file_exists(filepath):
         sys.exit(1)
     print(f"✅ Found file: {filepath}")
 
-# === Train KNN Model ===
-check_file_exists(X_train_path)
-check_file_exists(y_train_path)
+# === Verify required files ===
+for path in [X_train_path, y_train_path, X_val_path, y_val_path]:
+    check_file_exists(path)
 
+# === Train KNN Model ===
 print("🚀 Training KNN model (early) with hyperparameter optimization...")
-train_optimized_knn(
+train_result = train_optimized_knn(
     model_path=model_path,
     X_path=X_train_path,
     y_path=y_train_path
 )
+
 check_file_exists(model_path)
 print(f"✅ Model saved at {model_path}")
+print(f"🔧 Hyperparameters used: {train_result['best_params']}")
 
 # === Evaluate on Training Data ===
-print("📊 Evaluating on Training Data...")
+print("\n📊 Evaluating on Training Data...")
 evaluate_model(
     x_path=X_train_path,
     y_path=y_train_path,
@@ -56,14 +59,11 @@ evaluate_model(
 )
 
 # === Evaluate on Validation Data ===
-check_file_exists(X_val_path)
-check_file_exists(y_val_path)
-
-print("📊 Evaluating on Validation Data...")
+print("\n📊 Evaluating on Validation Data...")
 evaluate_model(
     x_path=X_val_path,
     y_path=y_val_path,
     model_path=model_path
 )
 
-print("🎯 Early KNN Model Training & Evaluation Completed Successfully!")
+print("\n🎯 Early KNN Model Training & Evaluation Completed Successfully!")

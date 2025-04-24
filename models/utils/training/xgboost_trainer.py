@@ -3,10 +3,13 @@ import pandas as pd
 import pickle
 from xgboost import XGBClassifier
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
+
 
 def train_xgboost(X_train_path, y_train_path, model_path):
     """
-    Train an XGBoost model with hyperparameter tuning and save it using pickle.
+    Train an XGBoost model with hyperparameter tuning, scaling, and save it using pickle.
 
     Parameters:
         X_train_path (str): Path to the training feature CSV.
@@ -17,26 +20,31 @@ def train_xgboost(X_train_path, y_train_path, model_path):
     X_train = pd.read_csv(X_train_path)
     y_train = pd.read_csv(y_train_path).iloc[:, 0]
 
-    # Define model and parameter grid
-    xgb = XGBClassifier(
-        objective='binary:logistic',
-        eval_metric='logloss',
-        n_jobs=-1,
-        random_state=42
-    )
+    # Define preprocessing pipeline (scaling + XGBoost)
+    pipeline = Pipeline([
+        ('scaler', StandardScaler()),
+        ('xgb', XGBClassifier(
+            objective='binary:logistic',
+            eval_metric='logloss',
+            n_jobs=-1,
+            random_state=42
+        ))
+    ])
 
+    # Define hyperparameter grid
     param_grid = {
-        'n_estimators': [100, 200],
-        'max_depth': [3, 5, 7],
-        'learning_rate': [0.01, 0.1, 0.2],
-        'subsample': [0.8, 1.0],
-        'colsample_bytree': [0.8, 1.0]
+        'xgb__n_estimators': [100, 200, 300],
+        'xgb__max_depth': [3, 5, 7],
+        'xgb__learning_rate': [0.01, 0.1, 0.2],
+        'xgb__subsample': [0.8, 1.0],
+        'xgb__colsample_bytree': [0.8, 1.0],
+        'xgb__gamma': [0, 0.1, 0.2]  # Regularization parameter
     }
 
     cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
     grid_search = GridSearchCV(
-        estimator=xgb,
+        estimator=pipeline,
         param_grid=param_grid,
         cv=cv,
         scoring='f1',
@@ -44,7 +52,7 @@ def train_xgboost(X_train_path, y_train_path, model_path):
         n_jobs=-1
     )
 
-    # Fit and get best model
+    # Fit the grid search
     grid_search.fit(X_train, y_train)
     best_model = grid_search.best_estimator_
     best_params = grid_search.best_params_

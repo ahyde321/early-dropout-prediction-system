@@ -4,6 +4,7 @@ import pandas as pd
 import joblib
 import numpy as np
 import matplotlib.pyplot as plt
+import shap
 
 from sklearn.metrics import (
     accuracy_score,
@@ -25,7 +26,7 @@ if EARLY_DIR not in sys.path:
 if UTILS_DIR not in sys.path:
     sys.path.append(UTILS_DIR)
 
-# ✅ Import early model paths
+# ✅ Import paths
 from path_config import ARTIFACTS_DIR, READY_DIR
 
 # === Load model & test data ===
@@ -33,17 +34,12 @@ MODEL_PATH = os.path.join(ARTIFACTS_DIR, "random_forest_model.pkl")
 X_TEST_PATH = os.path.join(READY_DIR, "X_test.csv")
 Y_TEST_PATH = os.path.join(READY_DIR, "y_test.csv")
 
-# --- Load model ---
 model = joblib.load(MODEL_PATH)
-
-# --- Load test data ---
 X_test = pd.read_csv(X_TEST_PATH)
 y_test = pd.read_csv(Y_TEST_PATH)
 
-# ---- Make predictions ----
+# === Predictions ===
 y_pred = model.predict(X_test)
-
-# ---- Try to get prediction probabilities ----
 try:
     y_proba = model.predict_proba(X_test)[:, 1]
     proba_available = True
@@ -51,7 +47,7 @@ except AttributeError:
     y_proba = None
     proba_available = False
 
-# ---- Evaluation metrics ----
+# === Evaluation Metrics ===
 print("📊 Evaluation Metrics (Early RF Model):")
 print(f"Accuracy:  {accuracy_score(y_test, y_pred):.4f}")
 print(f"Precision: {precision_score(y_test, y_pred):.4f}")
@@ -60,7 +56,7 @@ print(f"F1 Score:  {f1_score(y_test, y_pred):.4f}")
 print("\n📄 Classification Report:\n", classification_report(y_test, y_pred))
 print("🧮 Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
 
-# ---- Optional: Plot ROC Curve ----
+# === ROC Curve ===
 if proba_available and len(np.unique(y_test)) == 2:
     fpr, tpr, _ = roc_curve(y_test, y_proba)
     roc_auc = auc(fpr, tpr)

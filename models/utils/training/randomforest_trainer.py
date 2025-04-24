@@ -1,12 +1,27 @@
 import pandas as pd
 import pickle
 import os
+import sys
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
 
-def train_random_forest(X_train_path, y_train_path, model_path, optimize=False, search_type="random", cv=5, n_iter=20):
+# Allow access to utils even when run directly
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+
+def train_random_forest(
+    X_train_path,
+    y_train_path,
+    model_path,
+    optimize=False,
+    search_type="random",
+    cv=5,
+    n_iter=20,
+    early_stop_cv_score_threshold=None,
+    param_grid_override=None
+):
     """
     Trains a Random Forest model with default parameters or optimizes hyperparameters using RandomizedSearchCV/GridSearchCV.
+    Adds strong regularization defaults to prevent overfitting.
 
     Parameters:
         X_train_path (str): Path to training features CSV.
@@ -16,6 +31,8 @@ def train_random_forest(X_train_path, y_train_path, model_path, optimize=False, 
         search_type (str): "random" or "grid"
         cv (int): Cross-validation folds.
         n_iter (int): Iterations for RandomizedSearchCV (ignored for GridSearchCV).
+        early_stop_cv_score_threshold (float): Optional early stopping if mean CV score < threshold.
+        param_grid_override (dict): Optional custom hyperparameter grid to override the default.
 
     Returns:
         dict: Best parameters and feature importance DataFrame.
@@ -27,16 +44,17 @@ def train_random_forest(X_train_path, y_train_path, model_path, optimize=False, 
 
     # ✅ Hyperparameter optimization or default model
     if optimize:
-        param_grid = {
-            "n_estimators": [50, 100, 200, 300, 500],
-            "max_depth": [None, 10, 20, 30, 50],
-            "min_samples_split": [2, 5, 10],
-            "min_samples_leaf": [1, 2, 4],
-            "max_features": ["sqrt", "log2", None],
-            "bootstrap": [True, False]
+        param_grid = param_grid_override if param_grid_override is not None else {
+            "n_estimators": [100, 200, 300, 500],
+            "max_depth": [6, 8, 10, 12, None],
+            "min_samples_split": [5, 10, 20],
+            "min_samples_leaf": [2, 4, 6],
+            "max_features": ["sqrt", "log2"],
+            "bootstrap": [True],
+            "class_weight": ["balanced"]
         }
 
-        model = RandomForestClassifier(class_weight="balanced", random_state=42)
+        model = RandomForestClassifier(random_state=42)
 
         if search_type == "random":
             print("🔍 Running Randomized Search for Random Forest...")
@@ -64,15 +82,32 @@ def train_random_forest(X_train_path, y_train_path, model_path, optimize=False, 
         search.fit(X_train, y_train)
         best_model = search.best_estimator_
         best_params = search.best_params_
+        mean_cv_score = search.best_score_
+
         print("\n✅ Best Random Forest Hyperparameters:", best_params)
+        print(f"📈 Best CV Score: {mean_cv_score:.4f}")
+
+        if early_stop_cv_score_threshold and mean_cv_score < early_stop_cv_score_threshold:
+            print(f"⛔ Early stopping: best CV score {mean_cv_score:.4f} < threshold {early_stop_cv_score_threshold}")
+            return {"best_params": best_params, "feature_importance": None}
 
     else:
-        print("🚀 Training Random Forest with default parameters...")
-        best_model = RandomForestClassifier(n_estimators=100, class_weight="balanced", random_state=42)
+        print("🚀 Training Random Forest with default anti-overfit parameters...")
+        best_model = RandomForestClassifier(
+            n_estimators=100,
+            max_depth=8,
+            min_samples_split=10,
+            min_samples_leaf=4,
+            max_features="sqrt",
+            bootstrap=True,
+            class_weight="balanced",
+            random_state=42
+        )
         best_model.fit(X_train, y_train)
-        best_params = "Default parameters used."
+        best_params = "Default (regularized) parameters used."
 
     # ✅ Log Feature Importance
+    assert isinstance(best_model, RandomForestClassifier)
     feature_importance = pd.DataFrame({
         "Feature": X_train.columns,
         "Importance": best_model.feature_importances_

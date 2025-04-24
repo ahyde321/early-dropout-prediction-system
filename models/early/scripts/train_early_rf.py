@@ -34,16 +34,22 @@ def check_file_exists(filepath):
         sys.exit(1)
     print(f"✅ Found file: {filepath}")
 
-# === Train Random Forest ===
+# === Train Random Forest (with optimization) ===
 check_file_exists(X_train_path)
 check_file_exists(y_train_path)
 
-print("🚀 Training Random Forest model (early)...")
+print("🚀 Training Random Forest model (early) with optimization...")
 train_random_forest(
     X_train_path=X_train_path,
     y_train_path=y_train_path,
-    model_path=model_path
+    model_path=model_path,
+    optimize=True,
+    search_type="random",
+    n_iter=30,
+    cv=5,
+    early_stop_cv_score_threshold=0.7
 )
+
 check_file_exists(model_path)
 
 # === Evaluate on training data ===
