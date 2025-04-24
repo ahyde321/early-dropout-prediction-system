@@ -39,3 +39,6 @@ build/
 nosetests.xml
 test-*.xml
 tox.ini
+
+# Node
+node_modules/
