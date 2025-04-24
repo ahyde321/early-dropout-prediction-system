@@ -1,34 +1,26 @@
 <template>
-  <div
-  class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-3xl border border-gray-200 shadow-md hover:shadow-xl hover:scale-[1.015] transition-transform duration-300"
-  >
-    <!-- Header with Icon -->
-    <div class="flex items-center gap-4 mb-5">
-      <div
-        class="p-2 rounded-full bg-gradient-to-br from-indigo-100 to-indigo-200 text-indigo-700 shadow-md ring-2 ring-indigo-300">
-        <PieChart class="w-6 h-6" stroke-width="2" />
-      </div>
-
-      <div>
-        <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide">
-          Overview
-        </h2>
-        <h3
-          class="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent tracking-tight"
-        >
+  <div class="bg-blue-50/50 p-6 rounded-3xl shadow-sm transition-all duration-200 hover:shadow-md hover:bg-blue-50/70">
+    <!-- Header -->
+    <div class="mb-4">
+      <div class="flex items-center gap-3 mb-1">
+        <div class="p-2 rounded-lg bg-blue-100 text-blue-600 transition-colors duration-200 group-hover:bg-blue-200">
+          <PieChart class="w-4 h-4" />
+        </div>
+        <h3 class="text-[15px] font-semibold text-gray-900">
           Risk Distribution
         </h3>
       </div>
+      <p class="text-sm text-gray-500 ml-9">Overview</p>
     </div>
 
-
     <!-- Chart Container -->
-    <div class="relative h-64 w-full">
-      <canvas ref="canvasRef" class="w-full h-full"></canvas>
+    <div class="mb-4">
+      <div class="h-[240px]">
+        <canvas ref="canvasRef" class="w-full h-full"></canvas>
+      </div>
     </div>
   </div>
 </template>
-
 
 <script setup>
 import { ref, watch, nextTick, onMounted } from 'vue'
@@ -83,8 +75,12 @@ const createChart = () => {
       datasets: [
         {
           data,
-          backgroundColor: ['#34d399', '#fbbf24', '#f87171'],
-          borderWidth: 1
+          backgroundColor: ['#3b82f6', '#fbbf24', '#f87171'],
+          borderColor: '#ffffff',
+          borderWidth: 2,
+          hoverBorderColor: '#ffffff',
+          hoverBorderWidth: 3,
+          spacing: 2
         }
       ]
     },
@@ -93,34 +89,61 @@ const createChart = () => {
       maintainAspectRatio: false,
       animation: {
         animateScale: true,
-        duration: 800
+        duration: 500
       },
       plugins: {
         legend: {
           position: 'bottom',
           labels: {
-            color: '#4b5563',
-            boxWidth: 14,
-            boxHeight: 14,
-            borderRadius: 4,
+            color: '#374151',
+            boxWidth: 12,
+            boxHeight: 12,
+            padding: 15,
+            borderRadius: 3,
             font: {
               size: 13,
-              weight: '500'
+              family: "'Inter', sans-serif"
             },
-            padding: 20
+            generateLabels: (chart) => {
+              const data = chart.data
+              return data.labels.map((label, index) => ({
+                text: label,
+                fillStyle: data.datasets[0].backgroundColor[index],
+                strokeStyle: data.datasets[0].backgroundColor[index],
+                lineWidth: 0,
+                hidden: false,
+                index: index
+              }))
+            }
           }
         },
         tooltip: {
+          backgroundColor: 'white',
+          titleColor: '#374151',
+          bodyColor: '#374151',
+          borderColor: '#e5e7eb',
+          borderWidth: 1,
+          padding: 12,
+          cornerRadius: 8,
+          titleFont: {
+            size: 13,
+            weight: 600
+          },
+          bodyFont: {
+            size: 12
+          },
           callbacks: {
             label: (context) => {
               const value = context.parsed
-              const label = context.label
-              const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0)
+              const total = context.dataset.data.reduce((a, b) => a + b, 0)
               const percent = ((value / total) * 100).toFixed(1)
-              return `${label}: ${value} students (${percent}%)`
+              return `${context.label}: ${value.toLocaleString()} students (${percent}%)`
             }
           }
         }
+      },
+      layout: {
+        padding: 20
       },
       onClick: (event, elements) => {
         if (!elements.length || !props.onFilter) return

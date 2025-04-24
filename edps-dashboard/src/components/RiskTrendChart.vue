@@ -1,55 +1,50 @@
 <template>
-  <div
-    class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-3xl shadow-md border border-gray-200 hover:shadow-xl hover:scale-[1.01] transition-transform duration-300 relative"
-  >
+  <div class="bg-cyan-50/50 p-6 rounded-3xl shadow-sm transition-all duration-200 hover:shadow-md hover:bg-cyan-50/70">
     <!-- Header -->
-    <div class="flex justify-between items-center mb-4">
-      <div class="flex items-center gap-4">
-        <div class="p-2 rounded-full bg-sky-100 text-sky-600 shadow-inner ring-2 ring-sky-300">
-          <TrendingUp class="w-6 h-6" />
+    <div class="mb-4">
+      <div class="flex items-center gap-3 mb-1">
+        <div class="p-2 rounded-lg bg-cyan-100 text-cyan-600 transition-colors duration-200 group-hover:bg-cyan-200">
+          <LineChartIcon class="w-4 h-4" />
         </div>
-        <div>
-          <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wide">
-            Historical Trend
-          </h2>
-          <h3 class="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent tracking-tight">
-            Risk Categories Over Time
-          </h3>
-        </div>
+        <h3 class="text-[15px] font-semibold text-gray-900">
+          Risk Categories Over Time
+        </h3>
       </div>
-    </div>
-
-    <!-- Legend (Custom, below header) -->
-    <div class="flex justify-start gap-6 items-center text-sm font-medium text-gray-600 px-1 mb-2">
-      <div class="flex items-center gap-2">
-        <span class="inline-block w-3 h-3 rounded-full" style="background-color: #34d399"></span>
-        Low Risk
-      </div>
-      <div class="flex items-center gap-2">
-        <span class="inline-block w-3 h-3 rounded-full" style="background-color: #fbbf24"></span>
-        Moderate Risk
-      </div>
-      <div class="flex items-center gap-2">
-        <span class="inline-block w-3 h-3 rounded-full" style="background-color: #f87171"></span>
-        High Risk
-      </div>
+      <p class="text-sm text-gray-500 ml-9">Historical Trend</p>
     </div>
 
     <!-- Chart -->
-    <div class="h-64">
-      <LineChart
-        v-if="chartData.datasets.length"
-        :data="chartData"
-        :options="chartOptions"
-        class="w-full h-full"
-      />
+    <div class="mb-6">
+      <div class="h-[240px]">
+        <LineChart
+          v-if="chartData.datasets.length"
+          :data="chartData"
+          :options="chartOptions"
+          class="w-full h-full"
+        />
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="flex justify-center gap-6 items-center text-[13px] text-gray-700">
+      <div class="flex items-center gap-2 transition-opacity duration-200 hover:opacity-75">
+        <span class="inline-block w-2 h-2 rounded-full bg-cyan-500"></span>
+        Low Risk
+      </div>
+      <div class="flex items-center gap-2 transition-opacity duration-200 hover:opacity-75">
+        <span class="inline-block w-2 h-2 rounded-full bg-amber-400"></span>
+        Moderate Risk
+      </div>
+      <div class="flex items-center gap-2 transition-opacity duration-200 hover:opacity-75">
+        <span class="inline-block w-2 h-2 rounded-full bg-red-400"></span>
+        High Risk
+      </div>
     </div>
   </div>
 </template>
 
-
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { Line } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -59,12 +54,10 @@ import {
   LineElement,
   PointElement,
   LinearScale,
-  CategoryScale,
-  Filler
+  CategoryScale
 } from 'chart.js'
-import { TrendingUp } from 'lucide-vue-next'
+import { LineChart as LineChartIcon } from 'lucide-vue-next'
 import api from '@/services/api'
-import FilterPopover from '@/components/FilterPopover.vue'
 
 ChartJS.register(
   Title,
@@ -73,90 +66,11 @@ ChartJS.register(
   LineElement,
   PointElement,
   LinearScale,
-  CategoryScale,
-  Filler
+  CategoryScale
 )
 
 const LineChart = Line
 const chartData = ref({ labels: [], datasets: [] })
-
-const filters = ref({ field: '', value: '' })
-
-const filterFields = {
-  gender: 'Gender',
-  scholarship_holder: 'Scholarship Holder',
-  tuition_fees_up_to_date: 'Tuition Paid',
-  daytime_evening_attendance: 'Attendance Mode',
-  debtor: 'Debtor Status',
-  marital_status: 'Marital Status'
-}
-
-const formatValue = (val) => {
-  if (filters.value.field === 'gender') {
-    return val === 1 ? 'Male' : val === 0 ? 'Female' : val
-  }
-  if (val === 1) return 'Yes'
-  if (val === 0) return 'No'
-  return val
-}
-
-const fetchTrendData = async () => {
-  try {
-    const params = {}
-    if (filters.value.field && filters.value.value !== '') {
-      params.filter_field = filters.value.field
-      params.filter_value = filters.value.value
-    }
-
-    const { data } = await api.get('/students/summary-by-phase', { params })
-    const phases = Object.keys(data)
-    const datasets = [
-      {
-        label: 'Low Risk',
-        data: phases.map(p => data[p].low || 0),
-        borderColor: '#34d399',
-        backgroundColor: 'rgba(52, 211, 153, 0.25)', // More visible fill
-        tension: 0.4,
-        pointBackgroundColor: '#34d399',
-        pointRadius: 6,
-        pointHoverRadius: 7
-      },
-      {
-        label: 'Moderate Risk',
-        data: phases.map(p => data[p].moderate || 0),
-        borderColor: '#fbbf24',
-        backgroundColor: 'rgba(251, 191, 36, 0.25)',
-        tension: 0.4,
-        pointBackgroundColor: '#fbbf24',
-        pointRadius: 6,
-        pointHoverRadius: 7
-      },
-      {
-        label: 'High Risk',
-        data: phases.map(p => data[p].high || 0),
-        borderColor: '#f87171',
-        backgroundColor: 'rgba(248, 113, 113, 0.25)',
-        tension: 0.4,
-        pointBackgroundColor: '#f87171',
-        pointRadius: 6,
-        pointHoverRadius: 7
-      }
-    ]
-
-
-    const hasData = datasets.some(ds => ds.data.some(v => v > 0))
-
-    chartData.value = hasData
-      ? { labels: phases.map(p => p.charAt(0).toUpperCase() + p.slice(1)), datasets }
-      : { labels: [], datasets: [] }
-  } catch (error) {
-    console.error('❌ Error fetching trend data:', error)
-    chartData.value = { labels: [], datasets: [] }
-  }
-}
-
-watch(filters, fetchTrendData)
-onMounted(fetchTrendData)
 
 const chartOptions = {
   responsive: true,
@@ -164,30 +78,113 @@ const chartOptions = {
   plugins: {
     legend: { display: false },
     tooltip: {
-      mode: 'index',
-      intersect: false,
-      backgroundColor: '#1f2937',
-      titleColor: '#fff',
-      bodyColor: '#d1d5db',
-      borderColor: '#4b5563',
+      backgroundColor: 'white',
+      titleColor: '#374151',
+      bodyColor: '#374151',
+      borderColor: '#e5e7eb',
       borderWidth: 1,
-      padding: 10,
-      displayColors: false,
+      padding: 12,
+      displayColors: true,
+      boxPadding: 6,
+      cornerRadius: 8,
+      usePointStyle: true,
+      titleFont: {
+        size: 13,
+        weight: 600
+      },
+      bodyFont: {
+        size: 12
+      },
       callbacks: {
-        label: (context) => `${context.dataset.label}: ${context.parsed.y}`
+        title: (tooltipItems) => {
+          return `Phase: ${tooltipItems[0].label}`
+        },
+        label: (context) => {
+          const value = context.parsed.y
+          return `${context.dataset.label}: ${value.toLocaleString()}`
+        }
       }
     }
   },
   scales: {
     y: {
       beginAtZero: true,
-      ticks: { color: '#6b7280' },
-      grid: { color: '#e5e7eb' }
+      border: { display: false },
+      grid: {
+        color: '#f0f1f3',
+      },
+      ticks: {
+        padding: 6,
+        color: '#9ca3af',
+        font: { size: 11 }
+      }
     },
     x: {
-      ticks: { color: '#6b7280' },
-      grid: { display: false }
+      border: { display: false },
+      grid: { display: false },
+      ticks: {
+        padding: 6,
+        color: '#9ca3af',
+        font: { size: 11 }
+      }
     }
+  },
+  elements: {
+    line: {
+      borderWidth: 2,
+      tension: 0.4
+    },
+    point: {
+      radius: 3,
+      hoverRadius: 5,
+      hoverBorderWidth: 2,
+      hoverBorderColor: 'white'
+    }
+  },
+  interaction: {
+    intersect: false,
+    mode: 'index'
+  },
+  hover: {
+    mode: 'index',
+    intersect: false
   }
 }
+
+const fetchTrendData = async () => {
+  try {
+    const { data } = await api.get('/students/summary-by-phase')
+    const phases = Object.keys(data)
+    const datasets = [
+      {
+        label: 'Low Risk',
+        data: phases.map(p => data[p].low || 0),
+        borderColor: '#06b6d4',  // cyan-500
+        backgroundColor: '#06b6d4'
+      },
+      {
+        label: 'Moderate Risk',
+        data: phases.map(p => data[p].moderate || 0),
+        borderColor: '#fbbf24',
+        backgroundColor: '#fbbf24'
+      },
+      {
+        label: 'High Risk',
+        data: phases.map(p => data[p].high || 0),
+        borderColor: '#f87171',
+        backgroundColor: '#f87171'
+      }
+    ]
+
+    chartData.value = { 
+      labels: phases.map(p => p.charAt(0).toUpperCase() + p.slice(1)), 
+      datasets 
+    }
+  } catch (error) {
+    console.error('Error fetching trend data:', error)
+    chartData.value = { labels: [], datasets: [] }
+  }
+}
+
+onMounted(fetchTrendData)
 </script>
