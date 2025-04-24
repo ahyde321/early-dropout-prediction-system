@@ -165,3 +165,17 @@ def get_distinct_values(field: str = Query(...), db: Session = Depends(get_db)):
     column = valid_fields[field]
     distinct = db.query(column).distinct().all()
     return [d[0] for d in distinct]
+
+@router.get("/students/with-notes")
+def get_students_with_notes(db: Session = Depends(get_db)):
+    students = db.query(Student).filter(Student.notes.isnot(None)).all()
+
+    return [
+        {
+            "student_number": s.student_number,
+            "first_name": s.first_name,
+            "last_name": s.last_name,
+            "reason": s.notes  # use the actual note as the "reason"
+        }
+        for s in students
+    ]

@@ -31,6 +31,9 @@ class Student(Base):
     curricular_units_1st_sem_grade = Column(Float, nullable=True)
     curricular_units_2nd_sem_grade = Column(Float, nullable=True)
 
+    notes = Column(String, nullable=True)
+
+
     # Relationships
     predictions = relationship(
         "RiskPrediction",

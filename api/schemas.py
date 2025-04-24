@@ -20,6 +20,7 @@ class StudentCreate(BaseModel):
     marital_status: int
     scholarship_holder: int
     tuition_fees_up_to_date: int
+    notes: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -28,6 +29,7 @@ class StudentUpdate(BaseModel):
     curricular_units_1st_sem_approved: Optional[int] = None
     curricular_units_1st_sem_grade: Optional[float] = None
     curricular_units_2nd_sem_grade: Optional[float] = None
+    notes: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)
 

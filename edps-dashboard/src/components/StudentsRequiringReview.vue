@@ -42,27 +42,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { NotebookPen } from 'lucide-vue-next'
+import api from '@/services/api'
 
-const students = ref([
-  {
-    student_number: '40342',
-    first_name: 'Evan',
-    last_name: 'Nolan',
-    reason: 'No advisor notes in last 30 days'
-  },
-  {
-    student_number: '40309',
-    first_name: 'Leila',
-    last_name: 'Akhtar',
-    reason: 'Missing follow-up on flagged score'
-  },
-  {
-    student_number: '40281',
-    first_name: 'Jack',
-    last_name: 'Murphy',
-    reason: 'High risk without action logged'
+const students = ref([])
+
+const fetchStudentsWithNotes = async () => {
+  try {
+    const { data } = await api.get('/students/with-notes')
+    students.value = data
+  } catch (error) {
+    console.error('Failed to load students with notes:', error)
   }
-])
+}
+
+onMounted(fetchStudentsWithNotes)
 </script>
+

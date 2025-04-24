@@ -13,9 +13,11 @@
       <p class="text-xs text-gray-500 ml-[38px]">Overview</p>
     </div>
 
-    <!-- Chart Container -->
     <div class="mb-3">
-      <div class="h-[200px]">
+      <div v-if="hasNoData" class="h-[200px] flex items-center justify-center text-gray-400 text-sm">
+        No risk data available.
+      </div>
+      <div v-else class="h-[200px]">
         <canvas ref="canvasRef" class="w-full h-full"></canvas>
       </div>
     </div>
@@ -53,6 +55,13 @@ const props = defineProps({
 // Canvas & chart ref
 const canvasRef = ref(null)
 let chartInstance = null
+
+import { computed } from 'vue'
+
+const hasNoData = computed(() => {
+  const s = props.summary
+  return (!s.low?.count && !s.moderate?.count && !s.high?.count)
+})
 
 const createChart = () => {
   if (!canvasRef.value) return

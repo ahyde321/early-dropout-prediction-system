@@ -17,14 +17,18 @@
     <div class="mb-3">
       <div class="h-[240px]">
         <BarChart
-          v-if="chartData.labels.length"
+          v-if="chartData.labels.length && !hasNoData"
           :key="renderKey"
           :data="chartData"
           :options="chartOptions"
           class="w-full h-full"
         />
+        <div v-else class="h-full flex items-center justify-center text-gray-400 text-sm italic">
+          No risk score data available.
+        </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -41,6 +45,13 @@ import {
   LinearScale
 } from 'chart.js'
 import { BarChart2 } from 'lucide-vue-next'
+import { computed } from 'vue'
+
+const hasNoData = computed(() => {
+  return chartData.value.datasets.length === 0 ||
+    chartData.value.datasets[0].data.every(value => value === 0)
+})
+
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 

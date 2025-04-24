@@ -16,16 +16,20 @@
     <div class="mb-3">
       <div class="h-[200px]">
         <LineChart
-          v-if="chartData.datasets.length"
+          v-if="chartData.datasets.length && !hasNoData"
           :data="chartData"
           :options="chartOptions"
           class="w-full h-full"
         />
+        <div v-else class="h-full flex items-center justify-center text-gray-400 text-sm">
+          No trend data available.
+        </div>
       </div>
     </div>
 
+
     <!-- Legend -->
-    <div class="flex justify-center gap-4 items-center text-xs text-gray-700">
+    <div v-if="!hasNoData" class="flex justify-center gap-4 items-center text-xs text-gray-700">
       <div class="flex items-center gap-1.5 hover:opacity-75 transition-opacity">
         <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
         Low Risk
@@ -39,6 +43,7 @@
         High Risk
       </div>
     </div>
+
   </div>
 </template>
 
@@ -58,6 +63,8 @@ import {
 } from 'chart.js'
 import { LineChart as LineChartIcon } from 'lucide-vue-next'
 import api from '@/services/api'
+import { computed } from 'vue'
+
 
 ChartJS.register(
   Title,
@@ -72,6 +79,13 @@ ChartJS.register(
 
 const LineChart = Line
 const chartData = ref({ labels: [], datasets: [] })
+
+const hasNoData = computed(() => {
+  const datasets = chartData.value.datasets
+  if (!datasets.length) return true // no datasets = no data
+
+  return datasets.every(dataset => dataset.data.every(value => value === 0))
+})
 
 const chartOptions = {
   responsive: true,
