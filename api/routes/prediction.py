@@ -32,9 +32,9 @@ def get_risk_level(score: float) -> str:
     """
     Convert a risk score (0–1) to a four-tier risk level.
     """
-    if score <= 0.5:
+    if score <= 0.4:
         return "low"
-    elif score <= 0.75:
+    elif score <= 0.7:
         return "moderate"
     else:
         return "high"

@@ -4,7 +4,35 @@
       class="w-full max-w-2xl bg-white p-8 rounded-2xl shadow-2xl transition-all duration-500 ease-in-out opacity-0 scale-95"
       ref="uploadCard"
     >
-      <h2 class="text-2xl font-bold mb-6 text-gray-800 text-center">📄 Upload Student CSV</h2>
+      <h2 class="text-2xl font-bold mb-6 text-gray-800 text-center">
+        {{ uploadType === 'students' ? 'Upload Student Data' : 'Upload Student Grades' }}
+      </h2>
+
+      <!-- Upload Type Selector -->
+      <div class="flex justify-center gap-4 mb-6">
+        <button
+          :class="[
+            'px-4 py-2 rounded-md text-sm font-medium transition',
+            uploadType === 'students'
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          ]"
+          @click="uploadType = 'students'"
+        >
+          Upload Students
+        </button>
+        <button
+          :class="[
+            'px-4 py-2 rounded-md text-sm font-medium transition',
+            uploadType === 'grades'
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          ]"
+          @click="uploadType = 'grades'"
+        >
+          Upload Grades
+        </button>
+      </div>
 
       <!-- Drag & Drop Area -->
       <div
@@ -33,7 +61,6 @@
         >
           Reset
         </button>
-
         <button
           class="w-1/2 bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition disabled:opacity-50"
           @click="upload"
@@ -44,7 +71,9 @@
       </div>
 
       <!-- Upload Feedback -->
-      <p v-if="uploaded && uploadSummary?.added === 0" class="text-yellow-600 text-sm text-center mt-1">⚠️ All records were skipped</p>
+      <p v-if="uploaded && uploadSummary?.added === 0" class="text-yellow-600 text-sm text-center mt-1">
+        ⚠️ All records were skipped
+      </p>
       <p v-if="fullRows?.length > 1" class="text-xs text-gray-500 text-center mt-2">
         {{ fullRows.length - 1 }} records ready to upload
       </p>
@@ -53,7 +82,9 @@
       <div v-if="uploadSummary" class="mt-6 text-sm text-gray-700">
         <div class="border rounded-lg p-4 bg-gray-50">
           <h3 class="font-semibold text-base mb-4 text-gray-800">Upload Results</h3>
-          <div class="grid grid-cols-3 gap-4 text-center">
+
+          <!-- STUDENT UPLOAD: Show added/skipped/failed -->
+          <div v-if="uploadSummary.added !== undefined" class="grid grid-cols-3 gap-4 text-center">
             <div class="bg-green-100 text-green-700 rounded p-2">
               <div class="font-medium text-lg">{{ uploadSummary.added || 0 }}</div>
               <div class="text-xs">Added</div>
@@ -67,17 +98,41 @@
               <div class="text-xs">Failed</div>
             </div>
           </div>
+
+          <!-- GRADES UPLOAD: Show updated/skipped -->
+          <div v-else-if="uploadSummary.students_updated" class="grid grid-cols-2 gap-4 text-center">
+            <div class="bg-blue-100 text-blue-700 rounded p-2">
+              <div class="font-medium text-lg">{{ uploadSummary.students_updated.length }}</div>
+              <div class="text-xs">Updated</div>
+            </div>
+            <div class="bg-orange-100 text-orange-700 rounded p-2">
+              <div class="font-medium text-lg">{{ uploadSummary.students_skipped.length }}</div>
+              <div class="text-xs">Skipped</div>
+            </div>
+          </div>
         </div>
 
-        <!-- Skipped Pagination -->
-        <div v-if="uploadSummary.details && uploadSummary.details.skipped && uploadSummary.details.skipped.length" class="mt-6">
-          <PaginatedList :items="uploadSummary.details.skipped" label="Duplicate student_number" />
-        </div>
+        <!-- Detailed Skipped or Failed Info -->
+        <PaginatedList
+          v-if="uploadSummary.details?.skipped?.length"
+          :items="uploadSummary.details.skipped"
+          label="Duplicate student_number"
+          class="mt-6"
+        />
 
-        <!-- Failed Pagination -->
-        <div v-if="uploadSummary.details && uploadSummary.details.failures && uploadSummary.details.failures.length" class="mt-6">
-          <PaginatedList :items="uploadSummary.details.failures" label="Failure reason" />
-        </div>
+        <PaginatedList
+          v-if="uploadSummary.details?.failures?.length"
+          :items="uploadSummary.details.failures"
+          label="Failure reason"
+          class="mt-6"
+        />
+
+        <PaginatedList
+          v-if="uploadSummary.students_skipped?.length"
+          :items="uploadSummary.students_skipped.map(s => ({ student_number: s }))"
+          label="Skipped student_number"
+          class="mt-6"
+        />
       </div>
 
       <!-- CSV Preview -->
@@ -119,11 +174,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import PaginatedList from '@/components/PaginatedList.vue'
 import axios from 'axios'
 import Papa from 'papaparse'
+import { onMounted, ref } from 'vue'
 import { useToast } from 'vue-toastification'
-import PaginatedList from '@/components/PaginatedList.vue'
 
 const toast = useToast()
 const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
@@ -136,6 +191,8 @@ const uploaded = ref(false)
 const uploadSummary = ref(null)
 const fullRows = ref([])
 const uploadCard = ref(null)
+const uploadType = ref('students')  // default to student upload
+
 
 onMounted(() => {
   requestAnimationFrame(() => {
@@ -203,15 +260,20 @@ async function upload() {
   const formData = new FormData()
   formData.append('file', csvFile.value)
 
+  const endpoint =
+    uploadType.value === 'students'
+      ? '/api/upload/students'
+      : '/api/upload/grades'
+
   try {
-    const { data } = await axios.post(`${baseURL.replace(/\/$/, '')}/api/upload/students`, formData)
+    const { data } = await axios.post(`${baseURL.replace(/\/$/, '')}${endpoint}`, formData)
     uploaded.value = true
     uploadSummary.value = data
 
-    if (data.added > 0) {
+    if (data.added > 0 || data.students_updated?.length > 0) {
       toast.success('✅ Upload successful!')
     } else {
-      toast.warning('⚠️ All records were skipped')
+      toast.warning('⚠️ No new records were added')
     }
   } catch (err) {
     uploaded.value = false
@@ -227,4 +289,5 @@ async function upload() {
     console.error('Upload error:', err)
   }
 }
+
 </script>

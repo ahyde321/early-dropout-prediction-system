@@ -52,3 +52,11 @@ def predict_student(student: dict, base_model_dir: str = "models/", return_phase
     print(f"[predict_student] Phase: {phase}, Graduation Probability: {prediction}")
 
     return (prediction, phase) if return_phase else prediction
+
+def get_risk_level(score: float) -> str:
+    if score <= 0.4:
+        return "low"
+    elif score <= 0.7:
+        return "moderate"
+    else:
+        return "high"

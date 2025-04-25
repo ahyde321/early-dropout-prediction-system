@@ -1,11 +1,10 @@
-# api/routes/students.py
-
 from fastapi import UploadFile, File, APIRouter, Depends, HTTPException, Query
 from fastapi.responses import StreamingResponse
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, aliased
 from typing import List
 import pandas as pd
 import io
+from sqlalchemy import func
 
 from db.models import Student, RiskPrediction
 from db.database import SessionLocal
@@ -84,10 +83,6 @@ def get_all_students(db: Session = Depends(get_db)):
             "risk_score": latest.risk_score if latest else None,
             "risk_trend": risk_trend
         })
-        print("📦 student:", {
-            "student_number": s.student_number,
-            "risk_score": latest.risk_score if latest else None
-        })
 
     return results
 
@@ -143,24 +138,21 @@ def get_student_history(student_number: str, db: Session = Depends(get_db)):
 
 @router.get("/students/distinct-values")
 def get_distinct_values(field: str = Query(...), db: Session = Depends(get_db)):
-    from db.models import Student
-
     valid_fields = {
-        "age_at_enrollment": Student.age_at_enrollment,
-        "application_order": Student.application_order,
-        "curricular_units_1st_sem_enrolled": Student.curricular_units_1st_sem_enrolled,
-        "daytime_evening_attendance": Student.daytime_evening_attendance,
-        "debtor": Student.debtor,
-        "displaced": Student.displaced,
-        "gender": Student.gender,
         "marital_status": Student.marital_status,
-        "scholarship_holder": Student.scholarship_holder,
+        "previous_qualification_grade": Student.previous_qualification_grade,
+        "admission_grade": Student.admission_grade,
+        "displaced": Student.displaced,
+        "debtor": Student.debtor,
         "tuition_fees_up_to_date": Student.tuition_fees_up_to_date,
+        "gender": Student.gender,
+        "scholarship_holder": Student.scholarship_holder,
+        "age_at_enrollment": Student.age_at_enrollment,
+        "curricular_units_1st_sem_enrolled": Student.curricular_units_1st_sem_enrolled,
     }
 
     if field not in valid_fields:
-            return {"error": "Invalid field"}
-
+        return {"error": "Invalid field"}
 
     column = valid_fields[field]
     distinct = db.query(column).distinct().all()
@@ -175,7 +167,69 @@ def get_students_with_notes(db: Session = Depends(get_db)):
             "student_number": s.student_number,
             "first_name": s.first_name,
             "last_name": s.last_name,
-            "reason": s.notes  # use the actual note as the "reason"
+            "reason": s.notes
         }
         for s in students
     ]
+
+@router.get("/students/summary-by-phase")
+def get_risk_summary_by_phase(
+    filter_field: str = Query(None),
+    filter_value: str = Query(None),
+    db: Session = Depends(get_db)
+):
+    phase_levels = ["early", "mid", "final"]
+    risk_levels = ["high", "moderate", "low"]
+    result = {phase: {level: 0 for level in risk_levels} for phase in phase_levels}
+
+    valid_fields = {
+        "marital_status": Student.marital_status,
+        "previous_qualification_grade": Student.previous_qualification_grade,
+        "admission_grade": Student.admission_grade,
+        "displaced": Student.displaced,
+        "debtor": Student.debtor,
+        "tuition_fees_up_to_date": Student.tuition_fees_up_to_date,
+        "gender": Student.gender,
+        "scholarship_holder": Student.scholarship_holder,
+        "age_at_enrollment": Student.age_at_enrollment,
+        "curricular_units_1st_sem_enrolled": Student.curricular_units_1st_sem_enrolled,
+    }
+
+    from sqlalchemy import select, desc
+    from sqlalchemy.orm import aliased
+    from sqlalchemy.sql import func, literal_column
+    from sqlalchemy import distinct
+    from sqlalchemy.sql import label
+    from sqlalchemy import over
+
+    latest_pred_subquery = (
+        db.query(
+            RiskPrediction.id,
+            RiskPrediction.student_number,
+            RiskPrediction.model_phase,
+            RiskPrediction.risk_level,
+            RiskPrediction.timestamp,
+            func.row_number().over(
+                partition_by=(RiskPrediction.student_number, RiskPrediction.model_phase),
+                order_by=RiskPrediction.timestamp.desc()
+            ).label("rn")
+        )
+    )
+
+    if filter_field and filter_value is not None:
+        if filter_field in valid_fields:
+            student_subq = db.query(Student.student_number).filter(valid_fields[filter_field] == filter_value).subquery()
+            latest_pred_subquery = latest_pred_subquery.filter(RiskPrediction.student_number.in_(select(student_subq)))
+        else:
+            return {"error": f"Invalid filter field: {filter_field}"}
+
+    latest_pred_subquery = latest_pred_subquery.subquery()
+    alias_pred = aliased(RiskPrediction, latest_pred_subquery)
+
+    latest_preds = db.query(alias_pred).filter(latest_pred_subquery.c.rn == 1).all()
+
+    for pred in latest_preds:
+        if pred.model_phase in phase_levels and pred.risk_level in risk_levels:
+            result[pred.model_phase][pred.risk_level] += 1
+
+    return result

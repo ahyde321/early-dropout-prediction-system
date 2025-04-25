@@ -15,10 +15,25 @@ def get_db():
     finally:
         db.close()
 
+from fastapi import UploadFile, File, APIRouter, Depends
+from sqlalchemy.orm import Session
+from db.models import Student
+from db.database import SessionLocal
+import pandas as pd
+from io import StringIO
+
+router = APIRouter()
+
+# DB Dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 @router.post("/upload/grades")
 def upload_grades(file: UploadFile = File(...), db: Session = Depends(get_db)):
-    from db.models import Student
-
     contents = file.file.read().decode("utf-8")
     df = pd.read_csv(StringIO(contents))
 
@@ -26,17 +41,27 @@ def upload_grades(file: UploadFile = File(...), db: Session = Depends(get_db)):
     skipped = []
 
     for _, row in df.iterrows():
-        student = db.query(Student).filter(Student.student_number == row["student_number"]).first()
+        student_number = row.get("student_number")
+        student = db.query(Student).filter(Student.student_number == student_number).first()
+
         if not student:
-            skipped.append(row["student_number"])
+            skipped.append(student_number)
             continue
 
-        # Update only grade-related fields if provided
+        was_updated = False
         for field in ["curricular_units_1st_sem_approved", "curricular_units_1st_sem_grade", "curricular_units_2nd_sem_grade"]:
             if field in row and pd.notnull(row[field]):
-                setattr(student, field, row[field])
+                new_val = row[field]
+                current_val = getattr(student, field)
 
-        updated.append(student.student_number)
+                if pd.isna(current_val) or current_val != new_val:
+                    setattr(student, field, new_val)
+                    was_updated = True
+
+        if was_updated:
+            updated.append(student_number)
+        else:
+            skipped.append(student_number)
 
     db.commit()
 

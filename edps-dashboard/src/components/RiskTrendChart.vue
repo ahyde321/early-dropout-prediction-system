@@ -48,22 +48,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { Line } from 'vue-chartjs'
+import api from '@/services/api'
 import {
+  CategoryScale,
   Chart as ChartJS,
-  Title,
-  Tooltip,
+  Filler,
   Legend,
+  LinearScale,
   LineElement,
   PointElement,
-  LinearScale,
-  CategoryScale,
-  Filler
+  Title,
+  Tooltip
 } from 'chart.js'
 import { LineChart as LineChartIcon } from 'lucide-vue-next'
-import api from '@/services/api'
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { Line } from 'vue-chartjs'
 
 
 ChartJS.register(
@@ -158,6 +157,7 @@ const chartOptions = {
 const fetchTrendData = async () => {
   try {
     const { data } = await api.get('/students/summary-by-phase')
+    console.log(data)
     const phases = Object.keys(data)
     const datasets = [
       {
