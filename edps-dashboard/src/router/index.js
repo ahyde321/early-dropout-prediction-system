@@ -1,13 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import DashboardLayout from '@/layouts/DashboardLayout.vue'
-import HomeView from '@/views/HomeView.vue'
-import StudentListPage from '@/views/StudentListPage.vue'
-import UploadPage from '@/views/UploadPage.vue'
-import StudentProfilePage from '@/views/StudentProfilePage.vue'
-import NotFound from '@/views/NotFound.vue'
 import LoginView from '@/components/LoginView.vue'
-import { useAuthStore } from '@/stores/authStore' // make sure this store exists
+import DashboardLayout from '@/layouts/DashboardLayout.vue'
+import { useAuthStore } from '@/stores/authStore'; // make sure this store exists
+import HomeView from '@/views/HomeView.vue'
 import ModelInsightsView from "@/views/ModelInsightsView.vue"
+import NotFound from '@/views/NotFound.vue'
+import StudentListPage from '@/views/StudentListPage.vue'
+import StudentProfilePage from '@/views/StudentProfilePage.vue'
+import UploadPage from '@/views/UploadPage.vue'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
@@ -56,7 +56,12 @@ const routes = [
         name: 'Admin',
         component: () => import('@/views/AdminView.vue'),
         meta: { title: 'Admin Panel', requiresAuth: true, requiresAdmin: true }
-      }      
+      },
+      {
+        path: '/predictions',
+        name: 'Predictions',
+        component: () => import('@/views/PredictionsView.vue')  // you'll create this file next
+      }
     ],
   },
   {

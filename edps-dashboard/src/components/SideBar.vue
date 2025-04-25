@@ -50,6 +50,19 @@
         </RouterLink>
 
         <RouterLink
+          to="/predictions"
+          class="nav-link group"
+          :class="isActive('/predictions')"
+        >
+          <BarChart2
+            size="18"
+            :class="isActive('/predictions') ? 'text-blue-700' : 'text-gray-500 group-hover:text-blue-700'"
+          />
+          <span>Predictions</span>
+        </RouterLink>
+
+
+        <RouterLink
           to="/upload"
           class="nav-link group"
           :class="isActive('/upload')"
@@ -131,19 +144,19 @@
 </template>
 
 <script setup>
-import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
-import { useToast } from 'vue-toastification'
 import {
+  BarChart2,
   GraduationCap,
   LayoutDashboard,
-  Users,
-  Upload,
-  ShieldCheck,
-  Settings,
   LogOut,
-  BarChart2
+  Settings,
+  ShieldCheck,
+  Upload,
+  Users
 } from 'lucide-vue-next'
+import { useRoute, useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 
 const route = useRoute()
 const router = useRouter()
