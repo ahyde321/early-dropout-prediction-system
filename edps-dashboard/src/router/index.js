@@ -1,13 +1,16 @@
-import LoginView from '@/components/LoginView.vue'
-import DashboardLayout from '@/layouts/DashboardLayout.vue'
-import { useAuthStore } from '@/stores/authStore'; // make sure this store exists
-import HomeView from '@/views/HomeView.vue'
-import ModelInsightsView from "@/views/ModelInsightsView.vue"
-import NotFound from '@/views/NotFound.vue'
-import StudentListPage from '@/views/StudentListPage.vue'
-import StudentProfilePage from '@/views/StudentProfilePage.vue'
-import UploadPage from '@/views/UploadPage.vue'
-import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore';
+import { createRouter, createWebHistory } from 'vue-router';
+
+import LoginView from '@/components/LoginView.vue';
+import DashboardLayout from '@/layouts/DashboardLayout.vue';
+import AdminView from '@/views/AdminView.vue';
+import HomeView from '@/views/HomeView.vue';
+import ModelInsightsView from '@/views/ModelInsightsView.vue';
+import NotFound from '@/views/NotFound.vue';
+import PredictionsView from '@/views/PredictionsView.vue';
+import StudentListPage from '@/views/StudentListPage.vue';
+import StudentProfile from '@/views/StudentProfileView.vue';
+import UploadPage from '@/views/UploadPage.vue';
 
 const routes = [
   {
@@ -25,7 +28,7 @@ const routes = [
         path: '',
         name: 'Home',
         component: HomeView,
-        meta: { title: 'Dashboard Home', requiresAuth: true },
+        meta: { title: 'Dashboard', requiresAuth: true },
       },
       {
         path: 'students',
@@ -34,33 +37,34 @@ const routes = [
         meta: { title: 'Student List', requiresAuth: true },
       },
       {
-        path: 'students/:id',
+        path: 'students/:student_number',
         name: 'StudentProfile',
-        component: StudentProfilePage,
+        component: StudentProfile,
         meta: { title: 'Student Profile', requiresAuth: true },
       },
       {
         path: 'upload',
         name: 'UploadCSV',
         component: UploadPage,
-        meta: { title: 'Upload CSV', requiresAuth: true },
+        meta: { title: 'Upload Data', requiresAuth: true },
       },
       {
-        path: "/insights",
-        name: "ModelInsights",
+        path: 'insights',
+        name: 'ModelInsights',
         component: ModelInsightsView,
-        meta: { requiresAuth: true }
+        meta: { title: 'Model Insights', requiresAuth: true },
       },
       {
         path: 'admin',
         name: 'Admin',
-        component: () => import('@/views/AdminView.vue'),
-        meta: { title: 'Admin Panel', requiresAuth: true, requiresAdmin: true }
+        component: AdminView,
+        meta: { title: 'Admin Panel', requiresAuth: true, requiresAdmin: true },
       },
       {
-        path: '/predictions',
+        path: 'predictions',
         name: 'Predictions',
-        component: () => import('@/views/PredictionsView.vue')  // you'll create this file next
+        component: PredictionsView,
+        meta: { title: 'Predictions', requiresAuth: true },
       }
     ],
   },
@@ -69,33 +73,39 @@ const routes = [
     name: 'NotFound',
     component: NotFound,
     meta: { title: 'Page Not Found' },
-  },
-]
+  }
+];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-})
+});
 
+// Navigation Guards
 router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore()
-  const token = localStorage.getItem('token')
-  const tokenExpiry = localStorage.getItem('token_expiry')
+  const authStore = useAuthStore();
+  const token = localStorage.getItem('token');
+  const expiry = localStorage.getItem('token_expiry');
 
-  if (token && tokenExpiry && Date.now() > parseInt(tokenExpiry)) {
-    authStore.logout()
-    return next('/login')
+  if (token && expiry && Date.now() > parseInt(expiry)) {
+    authStore.logout();
+    return next('/login');
   }
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    return next('/login')
+    return next('/login');
   }
 
-  next()
-})
+  if (to.meta.requiresAdmin && !authStore.isAdmin) {
+    return next('/'); // redirect non-admins to home
+  }
 
+  next();
+});
+
+// Dynamic Title
 router.afterEach((to) => {
-  document.title = to.meta.title ? `EDPS | ${to.meta.title}` : 'EDPS'
-})
+  document.title = to.meta.title ? `EDPS | ${to.meta.title}` : 'EDPS';
+});
 
-export default router
+export default router;

@@ -61,7 +61,6 @@
           <span>Predictions</span>
         </RouterLink>
 
-
         <RouterLink
           to="/upload"
           class="nav-link group"
@@ -71,7 +70,7 @@
             size="18"
             :class="isActive('/upload') ? 'text-blue-700' : 'text-gray-500 group-hover:text-blue-700'"
           />
-          <span>Upload CSV</span>
+          <span>Upload</span>
         </RouterLink>
         <!-- Model Insights -->
         <RouterLink
