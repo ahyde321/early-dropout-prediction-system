@@ -1,8 +1,6 @@
-EARLY_FIELDS = [
-    "student_number", "first_name", "last_name","age_at_enrollment", "application_order", "curricular_units_1st_sem_enrolled",
-    "daytime_evening_attendance", "debtor", "displaced", "gender",
-    "marital_status", "scholarship_holder", "tuition_fees_up_to_date"
-]
+EARLY_FIELDS = ['student_number', 'first_name', 'last_name', 'marital_status', 'previous_qualification_grade', 'admission_grade',
+                'displaced', 'debtor', 'tuition_fees_up_to_date', 'gender', 'scholarship_holder', 'age_at_enrollment',
+                'curricular_units_1st_sem_enrolled']
 
 MID_FIELDS = EARLY_FIELDS[:1] + [  # starts with shared fields
     "curricular_units_1st_sem_approved",
