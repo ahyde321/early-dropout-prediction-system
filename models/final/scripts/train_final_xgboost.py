@@ -1,70 +1,68 @@
 import os
 import sys
 
-# 🔧 Set up path to access `path_config.py` and `utils/`
+# 🔧 Set up paths for `path_config.py` and shared `utils`
 FINAL_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 UTILS_DIR = os.path.abspath(os.path.join(FINAL_DIR, "..", "utils"))
 
-# Add paths to sys.path for clean imports
 if FINAL_DIR not in sys.path:
     sys.path.append(FINAL_DIR)
 if UTILS_DIR not in sys.path:
     sys.path.append(UTILS_DIR)
 
-# ✅ Import from final model's path config and shared utils
+# ✅ Import constants and utilities
 from path_config import READY_DIR, ARTIFACTS_DIR
 from training.xgboost_trainer import train_xgboost
 from data.model_evaluator import evaluate_model
 
-# === Ensure required directories exist ===
+# === Ensure necessary directories exist ===
 os.makedirs(ARTIFACTS_DIR, exist_ok=True)
 os.makedirs(READY_DIR, exist_ok=True)
 
-# === File paths ===
+# === Define file paths ===
 X_train_path = os.path.join(READY_DIR, "X_train.csv")
 y_train_path = os.path.join(READY_DIR, "y_train.csv")
 X_val_path = os.path.join(READY_DIR, "X_val.csv")
 y_val_path = os.path.join(READY_DIR, "y_val.csv")
 model_path = os.path.join(ARTIFACTS_DIR, "xgboost_model.pkl")
 
-# === File checker utility ===
+# === File checker ===
 def check_file_exists(filepath):
     if not os.path.exists(filepath):
         print(f"❌ ERROR: File not found: {filepath}")
         sys.exit(1)
-    print(f"✅ Found file: {filepath}")
+    print(f"✅ Found: {filepath}")
+
+# === Verify all necessary files ===
+for path in [X_train_path, y_train_path, X_val_path, y_val_path]:
+    check_file_exists(path)
 
 # === Train XGBoost ===
-check_file_exists(X_train_path)
-check_file_exists(y_train_path)
-
-print("🚀 Training XGBoost model (final) with hyperparameter tuning...")
-train_xgboost(
+print("\n🚀 Training XGBoost model (final) with hyperparameter tuning...\n")
+train_result = train_xgboost(
     X_train_path=X_train_path,
     y_train_path=y_train_path,
     model_path=model_path
 )
-print(f"✅ Model saved at {model_path}")
 
-# === Evaluate on training data ===
-check_file_exists(model_path)
+print(f"✅ Model saved at: {model_path}")
+if isinstance(train_result, dict) and 'best_params' in train_result:
+    print(f"🔧 Best hyperparameters: {train_result['best_params']}")
 
-print("📊 Evaluating on Training Data...")
+# === Evaluate on Training Data ===
+print("\n📊 Evaluation on Training Data:")
 evaluate_model(
     x_path=X_train_path,
     y_path=y_train_path,
     model_path=model_path
 )
 
-# === Evaluate on validation data ===
-check_file_exists(X_val_path)
-check_file_exists(y_val_path)
-
-print("📊 Evaluating on Validation Data...")
+# === Evaluate on Validation Data ===
+print("\n📊 Evaluation on Validation Data:")
 evaluate_model(
     x_path=X_val_path,
     y_path=y_val_path,
     model_path=model_path
 )
 
-print("🎯 Final XGBoost Model Training & Evaluation Completed Successfully!")
+print("\n🎯 Final XGBoost Model Training & Evaluation Completed Successfully!")

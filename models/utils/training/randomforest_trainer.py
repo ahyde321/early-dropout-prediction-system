@@ -4,8 +4,9 @@ import os
 import sys
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
+from sklearn.model_selection import RandomizedSearchCV, GridSearchCV, StratifiedKFold
 from sklearn.metrics import precision_recall_curve
+
 
 # Allow access to utils even when run directly
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
@@ -64,7 +65,7 @@ def train_random_forest(
                 estimator=model,
                 param_distributions=param_grid,
                 n_iter=n_iter,
-                cv=cv,
+                cv=StratifiedKFold(n_splits=cv, shuffle=True, random_state=42),
                 verbose=2,
                 n_jobs=-1,
                 random_state=42
@@ -74,7 +75,7 @@ def train_random_forest(
             search = GridSearchCV(
                 estimator=model,
                 param_grid=param_grid,
-                cv=cv,
+                cv=StratifiedKFold(n_splits=cv, shuffle=True, random_state=42),
                 verbose=2,
                 n_jobs=-1
             )
