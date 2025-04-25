@@ -2,8 +2,10 @@ import pandas as pd
 import pickle
 import os
 import sys
+import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
+from sklearn.metrics import precision_recall_curve
 
 # Allow access to utils even when run directly
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
@@ -45,7 +47,7 @@ def train_random_forest(
     # ✅ Hyperparameter optimization or default model
     if optimize:
         param_grid = param_grid_override if param_grid_override is not None else {
-            "n_estimators": [100, 200, 300, 500],
+            "n_estimators": [50, 100, 200, 300, 500],
             "max_depth": [6, 8, 10, 12, None],
             "min_samples_split": [5, 10, 20],
             "min_samples_leaf": [2, 4, 6],
@@ -106,6 +108,18 @@ def train_random_forest(
         best_model.fit(X_train, y_train)
         best_params = "Default (regularized) parameters used."
 
+    # ✅ Threshold tuning (F1 optimization)
+    if hasattr(best_model, "predict_proba"):
+        print("\n🎯 Tuning threshold for best F1 score...")
+        probs = best_model.predict_proba(X_train)[:, 1]
+        precision, recall, thresholds = precision_recall_curve(y_train, probs)
+        f1_scores = 2 * (precision * recall) / (precision + recall + 1e-6)
+        best_threshold = thresholds[np.argmax(f1_scores)]
+        print(f"✅ Best threshold for F1: {best_threshold:.3f}")
+    else:
+        best_threshold = 0.5
+        print("⚠️ Model does not support predict_proba. Using default threshold = 0.5")
+
     # ✅ Log Feature Importance
     assert isinstance(best_model, RandomForestClassifier)
     feature_importance = pd.DataFrame({
@@ -129,4 +143,8 @@ def train_random_forest(
     print(f"✅ Model saved at: {model_path}")
     print(f"📊 Feature importance saved at: {feature_path}")
 
-    return {"best_params": best_params, "feature_importance": feature_importance}
+    return {
+        "best_params": best_params,
+        "feature_importance": feature_importance,
+        "threshold": best_threshold
+    }

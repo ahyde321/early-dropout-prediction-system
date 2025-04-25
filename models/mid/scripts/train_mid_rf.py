@@ -11,7 +11,7 @@ if MID_DIR not in sys.path:
 if UTILS_DIR not in sys.path:
     sys.path.append(UTILS_DIR)
 
-# ✅ Import from early model's path config and shared utils
+# ✅ Import path constants and model trainers
 from path_config import READY_DIR, ARTIFACTS_DIR
 from training.randomforest_trainer import train_random_forest
 from data.model_evaluator import evaluate_model
@@ -27,42 +27,48 @@ X_val_path = os.path.join(READY_DIR, "X_val.csv")
 y_val_path = os.path.join(READY_DIR, "y_val.csv")
 model_path = os.path.join(ARTIFACTS_DIR, "random_forest_model.pkl")
 
-# === File checker utility ===
+# ✅ File checker utility
 def check_file_exists(filepath):
     if not os.path.exists(filepath):
         print(f"❌ ERROR: File not found: {filepath}")
         sys.exit(1)
     print(f"✅ Found file: {filepath}")
 
-# === Train Random Forest ===
-check_file_exists(X_train_path)
-check_file_exists(y_train_path)
+# === Verify required files ===
+for path in [X_train_path, y_train_path, X_val_path, y_val_path]:
+    check_file_exists(path)
 
-print("🚀 Training Random Forest model (early)...")
-train_random_forest(
+# === Train Random Forest Model ===
+print("🚀 Training Random Forest model (mid) with hyperparameter optimization...")
+train_result = train_random_forest(
     X_train_path=X_train_path,
     y_train_path=y_train_path,
-    model_path=model_path
+    model_path=model_path,
+    optimize=True,
+    search_type="random",
+    n_iter=30,
+    cv=5,
+    early_stop_cv_score_threshold=0.7
 )
-check_file_exists(model_path)
 
-# === Evaluate on training data ===
-print("📊 Evaluating on Training Data...")
+check_file_exists(model_path)
+print(f"✅ Model saved at {model_path}")
+print(f"🔧 Hyperparameters used: {train_result['best_params']}")
+
+# === Evaluate on Training Data ===
+print("\n📊 Evaluating on Training Data...")
 evaluate_model(
     x_path=X_train_path,
     y_path=y_train_path,
     model_path=model_path
 )
 
-# === Evaluate on validation data ===
-check_file_exists(X_val_path)
-check_file_exists(y_val_path)
-
-print("📊 Evaluating on Validation Data...")
+# === Evaluate on Validation Data ===
+print("\n📊 Evaluating on Validation Data...")
 evaluate_model(
     x_path=X_val_path,
     y_path=y_val_path,
     model_path=model_path
 )
 
-print("🎯 Early Model Training & Evaluation Completed Successfully!")
+print("\n🎯 Mid Random Forest Model Training & Evaluation Completed Successfully!")
