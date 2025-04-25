@@ -25,52 +25,30 @@ fake = Faker()
 
 # === Load and Clean ===
 raw_dataset1 = os.path.join(RAW_DIR, "raw_dataset1.csv")
-raw_dataset2 = os.path.join(RAW_DIR, "raw_dataset2.csv")
 
 try:
-    df1, df2 = load_data(raw_dataset1, raw_dataset2)
+    df1 = load_data(raw_dataset1)
     df1.columns = [to_snake_case(col) for col in df1.columns]
-    df2.columns = [to_snake_case(col) for col in df2.columns]
-    print(f"🔍 Loaded: df1={df1.shape}, df2={df2.shape}")
+    print(f"🔍 Loaded: df1={df1.shape}")
 except Exception as e:
     print(f"❌ Error loading data: {e}")
     sys.exit(1)
 
 try:
     df1 = clean_data(df1)
-    df2 = clean_data(df2)
-    print(f"🧹 Cleaned: df1={df1.shape}, df2={df2.shape}")
+    print(f"🧹 Cleaned: df1={df1.shape}")
 except Exception as e:
     print(f"❌ Error cleaning data: {e}")
     sys.exit(1)
 
-# === Align and Impute ===
 try:
-    combined_df = align_datasets_and_combine(df1, df2, ["admission_grade", "previous_qualification_grade"])
-    print(f"✅ Combined: {combined_df.shape}")
-    print(f"📋 Combined shape: {combined_df.shape}")
+    # Actually dropping *non-enrolled* students to keep only "Enrolled"
+    enrolled_df = df1[df1["target"] == "Enrolled"].reset_index(drop=True)
+    print(f"✅ Isolated enrolled students: {enrolled_df.shape}")
 except Exception as e:
-    print(f"❌ Error during dataset combining: {e}")
+    print(f"❌ Error filtering enrolled students: {e}")
     sys.exit(1)
 
-try:
-    imputed_df = apply_mice_imputation(combined_df, ["admission_grade", "previous_qualification_grade"])
-    print(f"📈 Imputed: {imputed_df.shape}")
-except Exception as e:
-    print(f"❌ Error during imputation: {e}")
-    sys.exit(1)
-
-# === Extract Enrolled Students from Combined Imputed ===
-try:
-    enrolled_df = separate_enrolled_students(
-        combined_df=imputed_df,
-        enrolled_path=None,  # we will not save intermediate
-        filtered_path=None   # we will not save intermediate
-    )
-    print(f"🚀 Extracted Enrolled Students: {enrolled_df.shape}")
-except Exception as e:
-    print(f"❌ Error extracting enrolled students: {e}")
-    sys.exit(1)
 
 # === Add Names & Student Numbers ===
 def generate_student_id():
