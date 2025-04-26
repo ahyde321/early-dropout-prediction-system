@@ -1,34 +1,31 @@
 <template>
-  <div class="flex flex-col gap-1">
-    <label class="text-gray-600 font-medium">{{ label }}</label>
-    <div v-if="editable">
-      <input
-        v-model="localValue"
-        @input="$emit('update:modelValue', localValue)"
-        class="border border-gray-300 rounded-lg p-2 text-sm w-full focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-        type="text"
-      />
-    </div>
-    <div v-else class="text-gray-800">
+  <div class="space-y-1">
+    <label class="block text-sm font-medium text-gray-700">{{ label }}</label>
+    <div v-if="!editable" class="text-gray-800 font-medium bg-gray-50 px-3 py-2 rounded-md">
       {{ value }}
     </div>
+    <input
+      v-else
+      v-model="modelValue"
+      type="text"
+      class="input"
+      :placeholder="label"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-
-const props = defineProps({
+defineProps({
   label: String,
   value: [String, Number],
-  editable: Boolean,
-  modelValue: [String, Number]
+  editable: Boolean
 })
 
-const emit = defineEmits(['update:modelValue'])
-
-const localValue = ref(props.modelValue)
-watch(() => props.modelValue, (newVal) => {
-  localValue.value = newVal
-})
+const modelValue = defineModel()
 </script>
+
+<style scoped>
+.input {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-300 transition-colors;
+}
+</style>

@@ -1,89 +1,81 @@
 <template>
-    <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-md hover:shadow-lg transition-transform hover:scale-[1.01]">
-      <!-- Header -->
-      <div class="flex justify-between items-start">
-        <div>
-          <p class="text-md font-extrabold text-gray-900">Phase: {{ phaseLabel }}</p>
-          <p :class="riskColorClass" class="text-sm mt-1">Level: {{ riskLabel }}</p>
-        </div>
-        <div class="text-right text-gray-500 text-xs">
-          <p><span class="font-semibold">Score:</span> {{ score.toFixed(2) }}%</p>
-          <p class="text-[11px] mt-1">{{ formattedShortTimestamp }}</p>
-        </div>
+  <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+    <div class="flex justify-between items-start mb-4">
+      <div>
+        <h3 class="text-lg font-semibold text-gray-800">{{ phaseLabel }} Phase</h3>
+        <p class="text-sm text-gray-500">{{ formatTimestamp(timestamp) }}</p>
       </div>
-  
-      <!-- Toggle Button -->
-      <div class="flex justify-end mt-3">
-        <button
-          @click="toggleExpand"
-          class="text-indigo-600 hover:text-indigo-800 text-xs font-bold flex items-center gap-1 transition"
+      <div class="flex items-center gap-2">
+        <span :class="[
+          'px-3 py-1 rounded-full text-sm font-medium',
+          riskColor
+        ]">
+          {{ riskLabel }} Risk
+        </span>
+        <div class="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div
+            :class="[
+              'h-full transition-all duration-500',
+              riskColor
+            ]"
+            :style="{ width: `${score}%` }"
+          ></div>
+        </div>
+        <span class="text-sm font-medium text-gray-700">{{ score.toFixed(1) }}%</span>
+        <button 
+          @click="isExpanded = !isExpanded"
+          class="ml-4 text-gray-500 hover:text-gray-700 transition-colors"
         >
-          <span>{{ expanded ? 'Hide Explanation' : 'Show Explanation' }}</span>
-          <span :class="['transition-transform', expanded ? 'rotate-180' : '']">⌄</span>
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            class="h-5 w-5 transform transition-transform duration-200" 
+            :class="{ 'rotate-180': isExpanded }"
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
         </button>
       </div>
-  
-      <!-- Expandable Slot Area -->
-      <transition name="fade">
-        <div v-if="expanded" class="mt-4">
-          <slot />
-        </div>
-      </transition>
     </div>
-  </template>
-  
-  <script setup>
-  import { computed, ref } from 'vue'
-  
-  const props = defineProps({
-    phaseLabel: {
-      type: String,
-      required: true
-    },
-    riskLabel: {
-      type: String,
-      required: true
-    },
-    score: {
-      type: Number,
-      required: true
-    },
-    timestamp: {
-      type: String,
-      required: true
-    }
-  })
-  
-  const expanded = ref(false)
-  const toggleExpand = () => {
-    expanded.value = !expanded.value
-  }
-  
-  const riskColorClass = computed(() => {
-    return {
-      Low: 'text-green-600 font-bold',
-      Moderate: 'text-yellow-500 font-bold',
-      High: 'text-red-600 font-bold'
-    }[props.riskLabel] || 'text-gray-600'
-  })
-  
-  const formattedShortTimestamp = computed(() => {
-    const date = new Date(props.timestamp)
-    const hours = String(date.getHours()).padStart(2, '0')
-    const minutes = String(date.getMinutes()).padStart(2, '0')
-    return `${hours}:${minutes}`
-  })
-  </script>
-  
-  <style scoped>
-  .fade-enter-active, .fade-leave-active {
-    transition: all 0.3s ease;
-  }
-  .fade-enter-from, .fade-leave-to {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  .rotate-180 {
-    transform: rotate(180deg);
-  }
-  </style>
+    <transition
+      enter-active-class="transition duration-200 ease-out"
+      enter-from-class="transform scale-95 opacity-0"
+      enter-to-class="transform scale-100 opacity-100"
+      leave-active-class="transition duration-150 ease-in"
+      leave-from-class="transform scale-100 opacity-100"
+      leave-to-class="transform scale-95 opacity-0"
+    >
+      <div v-show="isExpanded" class="mt-4">
+        <slot></slot>
+      </div>
+    </transition>
+  </div>
+</template>
+
+<script setup>
+import { computed, ref } from 'vue'
+
+const props = defineProps({
+  phaseLabel: String,
+  riskLabel: String,
+  score: Number,
+  timestamp: String
+})
+
+const isExpanded = ref(false)
+
+const riskColor = computed(() => {
+  const risk = props.riskLabel.toLowerCase()
+  return {
+    high: 'bg-red-100 text-red-800',
+    moderate: 'bg-yellow-100 text-yellow-800',
+    low: 'bg-green-100 text-green-800'
+  }[risk] || 'bg-gray-100 text-gray-800'
+})
+
+const formatTimestamp = (timestamp) => {
+  return new Date(timestamp).toLocaleString()
+}
+</script>

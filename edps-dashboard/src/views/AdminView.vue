@@ -1,86 +1,127 @@
 <template>
-    <div class="p-6 space-y-8">
-      <h1 class="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
+    <div class="p-6 space-y-8 bg-gradient-to-b from-gray-50 to-white min-h-screen">
+      <h1 class="text-3xl font-bold text-gray-800 bg-white p-4 rounded-xl shadow-sm">Admin Dashboard</h1>
   
       <!-- Invite/Register New User -->
-      <section class="bg-white shadow-md rounded-lg p-4 border border-gray-200">
-        <h2 class="text-lg font-semibold mb-4">Register New User</h2>
+      <section class="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+        <h2 class="text-xl font-semibold mb-4 text-gray-700 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+          </svg>
+          Register New User
+        </h2>
         <form @submit.prevent="registerUser" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input v-model="newUser.first_name" type="text" placeholder="First Name" required class="input" />
-          <input v-model="newUser.last_name" type="text" placeholder="Last Name" required class="input" />
-          <input v-model="newUser.email" type="email" placeholder="Email" required class="input" />
-          <input v-model="newUser.password" type="password" placeholder="Password" required class="input" />
-          <select v-model="newUser.role" class="input">
-            <option value="advisor">Advisor</option>
-            <option value="admin">Admin</option>
-          </select>
-          <button type="submit" class="btn col-span-1 md:col-span-2">Register</button>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+            <input v-model="newUser.first_name" type="text" placeholder="First Name" required class="input" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+            <input v-model="newUser.last_name" type="text" placeholder="Last Name" required class="input" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input v-model="newUser.email" type="email" placeholder="Email" required class="input" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <input v-model="newUser.password" type="password" placeholder="Password" required class="input" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
+            <select v-model="newUser.role" class="input">
+              <option value="advisor">Advisor</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <div class="md:col-span-2 flex justify-end">
+            <button type="submit" class="btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+              Register User
+            </button>
+          </div>
         </form>
       </section>
   
       <!-- User Management Table -->
-      <section class="bg-white shadow-md rounded-lg p-4 border border-gray-200">
-        <h2 class="text-lg font-semibold mb-4">Manage Users</h2>
-        <table class="w-full text-left text-sm">
-          <thead>
-            <tr class="border-b">
-              <th class="py-2 px-4">Name</th>
-              <th class="py-2 px-4">Email</th>
-              <th class="py-2 px-4">Role</th>
-              <th class="py-2 px-4">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="user in users" :key="user.id" class="border-t">
-              <td class="py-2 px-4">{{ user.first_name }} {{ user.last_name }}</td>
-              <td class="py-2 px-4">{{ user.email }}</td>
-              <td class="py-2 px-4">
-                <span :class="{
-                  'px-2 py-1 rounded-full text-xs font-medium': true,
-                  'bg-blue-100 text-blue-800': user.role === 'admin',
-                  'bg-green-100 text-green-800': user.role === 'advisor'
-                }">
-                  {{ user.role }}
-                </span>
-              </td>
-              <td class="py-2 px-4 flex items-center gap-2">
-                <button @click="confirmDelete(user)" class="action-btn delete-btn">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                  Delete
-                </button>
-                <button @click="startEdit(user)" class="action-btn edit-btn">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
-                  Edit
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <section class="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+        <h2 class="text-xl font-semibold mb-4 text-gray-700 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          Manage Users
+        </h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b bg-gradient-to-r from-gray-50 to-gray-100">
+                <th class="py-3 px-4 font-medium text-gray-700">Name</th>
+                <th class="py-3 px-4 font-medium text-gray-700">Email</th>
+                <th class="py-3 px-4 font-medium text-gray-700">Role</th>
+                <th class="py-3 px-4 font-medium text-gray-700 text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="user in users" :key="user.id" class="border-t hover:bg-gray-50 transition-colors">
+                <td class="py-3 px-4 font-medium text-gray-800">{{ user.first_name }} {{ user.last_name }}</td>
+                <td class="py-3 px-4 text-gray-600">{{ user.email }}</td>
+                <td class="py-3 px-4">
+                  <span :class="{
+                    'px-3 py-1.5 rounded-full text-xs font-medium shadow-sm': true,
+                    'bg-blue-100 text-blue-800': user.role === 'admin',
+                    'bg-green-100 text-green-800': user.role === 'advisor'
+                  }">
+                    {{ user.role }}
+                  </span>
+                </td>
+                <td class="py-3 px-4">
+                  <div class="flex justify-center gap-2">
+                    <button @click="confirmDelete(user)" class="action-btn delete-btn">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                      Delete
+                    </button>
+                    <button @click="startEdit(user)" class="action-btn edit-btn">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                      Edit
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <!-- Edit User Modal -->
-      <div v-if="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div class="bg-white rounded-lg p-6 max-w-md w-full">
-          <h3 class="text-lg font-semibold mb-4">Edit User</h3>
+      <div v-if="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full shadow-2xl">
+          <h3 class="text-xl font-semibold mb-4 text-gray-700 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            Edit User
+          </h3>
           <form @submit.prevent="saveEdit" class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700">First Name</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
               <input v-model="editingUser.first_name" type="text" class="input" required />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">Last Name</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
               <input v-model="editingUser.last_name" type="text" class="input" required />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">Email</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
               <input v-model="editingUser.email" type="email" class="input" required />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">Role</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
               <select v-model="editingUser.role" class="input">
                 <option value="advisor">Advisor</option>
                 <option value="admin">Admin</option>
@@ -88,16 +129,21 @@
             </div>
             <div class="flex justify-end gap-2">
               <button type="button" @click="showEditModal = false" class="btn-secondary">Cancel</button>
-              <button type="submit" class="btn">Save Changes</button>
+              <button type="submit" class="btn-primary">Save Changes</button>
             </div>
           </form>
         </div>
       </div>
 
       <!-- Delete Confirmation Modal -->
-      <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div class="bg-white rounded-lg p-6 max-w-md w-full">
-          <h3 class="text-lg font-semibold mb-4">Confirm Delete</h3>
+      <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full shadow-2xl">
+          <h3 class="text-xl font-semibold mb-4 text-gray-700 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            Confirm Delete
+          </h3>
           <p class="text-gray-600 mb-4">Are you sure you want to delete {{ userToDelete?.email }}? This action cannot be undone.</p>
           <div class="flex justify-end gap-2">
             <button @click="showDeleteModal = false" class="btn-secondary">Cancel</button>
@@ -203,24 +249,24 @@ import { useToast } from 'vue-toastification'
   
   <style scoped>
   .input {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-300;
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-300 transition-colors;
   }
-  .btn {
-    @apply bg-sky-500 text-white py-2 px-4 rounded hover:bg-sky-600 transition;
+  .btn-primary {
+    @apply bg-gradient-to-r from-sky-500 to-sky-600 text-white py-2 px-4 rounded hover:from-sky-600 hover:to-sky-700 transition-all shadow-sm flex items-center;
   }
   .btn-secondary {
-    @apply bg-gray-200 text-gray-700 py-2 px-4 rounded hover:bg-gray-300 transition;
+    @apply bg-gray-200 text-gray-700 py-2 px-4 rounded hover:bg-gray-300 transition-all shadow-sm;
   }
   .btn-danger {
-    @apply bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition;
+    @apply bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-4 rounded hover:from-red-600 hover:to-red-700 transition-all shadow-sm;
   }
   .action-btn {
-    @apply flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors;
+    @apply flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-all shadow-sm;
   }
   .edit-btn {
-    @apply text-blue-600 hover:bg-blue-50;
+    @apply text-blue-600 hover:bg-blue-50 hover:text-blue-700;
   }
   .delete-btn {
-    @apply text-red-600 hover:bg-red-50;
+    @apply text-red-600 hover:bg-red-50 hover:text-red-700;
   }
   </style>

@@ -1,20 +1,36 @@
 <template>
-  <div v-if="student" class="p-10 space-y-14 bg-white rounded-2xl shadow-2xl max-w-6xl mx-auto mt-10 animate-fade-in">
+  <div v-if="student" class="p-10 space-y-14 bg-gradient-to-b from-gray-50 to-white min-h-screen">
     <!-- Header -->
-    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 bg-white p-8 rounded-2xl shadow-lg">
       <div>
-        <h1 class="text-5xl font-extrabold text-gray-800 tracking-tight">{{ student.first_name }} {{ student.last_name }}</h1>
-        <p class="text-sm text-gray-500 mt-2">Student Number: {{ student.student_number }}</p>
+        <h1 class="text-5xl font-extrabold bg-gradient-to-r from-sky-600 to-blue-800 bg-clip-text text-transparent tracking-tight">
+          {{ student.first_name }} {{ student.last_name }}
+        </h1>
+        <p class="text-sm text-gray-500 mt-2 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          Student Number: {{ student.student_number }}
+        </p>
       </div>
       <div class="flex flex-wrap gap-4">
-        <button @click="toggleEdit" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2.5 rounded-lg text-sm font-semibold transition">
+        <button @click="toggleEdit" class="btn-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
           {{ isEditing ? 'Cancel' : 'Edit Student' }}
         </button>
-        <button v-if="isEditing" @click="saveChanges" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition">
-          Save
+        <button v-if="isEditing" @click="saveChanges" class="btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          Save Changes
         </button>
-        <button @click="recalculatePrediction" :disabled="loading" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg text-sm font-semibold flex items-center gap-2 transition disabled:opacity-50">
-          <span>{{ loading ? 'Recalculating...' : 'Recalculate Risk' }}</span>
+        <button @click="recalculatePrediction" :disabled="loading" class="btn-gradient">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          {{ loading ? 'Recalculating...' : 'Recalculate Risk' }}
         </button>
       </div>
     </div>
@@ -22,10 +38,15 @@
     <!-- Main Grid -->
     <div class="grid grid-cols-1 xl:grid-cols-[2fr_2fr] gap-14">
       <!-- Left: Student Info -->
-      <section class="bg-gray-50 border border-gray-200 rounded-3xl p-10 shadow-md space-y-12">
+      <section class="bg-white border border-gray-200 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
         <!-- Personal Info -->
         <div>
-          <h2 class="text-2xl font-bold text-gray-800 mb-6">Personal Information</h2>
+          <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            Personal Information
+          </h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-20 gap-y-6">
             <InfoRow label="Age at Enrollment" :value="displayValue('age_at_enrollment')" :editable="isEditing" v-model="editableFields.age_at_enrollment" />
             <SelectRow label="Gender" :editable="isEditing" v-model="editableFields.gender" :options="{ 0: 'Male', 1: 'Female' }" />
@@ -39,8 +60,13 @@
         </div>
 
         <!-- Academic KPIs -->
-        <div>
-          <h2 class="text-2xl font-bold text-gray-800 mb-6">Academic KPIs</h2>
+        <div class="mt-12">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            Academic KPIs
+          </h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-20 gap-y-6">
             <InfoRow label="Qualification Grade" :value="displayValue('previous_qualification_grade')" :editable="isEditing" v-model="editableFields.previous_qualification_grade" />
             <InfoRow label="Admission Grade" :value="displayValue('admission_grade')" :editable="isEditing" v-model="editableFields.admission_grade" />
@@ -54,8 +80,13 @@
 
       <!-- Right: Prediction History -->
       <section class="space-y-8">
-        <div class="bg-gray-50 rounded-3xl p-8 border border-gray-200 shadow-md">
-          <h2 class="text-2xl font-bold text-gray-800 mb-6">Prediction History</h2>
+        <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            Prediction History
+          </h2>
 
           <div v-if="Array.isArray(predictions) && predictions.length" class="space-y-8">
             <PredictionCard
@@ -70,16 +101,26 @@
             </PredictionCard>
           </div>
 
-          <div v-else class="text-sm text-gray-500 text-center">
-            No predictions yet for this student.
+          <div v-else class="text-center py-8">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <p class="mt-4 text-gray-500">No predictions yet for this student.</p>
           </div>
         </div>
       </section>
-
     </div>
   </div>
 
-  <div v-else class="text-center text-gray-500 mt-32 text-lg">Loading student profile...</div>
+  <div v-else class="flex items-center justify-center min-h-screen">
+    <div class="text-center">
+      <svg class="animate-spin-slow h-12 w-12 text-sky-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      <p class="mt-4 text-gray-500 text-lg">Loading student profile...</p>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -226,18 +267,32 @@ onMounted(fetchProfileData)
 </script>
 
 <style scoped>
+.btn-primary {
+  @apply bg-gradient-to-r from-sky-500 to-sky-600 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-sm flex items-center hover:from-sky-600 hover:to-sky-700;
+}
+
+.btn-secondary {
+  @apply bg-gray-200 text-gray-700 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-sm flex items-center hover:bg-gray-300;
+}
+
+.btn-gradient {
+  @apply bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-lg text-sm font-semibold flex items-center gap-2 transition-all shadow-sm hover:from-indigo-600 hover:to-purple-700 disabled:opacity-50;
+}
+
 @keyframes slow-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
 .animate-spin-slow {
-  animation: slow-spin 1s linear infinite;
+  animation: slow-spin 2s linear infinite;
 }
 
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
 .animate-fade-in {
   animation: fade-in 0.6s ease-out both;
 }
@@ -246,10 +301,10 @@ onMounted(fetchProfileData)
 .fade-leave-active {
   transition: all 0.3s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
   transform: translateY(-4px);
 }
-
 </style>
