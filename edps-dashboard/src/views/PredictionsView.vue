@@ -53,12 +53,15 @@
             :style="{ width: `${progress}%` }"
           ></div>
         </div>
-        <p class="text-sm text-gray-600 text-center flex items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
-          {{ statusMessage }}
-        </p>
+        <div class="space-y-1 text-center">
+          <p class="text-sm font-medium text-gray-600 flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            {{ statusMessage }}
+          </p>
+          <p class="text-sm text-gray-500 italic transition-all duration-300">{{ wittyMessage }}</p>
+        </div>
       </div>
 
       <!-- Results Summary -->
@@ -101,6 +104,7 @@ const toast = useToast()
 const running = ref(false)
 const progress = ref(0)
 const statusMessage = ref('')
+const wittyMessage = ref('')
 const currentMode = ref(null)
 const lastRunResults = ref(null)
 
@@ -112,56 +116,103 @@ const runPredictions = async (forceAll) => {
   currentMode.value = forceAll ? 'recalculate' : 'predict'
   statusMessage.value = forceAll ? 'Preparing to recalculate all students...' : 'Preparing to predict for new students...'
   
-  // Fake progress for demo
+  // Collection of witty messages to display during processing
+  const wittyMessages = [
+    "Calculating risk factors faster than students calculate excuses...",
+    "Brewing coffee for the prediction algorithms...",
+    "Checking which students actually attended their 8am lectures...",
+    "Teaching neural networks to recognize procrastination patterns...",
+    "Convincing the database that we really need this data right now...",
+    "Looking for patterns in student behavior (and finding mostly Netflix)...",
+    "Converting caffeine into risk predictions...",
+    "Analyzing homework submission timestamps (mostly 11:59pm)...",
+    "Checking how many times students Googled 'how to pass without studying'...",
+    "Counting pizza deliveries to dorm rooms as a risk factor...",
+    "Estimating risk based on number of all-nighters pulled...",
+    "Predicting which students need a good night's sleep (probably all of them)...",
+    "Determining correlation between energy drink consumption and grades...",
+    "Searching for excuses in the 'my dog ate my homework' database...",
+    "Running numbers faster than students run to class when they're late...",
+  ]
+  
+  let messageIndex = 0
+  const totalSeconds = 45 // Target duration in seconds
+  const intervalMs = 350 // Update interval in milliseconds
+  const totalUpdates = (totalSeconds * 1000) / intervalMs
+  const progressIncrement = 90 / totalUpdates // Increment to reach 90% in totalSeconds
+  
+  // Set initial witty message
+  wittyMessage.value = wittyMessages[0]
+  
+  // Start witty message rotation on a separate timer
+  const wittyMessageInterval = setInterval(() => {
+    messageIndex = (messageIndex + 1) % wittyMessages.length
+    wittyMessage.value = wittyMessages[messageIndex]
+  }, 6000) // Change witty message every 6 seconds
+  
+  // Simulate initial progress up to 90%
   const interval = setInterval(() => {
-    progress.value += 5
-    
-    if (progress.value < 30) {
-      statusMessage.value = forceAll 
-        ? 'Loading student data...' 
-        : 'Identifying students for prediction...'
-    } else if (progress.value < 60) {
-      statusMessage.value = forceAll 
-        ? 'Recalculating risk assessments...' 
-        : 'Running prediction models...'
-    } else if (progress.value < 90) {
-      statusMessage.value = 'Saving results to database...'
+    if (progress.value < 90) {
+      progress.value += progressIncrement
+      
+      // Update main status message based on progress
+      if (progress.value < 20) {
+        statusMessage.value = forceAll 
+          ? 'Loading student data...' 
+          : 'Identifying students for prediction...'
+      } else if (progress.value < 40) {
+        statusMessage.value = forceAll 
+          ? 'Recalculating risk assessments...' 
+          : 'Running prediction models...'
+      } else if (progress.value < 60) {
+        statusMessage.value = 'Analyzing academic patterns...'
+      } else if (progress.value < 80) {
+        statusMessage.value = 'Processing attendance records...' 
+      } else {
+        statusMessage.value = 'Finalizing risk calculations...'
+      }
     } else {
-      statusMessage.value = 'Finalizing and generating reports...'
-    }
-    
-    if (progress.value >= 100) {
       clearInterval(interval)
-      completeOperation(forceAll)
+      statusMessage.value = 'Waiting for server to complete processing...'
     }
-  }, 150)
+  }, intervalMs)
   
   try {
-    const endpoint = forceAll ? '/api/predictions/recalculate-all' : '/api/predictions/run'
-    const response = await api.post(endpoint)
+    const endpoint = forceAll ? '/predict/recalculate-all' : '/predict/all'
+    const response = await api.get(endpoint)
     
-    // In a real implementation, you'd get progress updates from the backend
-    // or implement a polling mechanism to check status
+    // Clear the witty message interval
+    clearInterval(wittyMessageInterval)
     
-    // Stop the fake progress and use real data
-    clearInterval(interval)
+    // Now that we have the complete response, finish the progress
+    statusMessage.value = 'Processing complete! Finalizing results...'
+    wittyMessage.value = "All done! Your academic crystal ball is ready."
+    progress.value = 100
     
-    if (response.data.success) {
-      progress.value = 100
-      completeOperation(forceAll, {
-        total: response.data.total || 0,
-        success: response.data.success_count || 0,
-        failed: response.data.failed_count || 0,
-        timestamp: new Date()
-      })
-    } else {
-      throw new Error(response.data.message || 'Unknown error')
-    }
+    // Wait a moment before showing completion
+    setTimeout(() => {
+      if (response.data) {
+        completeOperation(forceAll, {
+          total: forceAll 
+            ? (response.data.predictions_updated_or_created?.length || 0) + (response.data.skipped?.length || 0)
+            : (response.data.predictions?.length || 0) + (response.data.skipped?.length || 0),
+          success: forceAll 
+            ? response.data.predictions_updated_or_created?.length || 0
+            : response.data.predictions?.length || 0,
+          failed: response.data.skipped?.length || 0,
+          timestamp: new Date()
+        })
+      } else {
+        throw new Error('Invalid response from server')
+      }
+    }, 500)
   } catch (error) {
     clearInterval(interval)
+    clearInterval(wittyMessageInterval)
     progress.value = 0
     running.value = false
     currentMode.value = null
+    wittyMessage.value = ''
     toast.error(`Failed to run predictions: ${error.message || 'Unknown error'}`)
   }
 }

@@ -26,9 +26,9 @@ def get_db():
         db.close()
 
 def get_risk_level(score: float) -> str:
-    if score <= 0.4:
+    if score <= 0.5:
         return "low"
-    elif score <= 0.7:
+    elif score <= 0.75:
         return "moderate"
     else:
         return "high"

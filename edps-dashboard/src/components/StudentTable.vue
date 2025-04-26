@@ -1,13 +1,13 @@
 <template>
-  <div class="overflow-hidden bg-white shadow-md rounded-xl">
+  <div class="overflow-hidden bg-white shadow-sm rounded-lg border border-gray-200">
     <!-- Table Header -->
-    <div class="py-3 px-4 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200 flex justify-between items-center">
-      <h3 class="text-lg font-medium text-gray-700 flex items-center">
+    <div class="p-4 flex justify-between items-center">
+      <div class="flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
           <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
         </svg>
-        Students
-      </h3>
+        <h3 class="text-lg font-medium text-gray-700">Students</h3>
+      </div>
       
       <!-- Search & Filter Controls -->
       <div class="flex items-center space-x-2">
@@ -56,7 +56,7 @@
     <!-- Table Content -->
     <div class="overflow-x-auto">
       <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+        <thead class="bg-gray-50">
           <tr>
             <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Student Number
@@ -67,7 +67,7 @@
             <th class="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
               Risk Level
             </th>
-            <th class="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Risk Score
             </th>
             <th class="py-3 px-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -76,7 +76,11 @@
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          <tr v-for="student in paginatedStudents" :key="student.student_number" class="hover:bg-gray-50 transition-colors duration-150">
+          <tr 
+            v-for="(student, index) in paginatedStudents" 
+            :key="student.student_number" 
+            class="hover:bg-gray-50 transition-colors duration-150"
+          >
             <td class="py-3 px-4 whitespace-nowrap">
               <span class="font-medium text-gray-900">{{ student.student_number }}</span>
             </td>
@@ -85,45 +89,49 @@
             </td>
             <td class="py-3 px-4 whitespace-nowrap text-center">
               <span 
-                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium shadow-sm"
-                :class="{
-                  'bg-red-100 text-red-800': student.risk_level === 'high',
-                  'bg-yellow-100 text-yellow-800': student.risk_level === 'medium',
-                  'bg-green-100 text-green-800': student.risk_level === 'low'
-                }"
+                v-if="student.risk_level === 'high'"
+                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700"
               >
-                <span class="h-2 w-2 mr-1.5 rounded-full"
-                  :class="{
-                    'bg-red-500': student.risk_level === 'high',
-                    'bg-yellow-500': student.risk_level === 'medium',
-                    'bg-green-500': student.risk_level === 'low'
-                  }"
-                ></span>
-                {{ capitalizeFirstLetter(student.risk_level) }}
+                <span class="h-2 w-2 mr-1.5 rounded-full bg-red-500"></span>
+                High
+              </span>
+              <span 
+                v-else-if="student.risk_level === 'moderate'"
+                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700"
+                >
+                <span class="h-2 w-2 mr-1.5 rounded-full bg-yellow-500"></span>
+                Moderate
+              </span>
+              <span 
+                v-else
+                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700"
+              >
+                <span class="h-2 w-2 mr-1.5 rounded-full bg-green-500"></span>
+                Low
               </span>
             </td>
-            <td class="py-3 px-4 whitespace-nowrap text-center">
-              <div class="flex items-center justify-center">
-                <div class="w-16 bg-gray-200 rounded-full h-2.5 mr-2">
+            <td class="py-3 px-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <div class="w-32 bg-gray-200 rounded-full h-2 mr-3">
                   <div 
-                    class="h-2.5 rounded-full" 
+                    class="h-2 rounded-full" 
                     :class="{
                       'bg-red-500': student.risk_level === 'high',
-                      'bg-yellow-500': student.risk_level === 'medium',
+                      'bg-yellow-400': student.risk_level === 'moderate',
                       'bg-green-500': student.risk_level === 'low'
                     }"
-                    :style="{ width: `${student.risk_score}%` }"
+                    :style="{ width: `${student.risk_score * 100}%` }"
                   ></div>
                 </div>
-                <span class="text-sm text-gray-700">{{ student.risk_score }}%</span>
+                <span class="text-sm font-medium">{{ student.risk_score.toFixed(1) }}</span>
               </div>
             </td>
             <td class="py-3 px-4 whitespace-nowrap text-center">
               <router-link 
                 :to="{ name: 'StudentProfile', params: { student_number: student.student_number }}"
-                class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-sm transition-all duration-200"
+                class="inline-flex items-center justify-center px-3 py-1.5 rounded-md bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" viewBox="0 0 20 20" fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                   <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
                 </svg>
@@ -339,8 +347,9 @@ function toggleSortOrder() {
   sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
 }
 
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1)
+function clearSearch() {
+  searchQuery.value = ''
+  currentPage.value = 1
 }
 
 // Reset to page 1 when filter, sort or items per page changes
@@ -348,15 +357,3 @@ watch([searchQuery, sortKey, sortOrder, studentsPerPage], () => {
   currentPage.value = 1
 })
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
