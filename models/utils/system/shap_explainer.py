@@ -64,7 +64,7 @@ def explain_student(student: dict, forced_phase: Optional[str] = None, base_mode
 
     # === Handle multi-output (binary classification)
     if isinstance(shap_values, list):
-        shap_values = shap_values[1]  # Pick class 1 explanations (graduate)
+        shap_values = shap_values[0]  # Pick class 1 explanations (graduate)
 
     shap_array = shap_values[0]  # First row (student)
 

@@ -7,6 +7,7 @@ import AdminView from '@/views/AdminView.vue';
 import HomeView from '@/views/HomeView.vue';
 import NotFound from '@/views/NotFound.vue';
 import PredictionsView from '@/views/PredictionsView.vue';
+import SettingsView from '@/views/SettingsView.vue';
 import StudentListPage from '@/views/StudentListPage.vue';
 import StudentProfile from '@/views/StudentProfileView.vue';
 import UploadPage from '@/views/UploadPage.vue';
@@ -58,6 +59,12 @@ const routes = [
         name: 'Predictions',
         component: PredictionsView,
         meta: { title: 'Predictions', requiresAuth: true },
+      },
+      {
+        path: 'settings',
+        name: 'Settings',
+        component: SettingsView,
+        meta: { requiresAuth: true }
       }
     ],
   },

@@ -105,3 +105,40 @@ class RiskPredictionSchema(BaseModel):
     shap_values: Optional[dict] = None
 
     model_config = ConfigDict(from_attributes=True)
+
+
+# ===============================
+# 🔔 NOTIFICATION SCHEMAS
+# ===============================
+
+class NotificationBase(BaseModel):
+    title: str
+    message: str
+    type: str  # 'alert', 'info', 'success'
+
+
+class NotificationCreate(NotificationBase):
+    user_id: int
+    student_number: Optional[str] = None
+
+
+class NotificationUpdate(BaseModel):
+    read: bool = True
+    read_at: Optional[datetime] = None
+
+
+class NotificationResponse(NotificationBase):
+    id: int
+    user_id: int
+    student_number: Optional[str] = None
+    read: bool
+    read_at: Optional[datetime] = None
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class NotificationPreferences(BaseModel):
+    email_enabled: bool = True
+    high_risk_alerts: bool = True
+    system_updates: bool = False

@@ -1,6 +1,5 @@
-import { defineStore } from 'pinia'
 import api from '@/services/api'
-import { useToast } from 'vue-toastification'
+import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -18,25 +17,25 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async login(email, password, remember = false, toast) {
-        try {
-          const form = new URLSearchParams()
-          form.append('username', email)
-          form.append('password', password)
-      
-          const res = await api.post('/auth/login', form, {
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-          })
-      
-          const token = res.data.access_token
-          this.setToken(token, remember)
-      
-          await this.fetchMe()
-          toast.success('Logged in successfully')
-        } catch (err) {
-          this.logout()
-          throw new Error('Invalid credentials')
-        }
-      },
+      try {
+        const form = new URLSearchParams()
+        form.append('username', email)
+        form.append('password', password)
+
+        const res = await api.post('/auth/login', form, {
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+
+        const token = res.data.access_token
+        this.setToken(token, remember)
+
+        await this.fetchMe()
+        toast.success('Logged in successfully')
+      } catch (err) {
+        this.logout()
+        throw new Error('Invalid credentials')
+      }
+    },
 
     setToken(token, remember) {
       this.token = token
@@ -112,6 +111,11 @@ export const useAuthStore = defineStore('auth', {
         this.setToken(token, !!localStorage.getItem('token'))
         await this.fetchMe()
       }
-    }
+    },
+
+    updateUser(userData) {
+      this.user = userData
+      localStorage.setItem('user', JSON.stringify(userData))
+    },
   }
 })

@@ -75,3 +75,26 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     token_version: int = Column(Integer, default=0)  # Used for stateless logout
+    
+    # Relationships
+    notifications = relationship("Notification", back_populates="user", cascade="all, delete-orphan")
+
+# === Notification Model ===
+class Notification(Base):
+    __tablename__ = "notifications"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    title = Column(String, nullable=False)
+    message = Column(String, nullable=False)
+    type = Column(String, nullable=False)  # 'alert', 'info', 'success'
+    read = Column(Boolean, default=False)
+    read_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
+    # Optional related entity references
+    student_number = Column(String, ForeignKey("students.student_number"), nullable=True)
+    
+    # Relationships
+    user = relationship("User", back_populates="notifications")
+    student = relationship("Student", backref="notifications")

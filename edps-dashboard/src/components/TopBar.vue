@@ -37,10 +37,10 @@
             <div class="relative">
               <Bell size="18" />
               <span 
-                v-if="notifications.unread.length" 
+                v-if="unreadCount > 0" 
                 class="absolute -top-1 -right-1 w-4 h-4 bg-red-600 text-white text-xs flex items-center justify-center rounded-full font-medium"
               >
-                {{ notifications.unread.length }}
+                {{ unreadCount }}
               </span>
             </div>
           </button>
@@ -54,7 +54,7 @@
             <div class="px-4 py-2 border-b border-gray-200 flex justify-between items-center">
               <h3 class="font-medium text-gray-900">Notifications</h3>
               <button 
-                v-if="notifications.unread.length"
+                v-if="unreadCount > 0"
                 @click="markAllAsRead"
                 class="text-xs text-blue-700 hover:text-blue-800"
               >
@@ -63,9 +63,9 @@
             </div>
 
             <div class="max-h-96 overflow-y-auto">
-              <template v-if="allNotifications.length">
+              <template v-if="notifications.length">
                 <div
-                  v-for="notification in allNotifications"
+                  v-for="notification in notifications"
                   :key="notification.id"
                   class="px-4 py-3 hover:bg-gray-50/80 border-b border-gray-200 last:border-0"
                   :class="{ 'bg-blue-50/80': !notification.read }"
@@ -73,15 +73,18 @@
                   <div class="flex items-start gap-3">
                     <div 
                       class="p-1 rounded-full"
-                      :class="notificationTypeStyles[notification.type]"
+                      :class="notificationTypeStyles[notification.type] || 'bg-gray-100 text-gray-700'"
                     >
-                      <component :is="notificationIcons[notification.type]" size="14" />
+                      <component 
+                        :is="notificationIcons[notification.type] || Info" 
+                        size="14" 
+                      />
                     </div>
                     <div>
-                      <p class="text-sm text-gray-900 font-medium">{{ notification.title }}</p>
-                      <p class="text-xs text-gray-600 mt-0.5">{{ notification.message }}</p>
+                      <p class="text-sm text-gray-900 font-medium">{{ notification.title || 'Notification' }}</p>
+                      <p class="text-xs text-gray-600 mt-0.5">{{ notification.message || '' }}</p>
                       <div class="flex items-center gap-2 mt-2">
-                        <span class="text-xs text-gray-500">{{ formatTime(notification.timestamp) }}</span>
+                        <span class="text-xs text-gray-500">{{ formatTime(notification.timestamp || notification.created_at) }}</span>
                         <button 
                           v-if="!notification.read"
                           @click="markAsRead(notification.id)"
@@ -105,8 +108,8 @@
       <!-- User Info -->
       <div class="flex items-center space-x-3">
         <div class="text-right">
-          <p class="text-sm font-medium text-gray-900">{{ auth.user?.name || 'User' }}</p>
-          <p class="text-xs text-gray-600">{{ auth.isAdmin ? 'Administrator' : 'Advisor' }}</p>
+          <p class="text-sm font-medium text-gray-900">{{ userFullName }}</p>
+          <p class="text-xs text-gray-600">{{ userRole }}</p>
         </div>
         <div class="w-8 h-8 rounded-full bg-blue-700 flex items-center justify-center text-white shadow-sm font-semibold text-sm">
           {{ userInitials }}
@@ -117,6 +120,7 @@
 </template>
 
 <script setup>
+import api from '@/services/api'
 import { useAuthStore } from '@/stores/authStore'
 import { format, isToday, isYesterday } from 'date-fns'
 import { AlertTriangle, Bell, CheckCircle, ChevronRight, Info, RefreshCw } from 'lucide-vue-next'
@@ -134,39 +138,9 @@ const refreshError = ref(false)
 const showNotifications = ref(false)
 const notificationTrigger = ref(null)
 const notificationPanel = ref(null)
+const notifications = ref([])
 
-// Notifications System
-const notifications = ref({
-  unread: [
-    {
-      id: 1,
-      type: 'alert',
-      title: 'High Risk Alert',
-      message: '3 students have moved to high risk category',
-      timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
-      read: false
-    },
-    {
-      id: 2,
-      type: 'info',
-      title: 'New Data Available',
-      message: 'Latest student performance data has been processed',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
-      read: false
-    }
-  ],
-  read: [
-    {
-      id: 3,
-      type: 'success',
-      title: 'Upload Successful',
-      message: 'Student data has been successfully uploaded',
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day ago
-      read: true
-    }
-  ]
-})
-
+// Notification types and styles
 const notificationTypeStyles = {
   alert: 'bg-amber-100 text-amber-700',
   info: 'bg-blue-100 text-blue-700',
@@ -198,19 +172,26 @@ const subSection = computed(() => {
   return ''
 })
 
-const userInitials = computed(() => {
-  const name = auth.user?.name || 'User Name'
-  return name
-    .split(' ')
-    .map(n => n[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2)
+const userFullName = computed(() => {
+  if (!auth.user) return 'User'
+  return `${auth.user.first_name} ${auth.user.last_name}`
 })
 
-const allNotifications = computed(() => {
-  return [...notifications.value.unread, ...notifications.value.read]
-    .sort((a, b) => b.timestamp - a.timestamp)
+const userRole = computed(() => {
+  if (!auth.user) return 'User'
+  return auth.user.role === 'admin' ? 'Administrator' : 'Advisor'
+})
+
+const userInitials = computed(() => {
+  if (!auth.user) return 'U'
+  return `${auth.user.first_name[0]}${auth.user.last_name[0]}`.toUpperCase()
+})
+
+const unreadCount = computed(() => {
+  if (!notifications.value || !Array.isArray(notifications.value)) {
+    return 0;
+  }
+  return notifications.value.filter(n => n && !n.read).length;
 })
 
 // Methods
@@ -238,30 +219,76 @@ const toggleNotifications = () => {
   showNotifications.value = !showNotifications.value
 }
 
-const markAsRead = (id) => {
-  const notification = notifications.value.unread.find(n => n.id === id)
-  if (notification) {
-    notification.read = true
-    notifications.value.read.push(notification)
-    notifications.value.unread = notifications.value.unread.filter(n => n.id !== id)
+const markAsRead = async (id) => {
+  try {
+    await api.patch(`/notifications/${id}/read`)
+    const notification = notifications.value.find(n => n.id === id)
+    if (notification) {
+      notification.read = true
+    }
+  } catch (error) {
+    console.error('Failed to mark notification as read:', error)
+    toast.error('Failed to mark notification as read')
   }
 }
 
-const markAllAsRead = () => {
-  notifications.value.unread.forEach(notification => {
-    notification.read = true
-    notifications.value.read.push(notification)
-  })
-  notifications.value.unread = []
+const markAllAsRead = async () => {
+  try {
+    await api.patch('/notifications/read-all')
+    notifications.value.forEach(notification => {
+      notification.read = true
+    })
+  } catch (error) {
+    console.error('Failed to mark all notifications as read:', error)
+    toast.error('Failed to mark all notifications as read')
+  }
 }
 
 const formatTime = (timestamp) => {
-  if (isToday(timestamp)) {
-    return `Today at ${format(timestamp, 'h:mm a')}`
-  } else if (isYesterday(timestamp)) {
-    return `Yesterday at ${format(timestamp, 'h:mm a')}`
-  } else {
-    return format(timestamp, 'MMM d, yyyy')
+  if (!timestamp) return 'Unknown time';
+  
+  try {
+    const date = new Date(timestamp);
+    // Check if date is valid
+    if (isNaN(date.getTime())) {
+      return 'Invalid date';
+    }
+    
+    if (isToday(date)) {
+      return `Today at ${format(date, 'h:mm a')}`;
+    } else if (isYesterday(date)) {
+      return `Yesterday at ${format(date, 'h:mm a')}`;
+    } else {
+      return format(date, 'MMM d, yyyy');
+    }
+  } catch (error) {
+    console.error('Date formatting error:', error);
+    return 'Invalid date';
+  }
+}
+
+const fetchNotifications = async () => {
+  try {
+    const { data } = await api.get('/notifications');
+    console.log('Raw notifications data:', data);
+    
+    // Process the notifications to ensure they have all required fields
+    notifications.value = data.map(notification => ({
+      ...notification,
+      // Ensure all required properties exist
+      id: notification.id,
+      title: notification.title || 'No Title',
+      message: notification.message || 'No Message',
+      type: notification.type || 'info',
+      read: Boolean(notification.read),
+      created_at: notification.created_at || new Date().toISOString(),
+      // Add a timestamp property if it doesn't exist (for compatibility with the UI)
+      timestamp: notification.created_at || new Date().toISOString()
+    }));
+    
+    console.log('Processed notifications:', notifications.value);
+  } catch (error) {
+    console.error('Failed to fetch notifications:', error);
   }
 }
 
@@ -279,10 +306,13 @@ const handleClickOutside = (event) => {
 // Lifecycle hooks
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
+  fetchNotifications()
+  // Set up polling for new notifications
+  const pollInterval = setInterval(fetchNotifications, 30000) // Poll every 30 seconds
+  onUnmounted(() => {
+    document.removeEventListener('click', handleClickOutside)
+    clearInterval(pollInterval)
+  })
 })
 
 // Event emitter
