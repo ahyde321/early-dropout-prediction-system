@@ -102,5 +102,6 @@ class RiskPredictionSchema(BaseModel):
     risk_level: str
     model_phase: str
     timestamp: datetime
+    shap_values: Optional[dict] = None
 
     model_config = ConfigDict(from_attributes=True)

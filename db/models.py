@@ -5,6 +5,8 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship
 from db.database import Base
+from sqlalchemy.dialects.postgresql import JSON
+
 
 # === Student Model ===
 class Student(Base):
@@ -50,6 +52,7 @@ class RiskPrediction(Base):
     risk_level = Column(String, nullable=False)  # e.g. "low", "medium", "high"
     model_phase = Column(String, nullable=False)  # e.g. "early", "mid", "final"
     timestamp = Column(DateTime, default=lambda: datetime.now())
+    shap_values = Column(JSON)
 
     # Relationships
     student = relationship("Student", back_populates="predictions")

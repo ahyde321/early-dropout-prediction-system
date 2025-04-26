@@ -12,6 +12,8 @@ from db.models import Student, RiskPrediction
 from db.database import SessionLocal
 from api.schemas import StudentCreate, StudentUpdate, RiskPredictionSchema
 from models.utils.system.prediction import predict_student
+from models.utils.system.shap_explainer import explain_student  # 🆕 You will create this
+
 
 router = APIRouter()
 
@@ -32,9 +34,6 @@ def get_risk_level(score: float) -> str:
         return "high"
 
 def predict_and_save(student, db, force_update=False):
-    """
-    Predict and either create or update RiskPrediction for a student.
-    """
     student_dict = student.__dict__.copy()
     student_dict.pop("_sa_instance_state", None)
 
@@ -42,18 +41,21 @@ def predict_and_save(student, db, force_update=False):
     risk_score = 1 - raw_score
     risk_level = get_risk_level(risk_score)
 
+    shap_explanation = explain_student(student_dict)  # 🧠 here!
+
     existing = db.query(RiskPrediction).filter(
         RiskPrediction.student_number == student.student_number,
         RiskPrediction.model_phase == phase
     ).first()
 
     if existing and not force_update:
-        return None  # Skip (already exists)
-    
+        return None
+
     if existing and force_update:
         existing.risk_score = risk_score
         existing.risk_level = risk_level
         existing.timestamp = datetime.now()
+        existing.shap_values = shap_explanation
         return RiskPredictionSchema.model_validate(existing)
 
     # Create new prediction
@@ -62,7 +64,8 @@ def predict_and_save(student, db, force_update=False):
         risk_score=risk_score,
         risk_level=risk_level,
         model_phase=phase,
-        timestamp=datetime.now()
+        timestamp=datetime.now(),
+        shap_values=shap_explanation  # 🆕 store shap values
     )
     db.add(new_pred)
     return RiskPredictionSchema.model_validate(new_pred)

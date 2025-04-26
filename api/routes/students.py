@@ -38,16 +38,17 @@ def get_student_by_number(student_number: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Student not found")
     return student
 
-@router.patch("/students/{student_id}")
-def update_student(student_id: int, updates: StudentUpdate, db: Session = Depends(get_db)):
-    student = db.query(Student).get(student_id)
+@router.patch("/students/{student_number}")
+def update_student(student_number: str, updates: StudentUpdate, db: Session = Depends(get_db)):
+    student = db.query(Student).filter(Student.student_number == student_number).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     for key, value in updates.dict(exclude_unset=True).items():
         setattr(student, key, value)
     db.commit()
     db.refresh(student)
-    return {"message": "Student updated", "student": student.id}
+    return {"message": "Student updated", "student": student.student_number}
+
 
 @router.get("/students/list")
 def get_all_students(db: Session = Depends(get_db)):
