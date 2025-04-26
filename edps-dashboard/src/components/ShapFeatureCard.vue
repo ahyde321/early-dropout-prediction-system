@@ -1,20 +1,20 @@
 <template>
-  <div class="bg-white border rounded-xl p-4 shadow-sm">
-    <h4 class="text-md font-semibold text-gray-800 mb-4 flex items-center gap-2">
-      🧠 Top Contributing Features
+  <div class="bg-gradient-to-br from-white to-gray-50 p-5 rounded-xl shadow-sm">
+    <h4 class="text-lg font-bold text-gray-800 mb-5 border-b pb-2">
+      Top Contributing Features
     </h4>
 
-    <div v-if="topFeatures.length">
+    <div v-if="topFeatures.length" class="space-y-3">
       <div
         v-for="(item, index) in topFeatures"
         :key="index"
-        class="flex justify-between items-center py-1.5 border-b last:border-none"
+        class="flex justify-between items-center py-1 px-2 hover:bg-gray-100 rounded-lg transition-all"
       >
-        <span class="text-gray-700 text-sm truncate">
+        <span class="text-gray-700 text-[13px] font-medium truncate">
           {{ formatLabel(item.feature) }}
         </span>
         <span
-          class="text-xs font-semibold px-2 py-1 rounded-lg min-w-[64px] text-center"
+          class="text-xs font-semibold px-3 py-1 rounded-full min-w-[60px] text-center shadow-sm"
           :class="item.value > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'"
         >
           {{ item.value.toFixed(3) }}
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div v-else class="text-sm text-gray-400 italic">
+    <div v-else class="text-sm text-gray-400 italic text-center py-6">
       No SHAP explanation available.
     </div>
   </div>

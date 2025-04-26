@@ -5,7 +5,6 @@ import LoginView from '@/components/LoginView.vue';
 import DashboardLayout from '@/layouts/DashboardLayout.vue';
 import AdminView from '@/views/AdminView.vue';
 import HomeView from '@/views/HomeView.vue';
-import ModelInsightsView from '@/views/ModelInsightsView.vue';
 import NotFound from '@/views/NotFound.vue';
 import PredictionsView from '@/views/PredictionsView.vue';
 import StudentListPage from '@/views/StudentListPage.vue';
@@ -47,12 +46,6 @@ const routes = [
         name: 'UploadCSV',
         component: UploadPage,
         meta: { title: 'Upload Data', requiresAuth: true },
-      },
-      {
-        path: 'insights',
-        name: 'ModelInsights',
-        component: ModelInsightsView,
-        meta: { title: 'Model Insights', requiresAuth: true },
       },
       {
         path: 'admin',

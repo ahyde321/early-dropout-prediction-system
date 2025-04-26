@@ -72,19 +72,6 @@
           />
           <span>Upload</span>
         </RouterLink>
-        <!-- Model Insights -->
-        <RouterLink
-          to="/insights"
-          class="nav-link group"
-          :class="isActive('/insights')"
-        >
-          <BarChart2
-            size="18"
-            :class="isActive('/insights') ? 'text-blue-700' : 'text-gray-500 group-hover:text-blue-700'"
-          />
-          <span>Model Insights</span>
-        </RouterLink>
-
       </div>
 
       <!-- Admin Section -->

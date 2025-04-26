@@ -1,4 +1,4 @@
-from fastapi import UploadFile, File, APIRouter, Depends, HTTPException, Query
+from fastapi import UploadFile, File, APIRouter, Depends, HTTPException, Query, Body
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session, aliased
 from typing import List
@@ -39,11 +39,11 @@ def get_student_by_number(student_number: str, db: Session = Depends(get_db)):
     return student
 
 @router.patch("/students/{student_number}")
-def update_student(student_number: str, updates: StudentUpdate, db: Session = Depends(get_db)):
+def update_student(student_number: str, updates: dict = Body(...), db: Session = Depends(get_db)):
     student = db.query(Student).filter(Student.student_number == student_number).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
-    for key, value in updates.dict(exclude_unset=True).items():
+    for key, value in updates.items():
         setattr(student, key, value)
     db.commit()
     db.refresh(student)
