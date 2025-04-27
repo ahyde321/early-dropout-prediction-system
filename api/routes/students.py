@@ -1,4 +1,4 @@
-from fastapi import UploadFile, File, APIRouter, Depends, HTTPException, Query, Body
+from fastapi import UploadFile, File, APIRouter, Depends, HTTPException, Query, Body, Request
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session, aliased
 from typing import List
@@ -22,9 +22,11 @@ def get_db():
         db.close()
 
 # === STUDENT ROUTES ===
+print(">>> students.py loaded from:", __file__)
 
 @router.post("/students/create", response_model=StudentSchema)
-def create_student(student: StudentCreate, db: Session = Depends(get_db)):
+def create_student(student: StudentCreate, db: Session = Depends(get_db), request: Request = None):
+    print(f">>> Inside route {request.url.path}")
     student_model = Student(**student.model_dump())
     db.add(student_model)
     db.commit()
@@ -32,14 +34,16 @@ def create_student(student: StudentCreate, db: Session = Depends(get_db)):
     return student_model
 
 @router.get("/students/by-number/{student_number}", response_model=StudentSchema)
-def get_student_by_number(student_number: str, db: Session = Depends(get_db)):
+def get_student_by_number(student_number: str, db: Session = Depends(get_db), request: Request = None):
+    print(f">>> Inside route {request.url.path}")
     student = db.query(Student).filter(Student.student_number == student_number).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     return student
 
 @router.patch("/students/{student_number}")
-def update_student(student_number: str, updates: dict = Body(...), db: Session = Depends(get_db)):
+def update_student(student_number: str, updates: dict = Body(...), db: Session = Depends(get_db), request: Request = None):
+    print(f">>> Inside route {request.url.path}")
     student = db.query(Student).filter(Student.student_number == student_number).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
@@ -49,9 +53,9 @@ def update_student(student_number: str, updates: dict = Body(...), db: Session =
     db.refresh(student)
     return {"message": "Student updated", "student": student.student_number}
 
-
 @router.get("/students/list")
-def get_all_students(db: Session = Depends(get_db)):
+def get_all_students(db: Session = Depends(get_db), request: Request = None):
+    print(f">>> Inside route {request.url.path}")
     students = db.query(Student).all()
     results = []
 
@@ -88,7 +92,8 @@ def get_all_students(db: Session = Depends(get_db)):
     return results
 
 @router.get("/download/students")
-def download_students(db: Session = Depends(get_db)):
+def download_students(db: Session = Depends(get_db), request: Request = None):
+    print(f">>> Inside route {request.url.path}")
     students = db.query(Student).all()
     df = pd.DataFrame([s.__dict__ for s in students])
     df.drop(columns=["_sa_instance_state"], errors="ignore", inplace=True)
@@ -102,7 +107,8 @@ def download_students(db: Session = Depends(get_db)):
     })
 
 @router.get("/students/{student_number}/status")
-def get_student_status(student_number: str, db: Session = Depends(get_db)):
+def get_student_status(student_number: str, db: Session = Depends(get_db), request: Request = None):
+    print(f">>> Inside route {request.url.path}")
     student = db.query(Student).filter(Student.student_number == student_number).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
@@ -120,7 +126,8 @@ def get_student_status(student_number: str, db: Session = Depends(get_db)):
     }
 
 @router.get("/students/{student_number}/history")
-def get_student_history(student_number: str, db: Session = Depends(get_db)):
+def get_student_history(student_number: str, db: Session = Depends(get_db), request: Request = None):
+    print(f">>> Inside route {request.url.path}")
     student = db.query(Student).filter(Student.student_number == student_number).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
@@ -138,7 +145,8 @@ def get_student_history(student_number: str, db: Session = Depends(get_db)):
     }
 
 @router.get("/students/distinct-values")
-def get_distinct_values(field: str = Query(...), db: Session = Depends(get_db)):
+def get_distinct_values(field: str = Query(...), db: Session = Depends(get_db), request: Request = None):
+    print(f">>> Inside route {request.url.path}")
     valid_fields = {
         "marital_status": Student.marital_status,
         "previous_qualification_grade": Student.previous_qualification_grade,
@@ -160,7 +168,8 @@ def get_distinct_values(field: str = Query(...), db: Session = Depends(get_db)):
     return [d[0] for d in distinct]
 
 @router.get("/students/with-notes")
-def get_students_with_notes(db: Session = Depends(get_db)):
+def get_students_with_notes(db: Session = Depends(get_db), request: Request = None):
+    print(f">>> Inside route {request.url.path}")
     students = db.query(Student).filter(Student.notes.isnot(None)).all()
 
     return [
@@ -177,8 +186,10 @@ def get_students_with_notes(db: Session = Depends(get_db)):
 def get_risk_summary_by_phase(
     filter_field: str = Query(None),
     filter_value: str = Query(None),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    request: Request = None
 ):
+    print(f">>> Inside route {request.url.path}")
     phase_levels = ["early", "mid", "final"]
     risk_levels = ["high", "moderate", "low"]
     result = {phase: {level: 0 for level in risk_levels} for phase in phase_levels}
