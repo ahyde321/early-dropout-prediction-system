@@ -4,42 +4,28 @@ import numpy as np
 import pandas as pd
 import shap
 import os
+import pytest
 
 from models.utils.system.shap_explainer import explain_student
 
 class TestShapExplainer(unittest.TestCase):
     """Tests for the SHAP explainer module"""
     
+    @pytest.mark.skip(reason="Replaced by test_explain_student_final_phase_impl")
     @patch('os.path.exists')
     @patch('pickle.load')
     @patch('builtins.open', new_callable=mock_open)
     @patch('models.utils.system.shap_explainer.preprocess_row_for_inference')
     @patch('shap.TreeExplainer')
-    def test_explain_student_final_phase(self, mock_tree_explainer, mock_preprocess, 
-                                         mock_file_open, mock_pickle_load, mock_path_exists):
-        """Test explain_student function with final phase data"""
-        # Set up mocks
-        mock_path_exists.return_value = True
-        
-        # Mock model
-        mock_model = MagicMock()
-        mock_pickle_load.return_value = mock_model
-        
-        # Mock preprocessed data
-        mock_df = pd.DataFrame({
-            'feature1': [0.5],
-            'feature2': [0.7]
-        })
-        mock_preprocess.return_value = mock_df
-        
-        # Mock SHAP explainer
-        mock_explainer = MagicMock()
-        mock_tree_explainer.return_value = mock_explainer
-        
-        # Mock SHAP values
-        mock_shap_values = np.array([[0.2, 0.3]])
-        mock_explainer.shap_values.return_value = mock_shap_values
-        
+    @patch('models.utils.system.shap_explainer.FINAL_FIELDS', ['student_number', 'first_name', 'last_name', 'marital_status', 'previous_qualification_grade', 'admission_grade', 'displaced', 'debtor', 'tuition_fees_up_to_date', 'gender', 'scholarship_holder', 'age_at_enrollment', 'curricular_units_1st_sem_enrolled', 'curricular_units_1st_sem_approved', 'curricular_units_1st_sem_grade', 'curricular_units_2nd_sem_grade'])
+    @patch('models.utils.system.shap_explainer.MID_FIELDS', ['student_number', 'curricular_units_1st_sem_approved', 'curricular_units_1st_sem_grade'])
+    @patch('models.utils.system.shap_explainer.EARLY_FIELDS', ['student_number', 'first_name', 'last_name', 'marital_status', 'previous_qualification_grade', 'admission_grade', 'displaced', 'debtor', 'tuition_fees_up_to_date', 'gender', 'scholarship_holder', 'age_at_enrollment', 'curricular_units_1st_sem_enrolled'])
+    def test_explain_student_final_phase(self):
+        """Test explaining a student in the final phase"""
+        self.test_explain_student_final_phase_impl()
+    
+    def test_explain_student_final_phase_impl(self):
+        """Implementation of the test for final phase data using context managers"""
         # Create student data with all required fields for final phase
         student_data = {
             'student_number': '12345',
@@ -60,48 +46,58 @@ class TestShapExplainer(unittest.TestCase):
             'curricular_units_2nd_sem_grade': 15.0
         }
         
-        # Call the function
-        result = explain_student(student_data)
-        
-        # Assertions
-        self.assertIsInstance(result, dict)
-        self.assertEqual(len(result), 2)
-        self.assertEqual(result['feature1'], 0.2)
-        self.assertEqual(result['feature2'], 0.3)
-        
-        # Verify model loading with correct phase
-        mock_file_open.assert_called_with('models/final/artifacts/random_forest_model.pkl', 'rb')
+        # Use context managers for patching
+        with patch('models.utils.system.shap_explainer.EARLY_FIELDS', 
+                  ['student_number', 'first_name', 'last_name', 'marital_status', 
+                   'previous_qualification_grade', 'admission_grade', 'displaced', 
+                   'debtor', 'tuition_fees_up_to_date', 'gender', 'scholarship_holder', 
+                   'age_at_enrollment', 'curricular_units_1st_sem_enrolled']), \
+             patch('models.utils.system.shap_explainer.MID_FIELDS', 
+                  ['student_number', 'curricular_units_1st_sem_approved', 
+                   'curricular_units_1st_sem_grade']), \
+             patch('models.utils.system.shap_explainer.FINAL_FIELDS', 
+                  ['student_number', 'curricular_units_1st_sem_approved', 
+                   'curricular_units_1st_sem_grade', 'curricular_units_2nd_sem_grade']), \
+             patch('os.path.exists', return_value=True), \
+             patch('builtins.open', mock_open()) as mock_file_open, \
+             patch('pickle.load') as mock_pickle_load, \
+             patch('models.utils.system.shap_explainer.preprocess_row_for_inference') as mock_preprocess, \
+             patch('shap.TreeExplainer') as mock_tree_explainer:
+                
+            # Mock model
+            mock_model = MagicMock()
+            mock_model.feature_names_in_ = ['feature1', 'feature2']
+            mock_pickle_load.return_value = mock_model
+            
+            # Mock preprocessed data
+            mock_df = pd.DataFrame({
+                'feature1': [0.5],
+                'feature2': [0.7]
+            })
+            mock_preprocess.return_value = mock_df
+            
+            # Mock SHAP explainer
+            mock_explainer = MagicMock()
+            mock_tree_explainer.return_value = mock_explainer
+            
+            # Mock SHAP values
+            mock_shap_values = np.array([[0.2, 0.3]])
+            mock_explainer.shap_values.return_value = mock_shap_values
+            
+            # Call the function
+            result = explain_student(student_data)
+            
+            # Assertions
+            self.assertIsInstance(result, dict)
+            self.assertEqual(len(result), 2)
+            self.assertEqual(result['feature1'], 0.2)
+            self.assertEqual(result['feature2'], 0.3)
+            
+            # Verify model loading with correct phase
+            mock_file_open.assert_called_with('models/final/artifacts/random_forest_model.pkl', 'rb')
     
-    @patch('os.path.exists')
-    @patch('pickle.load')
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('models.utils.system.shap_explainer.preprocess_row_for_inference')
-    @patch('shap.TreeExplainer')
-    def test_explain_student_mid_phase(self, mock_tree_explainer, mock_preprocess, 
-                                       mock_file_open, mock_pickle_load, mock_path_exists):
+    def test_explain_student_mid_phase(self):
         """Test explain_student function with mid phase data"""
-        # Set up mocks
-        mock_path_exists.return_value = True
-        
-        # Mock model
-        mock_model = MagicMock()
-        mock_pickle_load.return_value = mock_model
-        
-        # Mock preprocessed data
-        mock_df = pd.DataFrame({
-            'feature1': [0.5],
-            'feature2': [0.7]
-        })
-        mock_preprocess.return_value = mock_df
-        
-        # Mock SHAP explainer
-        mock_explainer = MagicMock()
-        mock_tree_explainer.return_value = mock_explainer
-        
-        # Mock SHAP values
-        mock_shap_values = np.array([[0.2, 0.3]])
-        mock_explainer.shap_values.return_value = mock_shap_values
-        
         # Create student data with mid phase fields but without final fields
         student_data = {
             'student_number': '12345',
@@ -122,48 +118,58 @@ class TestShapExplainer(unittest.TestCase):
             # No 2nd semester grade
         }
         
-        # Call the function
-        result = explain_student(student_data)
-        
-        # Assertions
-        self.assertIsInstance(result, dict)
-        self.assertEqual(len(result), 2)
-        self.assertEqual(result['feature1'], 0.2)
-        self.assertEqual(result['feature2'], 0.3)
-        
-        # Verify model loading with correct phase
-        mock_file_open.assert_called_with('models/mid/artifacts/random_forest_model.pkl', 'rb')
+        # Use context managers for patching instead of decorators
+        with patch('models.utils.system.shap_explainer.EARLY_FIELDS', 
+                  ['student_number', 'first_name', 'last_name', 'marital_status', 
+                   'previous_qualification_grade', 'admission_grade', 'displaced', 
+                   'debtor', 'tuition_fees_up_to_date', 'gender', 'scholarship_holder', 
+                   'age_at_enrollment', 'curricular_units_1st_sem_enrolled']), \
+             patch('models.utils.system.shap_explainer.MID_FIELDS', 
+                  ['student_number', 'curricular_units_1st_sem_approved', 
+                   'curricular_units_1st_sem_grade']), \
+             patch('models.utils.system.shap_explainer.FINAL_FIELDS', 
+                  ['student_number', 'curricular_units_1st_sem_approved', 
+                   'curricular_units_1st_sem_grade', 'curricular_units_2nd_sem_grade']), \
+             patch('os.path.exists', return_value=True), \
+             patch('builtins.open', mock_open()) as mock_file_open, \
+             patch('pickle.load') as mock_pickle_load, \
+             patch('models.utils.system.shap_explainer.preprocess_row_for_inference') as mock_preprocess, \
+             patch('shap.TreeExplainer') as mock_tree_explainer:
+                
+            # Mock model
+            mock_model = MagicMock()
+            mock_model.feature_names_in_ = ['feature1', 'feature2']
+            mock_pickle_load.return_value = mock_model
+            
+            # Mock preprocessed data
+            mock_df = pd.DataFrame({
+                'feature1': [0.5],
+                'feature2': [0.7]
+            })
+            mock_preprocess.return_value = mock_df
+            
+            # Mock SHAP explainer
+            mock_explainer = MagicMock()
+            mock_tree_explainer.return_value = mock_explainer
+            
+            # Mock SHAP values
+            mock_shap_values = np.array([[0.2, 0.3]])
+            mock_explainer.shap_values.return_value = mock_shap_values
+            
+            # Call the function
+            result = explain_student(student_data)
+            
+            # Assertions
+            self.assertIsInstance(result, dict)
+            self.assertEqual(len(result), 2)
+            self.assertEqual(result['feature1'], 0.2)
+            self.assertEqual(result['feature2'], 0.3)
+            
+            # Verify model loading with correct phase
+            mock_file_open.assert_called_with('models/mid/artifacts/random_forest_model.pkl', 'rb')
     
-    @patch('os.path.exists')
-    @patch('pickle.load')
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('models.utils.system.shap_explainer.preprocess_row_for_inference')
-    @patch('shap.TreeExplainer')
-    def test_explain_student_early_phase(self, mock_tree_explainer, mock_preprocess, 
-                                         mock_file_open, mock_pickle_load, mock_path_exists):
+    def test_explain_student_early_phase(self):
         """Test explain_student function with early phase data"""
-        # Set up mocks
-        mock_path_exists.return_value = True
-        
-        # Mock model
-        mock_model = MagicMock()
-        mock_pickle_load.return_value = mock_model
-        
-        # Mock preprocessed data
-        mock_df = pd.DataFrame({
-            'feature1': [0.5],
-            'feature2': [0.7]
-        })
-        mock_preprocess.return_value = mock_df
-        
-        # Mock SHAP explainer
-        mock_explainer = MagicMock()
-        mock_tree_explainer.return_value = mock_explainer
-        
-        # Mock SHAP values
-        mock_shap_values = np.array([[0.2, 0.3]])
-        mock_explainer.shap_values.return_value = mock_shap_values
-        
         # Create student data with only early phase fields
         student_data = {
             'student_number': '12345',
@@ -182,17 +188,55 @@ class TestShapExplainer(unittest.TestCase):
             # No semester grades or approvals
         }
         
-        # Call the function
-        result = explain_student(student_data)
-        
-        # Assertions
-        self.assertIsInstance(result, dict)
-        self.assertEqual(len(result), 2)
-        self.assertEqual(result['feature1'], 0.2)
-        self.assertEqual(result['feature2'], 0.3)
-        
-        # Verify model loading with correct phase
-        mock_file_open.assert_called_with('models/early/artifacts/random_forest_model.pkl', 'rb')
+        # Use context managers for patching instead of decorators
+        with patch('models.utils.system.shap_explainer.EARLY_FIELDS', 
+                  ['student_number', 'first_name', 'last_name', 'marital_status', 
+                   'previous_qualification_grade', 'admission_grade', 'displaced', 
+                   'debtor', 'tuition_fees_up_to_date', 'gender', 'scholarship_holder', 
+                   'age_at_enrollment', 'curricular_units_1st_sem_enrolled']), \
+             patch('models.utils.system.shap_explainer.MID_FIELDS', 
+                  ['student_number', 'curricular_units_1st_sem_approved', 
+                   'curricular_units_1st_sem_grade']), \
+             patch('models.utils.system.shap_explainer.FINAL_FIELDS', 
+                  ['student_number', 'curricular_units_1st_sem_approved', 
+                   'curricular_units_1st_sem_grade', 'curricular_units_2nd_sem_grade']), \
+             patch('os.path.exists', return_value=True), \
+             patch('builtins.open', mock_open()) as mock_file_open, \
+             patch('pickle.load') as mock_pickle_load, \
+             patch('models.utils.system.shap_explainer.preprocess_row_for_inference') as mock_preprocess, \
+             patch('shap.TreeExplainer') as mock_tree_explainer:
+                
+            # Mock model
+            mock_model = MagicMock()
+            mock_model.feature_names_in_ = ['feature1', 'feature2']
+            mock_pickle_load.return_value = mock_model
+            
+            # Mock preprocessed data
+            mock_df = pd.DataFrame({
+                'feature1': [0.5],
+                'feature2': [0.7]
+            })
+            mock_preprocess.return_value = mock_df
+            
+            # Mock SHAP explainer
+            mock_explainer = MagicMock()
+            mock_tree_explainer.return_value = mock_explainer
+            
+            # Mock SHAP values
+            mock_shap_values = np.array([[0.2, 0.3]])
+            mock_explainer.shap_values.return_value = mock_shap_values
+            
+            # Call the function
+            result = explain_student(student_data)
+            
+            # Assertions
+            self.assertIsInstance(result, dict)
+            self.assertEqual(len(result), 2)
+            self.assertEqual(result['feature1'], 0.2)
+            self.assertEqual(result['feature2'], 0.3)
+            
+            # Verify model loading with correct phase
+            mock_file_open.assert_called_with('models/early/artifacts/random_forest_model.pkl', 'rb')
     
     def test_explain_student_forced_phase(self):
         """Test explain_student function with forced phase parameter"""
@@ -289,20 +333,56 @@ class TestShapExplainer(unittest.TestCase):
             'age_at_enrollment': 18,
         }
         
-        # Use a simpler approach with a direct mock of the entire function
-        with patch('models.utils.system.shap_explainer.explain_student') as mock_explain_student:
-            # Set up the mock to return a specific dictionary
-            mock_explain_student.return_value = {'feature1': 0.3, 'feature2': 0.4}
+        # Use context managers for patching instead of decorators
+        with patch('models.utils.system.shap_explainer.EARLY_FIELDS', 
+                  ['student_number', 'gender', 'age_at_enrollment']), \
+             patch('models.utils.system.shap_explainer._model_cache', {}), \
+             patch('os.path.exists', return_value=True), \
+             patch('builtins.open', mock_open()) as mock_file_open, \
+             patch('pickle.load') as mock_pickle_load, \
+             patch('models.utils.system.shap_explainer.preprocess_row_for_inference') as mock_preprocess, \
+             patch('shap.TreeExplainer') as mock_tree_explainer:
+                
+            # Mock model
+            mock_model = MagicMock()
+            mock_model.feature_names_in_ = ['feature1', 'feature2']
+            mock_pickle_load.return_value = mock_model
+            
+            # Mock preprocessed data
+            mock_df = pd.DataFrame({
+                'feature1': [0.5],
+                'feature2': [0.7]
+            })
+            mock_preprocess.return_value = mock_df
+            
+            # Mock SHAP explainer
+            mock_explainer = MagicMock()
+            mock_tree_explainer.return_value = mock_explainer
+            
+            # Mock multi-class SHAP values (list of arrays for each class)
+            mock_shap_values = [np.array([[0.1, 0.2]]), np.array([[0.3, 0.4]])]
+            mock_explainer.shap_values.return_value = mock_shap_values
             
             # Call the function
             result = explain_student(student_data)
             
             # Assertions
             self.assertIsInstance(result, dict)
-            self.assertTrue('feature1' in result)
-            self.assertTrue('feature2' in result)
-            self.assertEqual(result['feature1'], 0.3)
-            self.assertEqual(result['feature2'], 0.4)
+            self.assertEqual(len(result), 2)
+            self.assertEqual(result['feature1'], 0.1)
+            self.assertEqual(result['feature2'], 0.2)
+            
+            # The file should be opened at least once with a path containing "early"
+            # Check for any call containing the path pattern
+            found_call = False
+            for call_args in mock_file_open.mock_calls:
+                if len(call_args.args) >= 1:
+                    if 'models/early/artifacts/random_forest_model.pkl' in str(call_args.args[0]):
+                        found_call = True
+                        break
+            
+            # Assert that we found a call with the expected path
+            self.assertTrue(found_call, "Expected file path not found in open() calls")
 
 
 if __name__ == '__main__':

@@ -33,7 +33,9 @@ client = TestClient(app)
 
 @pytest.fixture(scope="function")
 def setup_database():
+    """Set up a fresh test database for each test."""
     # Create the database tables
+    Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     
     # Create test data
@@ -71,6 +73,7 @@ def setup_database():
     )
     db.add(test_prediction)
     db.commit()
+    db.close()
     
     yield
     
@@ -78,9 +81,10 @@ def setup_database():
     Base.metadata.drop_all(bind=engine)
 
 # Basic test for predicting all students
+@pytest.mark.usefixtures("setup_database")
 @patch("models.utils.system.prediction.predict_student", side_effect=mock_predict_student)
 @patch("models.utils.system.shap_explainer.explain_student", side_effect=mock_explain_student)
-def test_bulk_predict_all_students(mock_explain, mock_predict, setup_database):
+def test_bulk_predict_all_students(mock_explain, mock_predict):
     """Test predicting for all students."""
     response = client.get("/api/predict/all")
     
@@ -93,9 +97,10 @@ def test_bulk_predict_all_students(mock_explain, mock_predict, setup_database):
     assert isinstance(data["skipped"], list)
 
 # Basic test for predicting specific student
+@pytest.mark.usefixtures("setup_database")
 @patch("models.utils.system.prediction.predict_student", side_effect=mock_predict_student)
 @patch("models.utils.system.shap_explainer.explain_student", side_effect=mock_explain_student)
-def test_predict_by_student_number(mock_explain, mock_predict, setup_database):
+def test_predict_by_student_number(mock_explain, mock_predict):
     """Test predicting for a specific student by number."""
     # Test with recalculate flag
     response = client.get("/api/predict/by-number/12345?recalculate=true")
@@ -107,7 +112,8 @@ def test_predict_by_student_number(mock_explain, mock_predict, setup_database):
     assert "risk_level" in data
 
 # Basic test for getting all predictions
-def test_get_all_predictions(setup_database):
+@pytest.mark.usefixtures("setup_database")
+def test_get_all_predictions():
     """Test retrieving all predictions."""
     response = client.get("/api/predictions")
     
@@ -128,7 +134,8 @@ def test_get_all_predictions(setup_database):
     assert found, "Test prediction not found in results"
 
 # Basic test for getting predictions for a student
-def test_get_predictions_for_student(setup_database):
+@pytest.mark.usefixtures("setup_database")
+def test_get_predictions_for_student():
     """Test retrieving predictions for a specific student."""
     response = client.get("/api/predictions/12345")
     
@@ -139,7 +146,8 @@ def test_get_predictions_for_student(setup_database):
     assert data[0]["risk_level"] == "low"
 
 # Basic test for downloading predictions
-def test_download_predictions(setup_database):
+@pytest.mark.usefixtures("setup_database")
+def test_download_predictions():
     """Test downloading predictions as CSV."""
     response = client.get("/api/download/predictions")
     
@@ -150,4 +158,103 @@ def test_download_predictions(setup_database):
     # Basic check on CSV content
     content = response.content.decode('utf-8')
     assert "student_number" in content
-    assert "12345" in content 
+    assert "12345" in content
+
+# Add a test for recalculate-all endpoint
+@pytest.mark.usefixtures("setup_database")
+@patch("models.utils.system.prediction.predict_student", side_effect=mock_predict_student)
+@patch("models.utils.system.shap_explainer.explain_student", side_effect=mock_explain_student)
+def test_recalculate_all_predictions(mock_explain, mock_predict):
+    """Test recalculating predictions for all students."""
+    response = client.get("/api/predict/recalculate-all")
+    
+    assert response.status_code == 200
+    data = response.json()
+    
+    assert "predictions_updated_or_created" in data
+    assert "skipped" in data
+    assert isinstance(data["predictions_updated_or_created"], list)
+    assert isinstance(data["skipped"], list)
+
+# Add a test for the risk-increase endpoint
+@pytest.mark.usefixtures("setup_database")
+def test_get_biggest_risk_increases():
+    """Test retrieving students with biggest risk increases."""
+    # First add another prediction with higher risk for the test student
+    db = TestingSessionLocal()
+    
+    # Make sure the student exists
+    student = db.query(Student).filter(Student.student_number == "12345").first()
+    if not student:
+        student = Student(
+            student_number="12345", 
+            first_name="Test", 
+            last_name="Student",
+            gender=1,
+            marital_status=1,
+            previous_qualification_grade=14.0,
+            admission_grade=142.5,
+            displaced=0,
+            debtor=0,
+            tuition_fees_up_to_date=1,
+            scholarship_holder=0,
+            age_at_enrollment=19,
+            curricular_units_1st_sem_enrolled=6,
+            curricular_units_1st_sem_approved=6,
+            curricular_units_1st_sem_grade=14.0,
+            curricular_units_2nd_sem_grade=13.5
+        )
+        db.add(student)
+        db.commit()
+    
+    # Check if the initial prediction exists, if not add it
+    existing_prediction = db.query(RiskPrediction).filter(
+        RiskPrediction.student_number == "12345",
+        RiskPrediction.timestamp == datetime(2023, 1, 1, 12, 0, 0)
+    ).first()
+    
+    if not existing_prediction:
+        test_prediction = RiskPrediction(
+            student_number="12345",
+            risk_score=0.3,
+            risk_level="low",
+            model_phase="early",
+            timestamp=datetime(2023, 1, 1, 12, 0, 0),
+            shap_values={"feature1": 0.1, "feature2": -0.2}
+        )
+        db.add(test_prediction)
+        db.commit()
+    
+    # Delete any existing newer predictions to avoid constraint violations
+    db.query(RiskPrediction).filter(
+        RiskPrediction.student_number == "12345",
+        RiskPrediction.timestamp > datetime(2023, 1, 1, 12, 0, 0)
+    ).delete()
+    db.commit()
+    
+    # Add a new prediction with higher risk
+    new_prediction = RiskPrediction(
+        student_number="12345",
+        risk_score=0.6,  # Higher risk than the first prediction
+        risk_level="moderate",
+        model_phase="early",
+        timestamp=datetime(2023, 2, 1, 12, 0, 0),  # Later date
+        shap_values={"feature1": 0.2, "feature2": -0.3}
+    )
+    db.add(new_prediction)
+    db.commit()
+    db.close()
+    
+    # Now test the endpoint
+    response = client.get("/api/insights/risk-increase")
+    
+    assert response.status_code == 200
+    data = response.json()
+    
+    # Should have at least one item
+    assert len(data) >= 1
+    
+    # First item should be our test student
+    assert data[0]["student_number"] == "12345"
+    assert data[0]["increase"] > 0
+    assert data[0]["current_score"] > data[0]["previous_score"] 

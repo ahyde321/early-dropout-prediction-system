@@ -20,7 +20,6 @@ from api.routes import (
     admin,
     auth,
     summary,
-    model,
     notifications
 )
 
@@ -68,7 +67,6 @@ app.include_router(prediction.router, prefix="/api", tags=["Predictions"])
 app.include_router(uploads.router, prefix="/api", tags=["Uploads"])
 app.include_router(admin.router, prefix="/api", tags=["Admin"])
 app.include_router(summary.router, prefix="/api", tags=["Summary"])
-app.include_router(model.router, prefix="/api", tags=["Model"])
 app.include_router(notifications.router, prefix="/api", tags=["Notifications"])
 
 # Optional: Enable auth

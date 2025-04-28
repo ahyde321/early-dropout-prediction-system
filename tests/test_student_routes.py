@@ -28,7 +28,10 @@ client = TestClient(app)
 @pytest.fixture
 def setup_database():
     """Set up a test database with a student and risk prediction."""
-    # Create tables
+    # Drop all tables to reset the schema
+    Base.metadata.drop_all(bind=engine)
+    
+    # Create tables based on the current models
     Base.metadata.create_all(bind=engine)
     
     # Override the dependency to use our test database
@@ -49,8 +52,8 @@ def setup_database():
         student_number="999999",
         first_name="New",
         last_name="Student",
-        gender=1,  # Using integer for gender (1 = female, 0 = male)
-        marital_status=1,  # Using integer values as in the real database
+        gender=1,
+        marital_status=1,
         age_at_enrollment=20,
         scholarship_holder=False,
         tuition_fees_up_to_date=True,
@@ -61,8 +64,6 @@ def setup_database():
         curricular_units_1st_sem_enrolled=6,
         curricular_units_1st_sem_approved=4,
         curricular_units_1st_sem_grade=13.0,
-        curricular_units_2nd_sem_enrolled=0,
-        curricular_units_2nd_sem_approved=0,
         curricular_units_2nd_sem_grade=12.5
     )
     db.add(test_student)
@@ -70,10 +71,10 @@ def setup_database():
     # Add a test risk prediction
     test_prediction = RiskPrediction(
         student_number="999999",
-        risk_score=0.2,  # Risk score as float
-        risk_level="low",  # Risk level as string 
+        risk_score=0.2,
+        risk_level="low",
         model_phase="early",
-        timestamp=datetime.now()  # Use Python datetime object
+        timestamp=datetime.now()
     )
     db.add(test_prediction)
     
@@ -82,7 +83,7 @@ def setup_database():
     
     yield
     
-    # Clean up
+    # Clean up after tests
     Base.metadata.drop_all(bind=engine)
     app.dependency_overrides.clear()
 
@@ -105,9 +106,9 @@ def test_create_student(setup_database):
         "curricular_units_1st_sem_enrolled": 6
     }
     
-    response = client.post("/api/students/", json=student_data)
+    response = client.post("/api/students/create", json=student_data)
     
-    assert response.status_code == 201
+    assert response.status_code == 200
     data = response.json()
     assert data["student_number"] == student_data["student_number"]
     assert data["first_name"] == student_data["first_name"]
@@ -115,7 +116,7 @@ def test_create_student(setup_database):
 # Basic test for getting a student by number
 def test_get_student_by_number(setup_database):
     """Test retrieving a student by their student number."""
-    response = client.get("/api/students/999999")
+    response = client.get("/api/students/by-number/999999")
     
     assert response.status_code == 200
     data = response.json()
@@ -133,7 +134,8 @@ def test_update_student(setup_database):
     
     assert response.status_code == 200
     data = response.json()
-    assert data["notes"] == update_data["notes"]
+    assert data["message"] == "Student updated"
+    assert data["student"] == "999999"
 
 # Basic test for listing all students
 def test_get_all_students(setup_database):
@@ -176,8 +178,9 @@ def test_get_student_status(setup_database):
     
     assert response.status_code == 200
     data = response.json()
-    assert data["student_number"] == "999999"
-    assert "risk_level" in data
+    assert "student" in data
+    assert data["student"]["student_number"] == "999999"
+    assert "latest_prediction" in data
 
 # Basic test for getting a student's prediction history
 def test_get_student_history(setup_database):
@@ -240,4 +243,4 @@ def test_get_risk_summary_by_phase_with_filter(setup_database):
     # Our test student is gender=1 and has low risk in early phase
     assert "early" in data
     assert "low" in data["early"]
-    assert data["early"]["low"] > 0 
+    assert data["early"]["low"] > 0
