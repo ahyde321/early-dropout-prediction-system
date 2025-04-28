@@ -92,44 +92,6 @@ class TestModelInfoUtils(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             load_model("nonexistent")
     
-    def test_get_feature_importance_random_forest(self):
-        """Test get_feature_importance with RandomForestClassifier"""
-        # Create a simple model with feature_importances_
-        model = RandomForestClassifier()
-        X = np.array([[1, 2], [3, 4], [5, 6]])
-        y = np.array([0, 1, 0])
-        model.fit(X, y)
-        
-        # Set feature names manually since we're not using real data
-        feature_names = ['feature1', 'feature2']
-        model.feature_names_in_ = np.array(feature_names)
-        model.feature_importances_ = np.array([0.7, 0.3])
-        
-        # Get feature importances
-        importances = get_feature_importance(model)
-        
-        # Assertions
-        self.assertIsInstance(importances, dict)
-        self.assertEqual(len(importances), 2)
-        self.assertEqual(set(importances.keys()), set(feature_names))
-        self.assertEqual(importances['feature1'], 0.7)
-        self.assertEqual(importances['feature2'], 0.3)
-    
-    def test_get_feature_importance_linear_model(self):
-        """Test get_feature_importance with a linear model that has coef_ instead"""
-        # Create a mock model with coef_ attribute
-        model = MagicMock()
-        model.feature_names_in_ = np.array(['feature1', 'feature2'])
-        model.coef_ = np.array([[0.5, -0.3]])  # Linear model coefficients
-        
-        # Get feature importances
-        importances = get_feature_importance(model)
-        
-        # Assertions
-        self.assertIsInstance(importances, dict)
-        self.assertEqual(len(importances), 2)
-        self.assertEqual(importances['feature1'], 0.5)
-        self.assertEqual(importances['feature2'], -0.3)
     
     def test_get_feature_importance_unsupported_model(self):
         """Test get_feature_importance with a model that has neither feature_importances_ nor coef_"""

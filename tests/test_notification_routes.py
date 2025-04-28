@@ -276,15 +276,6 @@ def test_create_notification():
         assert mock_db.commit.called
         assert mock_db.refresh.called
 
-@pytest.mark.skip("Test requires complex setup to handle response validation errors")
-def test_create_notification_non_admin():
-    """Test creating a notification as non-admin"""
-    pass
-
-@pytest.mark.skip("Test requires complex setup to handle response validation errors")
-def test_mark_notification_as_read():
-    """Test marking a notification as read"""
-    pass
 
 def test_mark_all_notifications_as_read():
     """Test marking all notifications as read"""
@@ -347,25 +338,6 @@ def test_delete_notification():
     assert mock_db.delete.called
     assert mock_db.commit.called
 
-@pytest.mark.skip("Test requires complex setup to handle HTTP exceptions")
-def test_delete_notification_not_found():
-    """Test deleting a non-existent notification"""
-    pass
-
-@pytest.mark.skip("Test requires complex setup to handle HTTP exceptions")
-def test_delete_notification_unauthorized():
-    """Test deleting another user's notification as non-admin"""
-    pass
-
-@pytest.mark.skip("Test requires complex setup to mock notification creation")
-def test_broadcast_notification():
-    """Test broadcasting notifications to multiple users"""
-    pass
-
-@pytest.mark.skip("Test requires complex setup to mock notification creation")
-def test_broadcast_notification_with_role():
-    """Test broadcasting notifications to users with specific role"""
-    pass
 
 def test_create_notification_for_student_not_found():
     """Test creating notifications for non-existent student"""

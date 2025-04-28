@@ -562,45 +562,6 @@ def test_save_user_settings_unauthorized():
         if get_current_user in app.dependency_overrides:
             del app.dependency_overrides[get_current_user]
 
-@pytest.mark.skip(reason="Requires complex async setup")
-def test_set_user_role():
-    """Test setting a user's role (admin only)."""
-    # Create a mock admin user
-    mock_admin = MagicMock()
-    mock_admin.id = 1
-    mock_admin.email = "admin@example.com"
-    mock_admin.role = "admin"
-    
-    # Create a mock target user
-    mock_target_user = MagicMock()
-    mock_target_user.id = 2
-    mock_target_user.email = "user@example.com"
-    mock_target_user.role = "user"
-    
-    # Mock the API endpoint directly 
-    with patch('api.routes.auth.set_user_role') as mock_set_role:
-        # Configure the mock to return a successful response
-        mock_set_role.return_value = {"message": f"User {mock_target_user.email} role updated to admin"}
-        
-        # Override the admin dependency
-        app.dependency_overrides[require_admin] = lambda: mock_admin
-        
-        try:
-            # Make the request
-            role_data = {
-                "user_id": 2,
-                "role": "admin"
-            }
-            response = client.post("/api/auth/set-role", json=role_data)
-            
-            # Check the response
-            assert response.status_code == 200
-            data = response.json()
-            assert "role updated" in data["message"]
-        finally:
-            # Clean up the override
-            if require_admin in app.dependency_overrides:
-                del app.dependency_overrides[require_admin]
 
 def test_edit_user_as_admin():
     """Test editing a user as an admin."""
@@ -667,40 +628,6 @@ def test_edit_user_as_admin():
         if require_admin in app.dependency_overrides:
             del app.dependency_overrides[require_admin]
 
-@pytest.mark.skip(reason="Requires complex async setup")
-def test_delete_user():
-    """Test deleting a user (admin only)."""
-    # Create a mock admin user
-    mock_admin = MagicMock()
-    mock_admin.id = 1
-    mock_admin.email = "admin@example.com"
-    mock_admin.role = "admin"
-    
-    # Create a mock target user
-    mock_target_user = MagicMock()
-    mock_target_user.id = 2
-    mock_target_user.email = "user@example.com"
-    
-    # Mock the API endpoint directly
-    with patch('api.routes.auth.delete_user') as mock_delete_user:
-        # Configure the mock to return a successful response
-        mock_delete_user.return_value = {"message": f"User {mock_target_user.email} deleted successfully"}
-        
-        # Override the admin dependency
-        app.dependency_overrides[require_admin] = lambda: mock_admin
-        
-        try:
-            # Make the request
-            response = client.delete("/api/admin/user/delete/2")
-            
-            # Check the response
-            assert response.status_code == 200
-            data = response.json()
-            assert "deleted successfully" in data["message"]
-        finally:
-            # Clean up the override
-            if require_admin in app.dependency_overrides:
-                del app.dependency_overrides[require_admin]
 
 def test_test_auth():
     """Test the authentication test endpoint."""
