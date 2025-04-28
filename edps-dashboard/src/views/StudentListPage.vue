@@ -40,9 +40,9 @@
 
 <script setup>
 import StudentTable from '@/components/StudentTable.vue'
-import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { Download } from 'lucide-vue-next'
+import { onMounted, ref } from 'vue'
 
 const students = ref([])
 const loading = ref(true)
