@@ -1,14 +1,14 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List
-import openai
+from openai import OpenAI, OpenAIError
 import os
 from dotenv import load_dotenv
 import logging
 import traceback
 
 # Set up logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # Load environment variables from the correct .env file
@@ -18,12 +18,7 @@ load_dotenv(env_path)
 router = APIRouter()
 
 # Initialize OpenAI client
-openai.api_key = os.getenv("OPENAI_API_KEY")
-logger.info(f"OpenAI API Key loaded: {'*' * 10}{openai.api_key[-4:] if openai.api_key else 'None'}")
-
-if not openai.api_key:
-    logger.error("OPENAI_API_KEY not found in environment variables")
-    raise ValueError("OPENAI_API_KEY environment variable is required")
+client = OpenAI()
 
 class ChatMessage(BaseModel):
     role: str
@@ -65,7 +60,7 @@ async def chat_with_advisor(request: ChatRequest):
 
         logger.info("Calling OpenAI API...")
         # Call OpenAI API
-        response = openai.chat.completions.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages,
             temperature=0.7,
@@ -75,7 +70,7 @@ async def chat_with_advisor(request: ChatRequest):
         logger.info("Successfully received response from OpenAI")
         return ChatResponse(response=response.choices[0].message.content)
 
-    except openai.OpenAIError as e:
+    except OpenAIError as e:
         logger.error(f"OpenAI API error: {str(e)}")
         logger.error(f"OpenAI API error traceback: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"OpenAI API error: {str(e)}")
