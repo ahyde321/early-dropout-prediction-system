@@ -113,7 +113,8 @@ def register(
         email=user_data.email,
         hashed_password=get_password_hash(user_data.password),
         first_name=user_data.first_name,
-        last_name=user_data.last_name
+        last_name=user_data.last_name,
+        role=user_data.role
     )
     db.add(user)
     db.commit()

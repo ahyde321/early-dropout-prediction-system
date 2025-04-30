@@ -27,12 +27,12 @@ X_val_path = os.path.join(READY_DIR, "X_val.csv")
 y_val_path = os.path.join(READY_DIR, "y_val.csv")
 model_path = os.path.join(ARTIFACTS_DIR, "knn_model.pkl")
 
-# ✅ File checker utility
+# File checker utility
 def check_file_exists(filepath):
     if not os.path.exists(filepath):
-        print(f"❌ ERROR: File not found: {filepath}")
+        print(f"ERROR: File not found: {filepath}")
         sys.exit(1)
-    print(f"✅ Found file: {filepath}")
+    print(f" Found file: {filepath}")
 
 # === Verify required files ===
 for path in [X_train_path, y_train_path, X_val_path, y_val_path]:
@@ -47,11 +47,11 @@ train_result = train_optimized_knn(
 )
 
 check_file_exists(model_path)
-print(f"✅ Model saved at {model_path}")
-print(f"🔧 Hyperparameters used: {train_result['best_params']}")
+print(f"Model saved at {model_path}")
+print(f"Hyperparameters used: {train_result['best_params']}")
 
 # === Evaluate on Training Data ===
-print("\n📊 Evaluating on Training Data...")
+print("\n Evaluating on Training Data...")
 evaluate_model(
     x_path=X_train_path,
     y_path=y_train_path,
@@ -59,11 +59,11 @@ evaluate_model(
 )
 
 # === Evaluate on Validation Data ===
-print("\n📊 Evaluating on Validation Data...")
+print("\nEvaluating on Validation Data...")
 evaluate_model(
     x_path=X_val_path,
     y_path=y_val_path,
     model_path=model_path
 )
 
-print("\n🎯 Early KNN Model Training & Evaluation Completed Successfully!")
+print("\nEarly KNN Model Training & Evaluation Completed Successfully!")

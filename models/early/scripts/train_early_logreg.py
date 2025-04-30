@@ -11,7 +11,7 @@ if EARLY_DIR not in sys.path:
 if UTILS_DIR not in sys.path:
     sys.path.append(UTILS_DIR)
 
-# ✅ Imports
+# ✅Imports
 from path_config import ARTIFACTS_DIR, READY_DIR
 from training.logreg_trainer import train_logistic_regression
 from data.model_evaluator import evaluate_model
@@ -46,23 +46,23 @@ train_logistic_regression(
 )
 print(f"✅ Model saved at {model_path}")
 
-# ✅ Check model exists
+# Check model exists
 check_file_exists(model_path)
 
-# 📊 Evaluate on training set
-print("📊 Evaluating on Training Data...")
+#  Evaluate on training set
+print(" Evaluating on Training Data...")
 evaluate_model(
     x_path=X_train_path,
     y_path=y_train_path,
     model_path=model_path
 )
 
-# ✅ Check validation data
+# Check validation data
 check_file_exists(X_val_path)
 check_file_exists(y_val_path)
 
-# 📊 Evaluate on validation set
-print("📊 Evaluating on Validation Data...")
+# Evaluate on validation set
+print(" Evaluating on Validation Data...")
 evaluate_model(
     x_path=X_val_path,
     y_path=y_val_path,

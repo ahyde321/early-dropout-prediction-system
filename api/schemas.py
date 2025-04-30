@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, field_validator, ConfigDict
-from typing import Optional, List
+from typing import Optional, List, Literal
 from datetime import datetime
 
 # ===============================
@@ -55,6 +55,7 @@ class UserCreate(BaseModel):
     password: str
     first_name: str
     last_name: str
+    role: Literal["admin", "advisor"]
 
     @field_validator("password")
     @classmethod

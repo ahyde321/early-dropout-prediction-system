@@ -240,7 +240,12 @@ import { useToast } from 'vue-toastification'
       newUser.value = { first_name: '', last_name: '', email: '', password: '', role: 'advisor' }
       fetchUsers()
     } catch (err) {
-      toast.error('Failed to register user')
+      if (err.response?.status === 422 && err.response?.data?.detail) {
+        const errors = err.response.data.detail.map(e => e.msg).join(', ')
+        toast.error(`Validation error: ${errors}`)
+      } else {
+        toast.error('Failed to register user')
+      }
     }
   }
   

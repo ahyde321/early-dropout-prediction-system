@@ -51,7 +51,7 @@ except Exception as e:
 # === Step 2: Filter & Impute ===
 try:
     df = df[df["target"] != "Enrolled"].reset_index(drop=True)
-    print(f"🚫 Dropped enrolled students: {df.shape}")
+    print(f"Dropped enrolled students: {df.shape}")
 except Exception as e:
     print(f"Error filtering enrolled students: {e}")
     sys.exit(1)
@@ -66,14 +66,14 @@ except Exception as e:
 # === Step 3: Feature Engineering ===
 try:
     df = remove_highly_correlated_features(df)
-    print(f"🔍 After removing correlated features: {df.shape}")
+    print(f"After removing correlated features: {df.shape}")
 except Exception as e:
     print(f"Error during feature reduction: {e}")
     sys.exit(1)
 
 try:
     df = select_best_features(df, target_column="target", importance_threshold=0.95)
-    print(f"✅ Final feature selection result: {df.shape}")
+    print(f"Final feature selection result: {df.shape}")
 except Exception as e:
     print(f"Error during feature selection: {e}")
     sys.exit(1)
@@ -82,7 +82,7 @@ except Exception as e:
 try:
     refined_path = os.path.join(REFINED_DIR, "refined_past_pupil_dataset.csv")
     df.to_csv(refined_path, index=False)
-    print(f"✅ Refined dataset saved at: {refined_path}")
+    print(f"Refined dataset saved at: {refined_path}")
 except Exception as e:
     print(f"Error saving refined dataset: {e}")
     sys.exit(1)
@@ -96,7 +96,7 @@ try:
         model_dir=ARTIFACTS_DIR,
         target_col="target"
     )
-    print(f"✅ Preprocessed dataset saved to: {preprocessed_path}")
+    print(f"Preprocessed dataset saved to: {preprocessed_path}")
 except Exception as e:
     print(f"Error during preprocessing: {e}")
     sys.exit(1)
@@ -110,9 +110,9 @@ try:
         input_path=preprocessed_path,
         output_dir=READY_DIR
     )
-    print(f"✅ Train/Val/Test split completed. Files saved to: {READY_DIR}")
+    print(f"Train/Val/Test split completed. Files saved to: {READY_DIR}")
 except Exception as e:
     print(f"Error during train/val/test split: {e}")
     sys.exit(1)
 
-print("✅ Early Dropout Data Pipeline completed successfully!")
+print("Early Dropout Data Pipeline completed successfully!")

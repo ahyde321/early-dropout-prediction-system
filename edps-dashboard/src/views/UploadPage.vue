@@ -137,7 +137,7 @@
 
       <!-- CSV Preview -->
       <div v-if="preview?.length" class="mt-6 text-sm">
-        <h3 class="font-semibold mb-2 text-gray-700">🔍 CSV Preview (first 5 rows)</h3>
+        <h3 class="font-semibold mb-2 text-gray-700">Data Preview</h3>
         <div class="overflow-x-auto border rounded">
           <table class="min-w-full text-left text-sm text-gray-700 border-collapse">
             <thead class="bg-gray-100">

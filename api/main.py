@@ -88,7 +88,7 @@ def root(request: Request):
 from db.database import engine
 from db.models import Base
 
-# # 🚨 DEV ONLY: Reset the database completely
+# DEV ONLY: Reset the database completely
 # Base.metadata.drop_all(bind=engine)
 # Base.metadata.create_all(bind=engine)
 # print("🔁 Database reset and recreated.")

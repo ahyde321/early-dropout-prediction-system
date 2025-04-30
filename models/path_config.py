@@ -1,18 +1,18 @@
 import os
 import sys
 
-# 📁 Absolute path to the "models" directory
+# Absolute path to the "models" directory
 MODELS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # 📁 Paths to submodules
 DATA_DIR = os.path.join(MODELS_DIR, "data")
 ENROLLED_DIR = os.path.join(DATA_DIR, "enrolled")
 RAW_DIR = os.path.join(DATA_DIR, "raw")
-FILTERED_DIR = os.path.join(DATA_DIR, "filtered")   # ✅ Add this
-REFINED_DIR = os.path.join(DATA_DIR, "refined")     # ✅ Add this
-PREPROCESSED_DIR = os.path.join(DATA_DIR, "preprocessed")  # ✅ Optional, for compatibility
-READY_DIR = os.path.join(DATA_DIR, "ready")         # ✅ Optional
-ARTIFACTS_DIR = os.path.join(MODELS_DIR, "artifacts")  # ✅ Optional, fallback artifacts path
+FILTERED_DIR = os.path.join(DATA_DIR, "filtered")   
+REFINED_DIR = os.path.join(DATA_DIR, "refined")      
+PREPROCESSED_DIR = os.path.join(DATA_DIR, "preprocessed") 
+READY_DIR = os.path.join(DATA_DIR, "ready")        
+ARTIFACTS_DIR = os.path.join(MODELS_DIR, "artifacts")
 
 EARLY_DIR = os.path.join(MODELS_DIR, "early")
 EARLY_DATA_DIR = os.path.join(EARLY_DIR, "data")
@@ -30,7 +30,7 @@ SCRIPTS_DIR = os.path.join(MODELS_DIR, "scripts")
 if UTILS_DIR not in sys.path:
     sys.path.append(UTILS_DIR)
 
-# 🧾 Allow import of everything for convenience
+#  Allow import of everything for convenience
 __all__ = [
     "MODELS_DIR",
     "DATA_DIR", "ENROLLED_DIR", "RAW_DIR",
