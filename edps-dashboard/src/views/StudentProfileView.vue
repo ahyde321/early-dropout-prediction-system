@@ -243,6 +243,7 @@ watch(predictions, (newPreds) => {
 })
 
 const displayValue = (field) => {
+  
   if (!student.value || !editableFields.value) return ''
 
   const value = isEditing.value ? editableFields.value[field] : student.value[field]
