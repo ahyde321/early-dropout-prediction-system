@@ -112,7 +112,7 @@ The app should now be accessible at http://localhost:5173/
 - [x] Admin-only views for insights and high-risk spikes
 - [x] Dynamic model phase selection (early, mid, final)
 - [ ] Add model retraining from UI
-- [ ] Enable secure role-based API endpoints
+- [x] Enable secure role-based API endpoints
 - [ ] Deploy live on university server or cloud (e.g., AWS, Heroku)
 
 ## Author
