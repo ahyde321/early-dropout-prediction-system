@@ -1,16 +1,17 @@
 <template>
   <div class="overflow-hidden bg-white shadow-sm rounded-lg border border-gray-200">
     <!-- Table Header -->
-    <div class="p-4 flex justify-between items-center">
+    <div class="p-4 space-y-4">
       <div class="flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
           <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
         </svg>
         <h3 class="text-lg font-medium text-gray-700">Students</h3>
       </div>
-      
-      <!-- Search & Filter Controls -->
-      <div class="flex items-center space-x-2">
+
+      <!-- Filters -->
+      <div class="flex flex-wrap gap-3 items-center">
+        <!-- Search -->
         <div class="relative">
           <input
             v-model="searchQuery"
@@ -24,17 +25,30 @@
             </svg>
           </div>
         </div>
-        
+
+        <!-- Risk Filter -->
+        <select
+          v-model="riskFilter"
+          class="py-2 pl-3 pr-8 border border-gray-300 rounded-lg text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-blue-400 transition-all duration-200 shadow-sm"
+        >
+          <option value="">All Risks</option>
+          <option value="high">High Risk</option>
+          <option value="moderate">Moderate Risk</option>
+          <option value="low">Low Risk</option>
+        </select>
+
+        <!-- Sort Dropdown -->
         <select
           v-model="sortKey"
           @change="sortStudents"
-          class="py-2 pl-3 pr-8 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+          class="py-2 pl-3 pr-8 border border-gray-300 rounded-lg text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
         >
           <option value="student_number">Student Number</option>
           <option value="name">Name</option>
           <option value="risk_score">Risk Score</option>
         </select>
-        
+
+        <!-- Sort Toggle -->
         <button
           @click="toggleSortOrder"
           class="p-2 bg-white border border-gray-300 rounded-lg flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-gray-50 transition-all duration-200"
@@ -229,12 +243,13 @@ const props = defineProps({
   }
 })
 
-// Pagination state
+// Pagination and filter state
 const currentPage = ref(1)
 const studentsPerPage = ref(10)
 const searchQuery = ref('')
 const sortKey = ref('student_number')
 const sortOrder = ref('asc')
+const riskFilter = ref('') // NEW: Risk category filter
 
 // Computed properties for filtering and pagination
 const filteredStudents = computed(() => {
@@ -250,6 +265,11 @@ const filteredStudents = computed(() => {
       `${student.first_name} ${student.last_name}`.toLowerCase().includes(query) ||
       student.risk_level.toLowerCase().includes(query)
     ))
+  }
+
+  // Apply risk filter
+  if (riskFilter.value) {
+    result = result.filter(student => student.risk_level === riskFilter.value)
   }
   
   // Apply sorting
@@ -305,21 +325,18 @@ const visiblePageNumbers = computed(() => {
   const pages = []
   
   if (currentPage.value <= 3) {
-    // Near start
     for (let i = 1; i <= 5; i++) {
       pages.push(i)
     }
     pages.push('...')
     pages.push(totalPages.value)
   } else if (currentPage.value >= totalPages.value - 2) {
-    // Near end
     pages.push(1)
     pages.push('...')
     for (let i = totalPages.value - 4; i <= totalPages.value; i++) {
       pages.push(i)
     }
   } else {
-    // Middle
     pages.push(1)
     pages.push('...')
     for (let i = currentPage.value - 1; i <= currentPage.value + 1; i++) {
@@ -352,8 +369,8 @@ function clearSearch() {
   currentPage.value = 1
 }
 
-// Reset to page 1 when filter, sort or items per page changes
-watch([searchQuery, sortKey, sortOrder, studentsPerPage], () => {
+// Reset to page 1 when filter, sort, or items per page changes
+watch([searchQuery, sortKey, sortOrder, studentsPerPage, riskFilter], () => {
   currentPage.value = 1
 })
 </script>
