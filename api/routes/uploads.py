@@ -1,26 +1,10 @@
-from fastapi import UploadFile, File
-import pandas as pd
-from io import StringIO
-from sqlalchemy.orm import Session
-from db.models import Student
-from db.database import SessionLocal
 from fastapi import UploadFile, File, APIRouter, Depends, HTTPException
-
-router = APIRouter()
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-from fastapi import UploadFile, File, APIRouter, Depends
 from sqlalchemy.orm import Session
-from db.models import Student
+from db.models import Student, Notification, User
 from db.database import SessionLocal
 import pandas as pd
 from io import StringIO
+from datetime import datetime
 
 router = APIRouter()
 
@@ -65,6 +49,20 @@ def upload_grades(file: UploadFile = File(...), db: Session = Depends(get_db)):
 
     db.commit()
 
+    # Send summary notification
+    recipients = db.query(User).filter(User.role.in_(["admin", "advisor"]), User.is_active == True).all()
+    message = f"Grades updated for {len(updated)} students. {len(skipped)} were skipped."
+    for user in recipients:
+        db.add(Notification(
+            user_id=user.id,
+            title="Grade Upload Summary",
+            message=message,
+            type="info",
+            read=False,
+            created_at=datetime.utcnow()
+        ))
+    db.commit()
+
     return {
         "students_updated": updated,
         "students_skipped": skipped
@@ -103,12 +101,10 @@ async def bulk_upload_students(file: UploadFile = File(...), db: Session = Depen
             student_data = row.to_dict()
             student_number = student_data.get("student_number")
 
-            # Check required values
             for field in REQUIRED_COLUMNS:
                 if not student_data.get(field):
                     raise ValueError(f"Missing value for required field '{field}'")
 
-            # Check for duplicate
             existing = db.query(Student).filter(Student.student_number == student_number).first()
             if existing:
                 skipped.append({
@@ -134,6 +130,20 @@ async def bulk_upload_students(file: UploadFile = File(...), db: Session = Depen
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Database commit failed: {str(e)}")
+
+    # Send summary notification
+    recipients = db.query(User).filter(User.role.in_(["admin", "advisor"]), User.is_active == True).all()
+    message = f"Students added: {len(success)}. Skipped: {len(skipped)}. Failed: {len(failed)}."
+    for user in recipients:
+        db.add(Notification(
+            user_id=user.id,
+            title="Student Upload Summary",
+            message=message,
+            type="info",
+            read=False,
+            created_at=datetime.utcnow()
+        ))
+    db.commit()
 
     return {
         "message": "Upload completed",

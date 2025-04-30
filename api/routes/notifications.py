@@ -15,6 +15,7 @@ from api.routes.auth import get_current_user
 
 router = APIRouter(tags=["Notifications"])
 
+
 @router.get("/notifications", response_model=List[NotificationResponse])
 async def get_notifications(
     db: Session = Depends(get_db),
@@ -23,12 +24,11 @@ async def get_notifications(
     limit: int = 50,
     unread_only: bool = False
 ):
+    print(f"🔔 Fetching notifications for user_id={current_user.id}, unread_only={unread_only}")
     """Get all notifications for the current user with optional filtering"""
     query = db.query(Notification).filter(Notification.user_id == current_user.id)
-    
     if unread_only:
         query = query.filter(Notification.read == False)
-    
     return query.order_by(Notification.created_at.desc()).offset(skip).limit(limit).all()
 
 
@@ -42,7 +42,6 @@ async def get_notification_count(
         Notification.user_id == current_user.id,
         Notification.read == False
     ).count()
-    
     return {"unread_count": unread_count}
 
 
@@ -57,13 +56,8 @@ async def get_notification(
         Notification.id == notification_id,
         Notification.user_id == current_user.id
     ).first()
-    
     if not notification:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Notification not found"
-        )
-    
+        raise HTTPException(status_code=404, detail="Notification not found")
     return notification
 
 
@@ -75,29 +69,17 @@ async def create_notification(
 ):
     """Create a new notification (admin only)"""
     if current_user.role != "admin":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Only administrators can create notifications"
-        )
-    
-    # Verify that the target user exists
+        raise HTTPException(status_code=403, detail="Only administrators can create notifications")
+
     target_user = db.query(User).filter(User.id == notification_data.user_id).first()
     if not target_user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Target user not found"
-        )
-    
-    # Check student number if provided
+        raise HTTPException(status_code=404, detail="Target user not found")
+
     if notification_data.student_number:
         student = db.query(Student).filter(Student.student_number == notification_data.student_number).first()
         if not student:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Referenced student not found"
-            )
-    
-    # Create the notification
+            raise HTTPException(status_code=404, detail="Referenced student not found")
+
     notification = Notification(
         user_id=notification_data.user_id,
         title=notification_data.title,
@@ -107,11 +89,10 @@ async def create_notification(
         read=False,
         created_at=datetime.utcnow()
     )
-    
+
     db.add(notification)
     db.commit()
     db.refresh(notification)
-    
     return notification
 
 
@@ -126,19 +107,14 @@ async def mark_notification_as_read(
         Notification.id == notification_id,
         Notification.user_id == current_user.id
     ).first()
-    
     if not notification:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Notification not found"
-        )
-    
+        raise HTTPException(status_code=404, detail="Notification not found")
+
     notification.read = True
     notification.read_at = datetime.utcnow()
-    
+
     db.commit()
     db.refresh(notification)
-    
     return notification
 
 
@@ -148,17 +124,15 @@ async def mark_all_notifications_as_read(
     current_user: User = Depends(get_current_user)
 ):
     """Mark all notifications as read for the current user"""
-    result = db.query(Notification).filter(
+    updated = db.query(Notification).filter(
         Notification.user_id == current_user.id,
         Notification.read == False
     ).update({
         Notification.read: True,
         Notification.read_at: datetime.utcnow()
     })
-    
     db.commit()
-    
-    return {"message": f"Marked {result} notifications as read"}
+    return {"message": f"Marked {updated} notifications as read"}
 
 
 @router.delete("/notifications/{notification_id}", status_code=status.HTTP_204_NO_CONTENT)
@@ -169,27 +143,27 @@ async def delete_notification(
 ):
     """Delete a notification (admin or notification owner only)"""
     notification = db.query(Notification).filter(Notification.id == notification_id).first()
-    
     if not notification:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Notification not found"
-        )
-    
-    # Check if the user is authorized to delete this notification
+        raise HTTPException(status_code=404, detail="Notification not found")
+
     if notification.user_id != current_user.id and current_user.role != "admin":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="You don't have permission to delete this notification"
-        )
-    
+        raise HTTPException(status_code=403, detail="You don't have permission to delete this notification")
+
     db.delete(notification)
     db.commit()
-    
     return None
 
 
-# Utility endpoints for creating notifications to multiple users
+@router.delete("/notifications/clear", response_model=dict)
+async def clear_all_notifications(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Delete all notifications for the current user"""
+    deleted = db.query(Notification).filter(Notification.user_id == current_user.id).delete()
+    db.commit()
+    return {"message": f"Deleted {deleted} notifications"}
+
 
 @router.post("/notifications/broadcast", response_model=dict)
 async def broadcast_notification(
@@ -202,20 +176,13 @@ async def broadcast_notification(
 ):
     """Send a notification to multiple users based on role (admin only)"""
     if current_user.role != "admin":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Only administrators can broadcast notifications"
-        )
-    
-    # Query users to send notifications to
+        raise HTTPException(status_code=403, detail="Only administrators can broadcast notifications")
+
     query = db.query(User).filter(User.is_active == True)
-    
     if role:
         query = query.filter(User.role == role)
-    
+
     users = query.all()
-    
-    # Create notifications
     notifications = []
     for user in users:
         notification = Notification(
@@ -228,9 +195,8 @@ async def broadcast_notification(
         )
         db.add(notification)
         notifications.append(notification)
-    
+
     db.commit()
-    
     return {"message": f"Sent notification to {len(notifications)} users"}
 
 
@@ -243,29 +209,19 @@ async def create_notification_for_student_advisors(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Create notification about a student for all advisors (admin only)"""
+    """Create a notification about a student for all advisors (admin only)"""
     if current_user.role != "admin":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Only administrators can broadcast notifications"
-        )
-    
-    # Verify that the student exists
+        raise HTTPException(status_code=403, detail="Only administrators can broadcast notifications")
+
     student = db.query(Student).filter(Student.student_number == student_number).first()
     if not student:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Student not found"
-        )
-    
-    # Get all advisors
+        raise HTTPException(status_code=404, detail="Student not found")
+
     advisors = db.query(User).filter(
         User.role == "advisor",
         User.is_active == True
     ).all()
-    
-    # Create notifications
-    notifications = []
+
     for advisor in advisors:
         notification = Notification(
             user_id=advisor.id,
@@ -277,8 +233,6 @@ async def create_notification_for_student_advisors(
             created_at=datetime.utcnow()
         )
         db.add(notification)
-        notifications.append(notification)
-    
+
     db.commit()
-    
-    return {"message": f"Sent notification about student {student_number} to {len(notifications)} advisors"} 
+    return {"message": f"Sent notification about student {student_number} to {len(advisors)} advisors"}

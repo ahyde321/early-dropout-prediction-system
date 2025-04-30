@@ -81,7 +81,7 @@
                     <div @click.prevent="handleNotification(notification)" class="cursor-pointer flex-grow">
                       <p class="text-sm font-medium text-gray-900">{{ notification.title }}</p>
                       <p class="text-xs text-gray-500 mt-1">{{ notification.message }}</p>
-                      <p class="text-xs text-gray-400 mt-1">{{ formatDate(notification.timestamp) }}</p>
+                      <p class="text-xs text-gray-400 mt-1">{{ formatDate(notification.created_at) }}</p>
                     </div>
                     <button 
                       @click.stop="deleteNotification(notification)" 
@@ -166,10 +166,10 @@
 </template>
 
 <script setup>
-import { useAuth } from '@/composables/useAuth';
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import { useToast } from 'vue-toastification';
+import { useAuth } from '@/composables/useAuth'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 
 const router = useRouter()
 const toast = useToast()
@@ -178,170 +178,159 @@ const { user, logout: authLogout } = useAuth()
 const showUserMenu = ref(false)
 const isRefreshing = ref(false)
 const showNotifications = ref(false)
-const notifications = ref([
-  {
-    id: 1,
-    title: 'Student risk update',
-    message: 'John Doe has been flagged as high risk',
-    timestamp: new Date(Date.now() - 3600000), // 1 hour ago
-    read: false,
-    link: '/students/1'
-  },
-  {
-    id: 2,
-    title: 'New prediction',
-    message: 'Jane Smith has a new risk prediction',
-    timestamp: new Date(Date.now() - 86400000), // 1 day ago
-    read: false,
-    link: '/students/2'
-  },
-  {
-    id: 3,
-    title: 'System update',
-    message: 'Dashboard has been updated to version 2.1',
-    timestamp: new Date(Date.now() - 259200000), // 3 days ago
-    read: true,
-    link: null
+const notifications = ref([])
+
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
+// Load notifications from API
+const fetchNotifications = async () => {
+  const token = localStorage.getItem('token')
+  if (!token) {
+    console.warn('No token found in localStorage')
+    toast.error('You are not logged in')
+    return
   }
-])
 
-const unreadNotifications = computed(() => {
-  return notifications.value.filter(n => !n.read)
+  try {
+    const res = await fetch(`${API_BASE}/api/notifications`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    if (!res.ok) {
+      const text = await res.text()
+      throw new Error(`HTTP ${res.status}: ${text}`)
+    }
+
+    const data = await res.json()
+    notifications.value = data
+  } catch (err) {
+    console.error('Fetch failed:', err)
+    toast.error('Could not load notifications')
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', closeMenuOnOutsideClick)
+  fetchNotifications()
 })
 
-const userIsAdmin = computed(() => {
-  return user.value?.role === 'admin'
+onBeforeUnmount(() => {
+  document.removeEventListener('click', closeMenuOnOutsideClick)
 })
 
-const nameDisplay = computed(() => {
-  if (!user.value) return 'Loading...'
-  return `${user.value.first_name} ${user.value.last_name}`
-})
+const unreadNotifications = computed(() => notifications.value.filter(n => !n.read))
 
-const userInitials = computed(() => {
-  if (!user.value) return 'U'
-  return (user.value.first_name?.charAt(0) || '') + (user.value.last_name?.charAt(0) || '')
-})
+const userIsAdmin = computed(() => user.value?.role === 'admin')
+
+const nameDisplay = computed(() =>
+  user.value ? `${user.value.first_name} ${user.value.last_name}` : 'Loading...'
+)
+
+const userInitials = computed(() =>
+  user.value
+    ? (user.value.first_name?.charAt(0) || '') + (user.value.last_name?.charAt(0) || '')
+    : 'U'
+)
 
 const toggleUserMenu = () => {
   showUserMenu.value = !showUserMenu.value
-  if (showUserMenu.value) {
-    showNotifications.value = false
-  }
+  if (showUserMenu.value) showNotifications.value = false
 }
 
 const toggleNotifications = () => {
   showNotifications.value = !showNotifications.value
-  if (showNotifications.value) {
-    showUserMenu.value = false
-  }
+  if (showNotifications.value) showUserMenu.value = false
 }
 
-const refreshData = async () => {
+const refreshData = () => {
   isRefreshing.value = true
-  
-  try {
-    // Trigger a page refresh
-    window.location.reload()
-  } catch (error) {
-    toast.error('Failed to refresh data')
-    isRefreshing.value = false
-  }
+  location.reload()
 }
 
 const logout = async () => {
   try {
     await authLogout()
-    showUserMenu.value = false
     router.push('/login')
-    toast.success('Successfully logged out')
-  } catch (error) {
-    toast.error('Failed to log out')
+    toast.success('Logged out')
+  } catch {
+    toast.error('Logout failed')
   }
 }
 
 const formatDate = (date) => {
   const now = new Date()
-  const diff = now - new Date(date)
-  
-  // Less than a day
-  if (diff < 86400000) {
-    return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-  }
-  
-  // Less than a week
-  if (diff < 604800000) {
-    const days = Math.floor(diff / 86400000)
-    return `${days} ${days === 1 ? 'day' : 'days'} ago`
-  }
-  
-  // More than a week
-  return new Date(date).toLocaleDateString()
+  const d = new Date(date)
+  const diff = now - d
+  if (diff < 86400000) return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  if (diff < 604800000) return `${Math.floor(diff / 86400000)} day(s) ago`
+  return d.toLocaleDateString()
 }
 
-const handleNotification = (notification) => {
-  // Mark as read
-  notification.read = true
-  
-  // Navigate to link if present
-  if (notification.link) {
-    router.push(notification.link)
-    showNotifications.value = false
+const handleNotification = async (notification) => {
+  const token = localStorage.getItem('token')
+  try {
+    if (!notification.read) {
+      await fetch(`${API_BASE}/api/notifications/${notification.id}/read`, {
+        method: 'PATCH',
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      notification.read = true
+    }
+
+    if (notification.link) {
+      router.push(notification.link)
+      showNotifications.value = false
+    }
+  } catch {
+    toast.error('Failed to mark as read')
   }
 }
 
-const markAllAsRead = () => {
-  notifications.value.forEach(notification => {
-    notification.read = true
-  })
-  toast.success('All notifications marked as read')
+const markAllAsRead = async () => {
+  const token = localStorage.getItem('token')
+  try {
+    await fetch(`${API_BASE}/api/notifications/read-all`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    notifications.value.forEach(n => (n.read = true))
+    toast.success('Marked all as read')
+  } catch {
+    toast.error('Failed to mark all as read')
+  }
 }
 
-const deleteNotification = (notification) => {
-  const index = notifications.value.findIndex(n => n.id === notification.id)
-  if (index !== -1) {
-    notifications.value.splice(index, 1)
-    toast.success('Notification deleted')
+const deleteNotification = async (notification) => {
+  const token = localStorage.getItem('token')
+  try {
+    await fetch(`${API_BASE}/api/notifications/${notification.id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    notifications.value = notifications.value.filter(n => n.id !== notification.id)
+    toast.success('Deleted')
+  } catch {
+    toast.error('Failed to delete notification')
   }
 }
 
 const clearAllNotifications = () => {
   notifications.value = []
-  toast.success('All notifications cleared')
+  toast.success('Cleared all (locally)')
 }
 
-// Close menus when clicking outside
 const closeMenuOnOutsideClick = (event) => {
   const userMenu = document.querySelector('.user-menu')
   const notificationMenu = document.querySelector('.notification-menu')
-  
-  if (userMenu && !userMenu.contains(event.target)) {
-    showUserMenu.value = false
-  }
-  
-  if (notificationMenu && !notificationMenu.contains(event.target)) {
-    showNotifications.value = false
-  }
+  if (userMenu && !userMenu.contains(event.target)) showUserMenu.value = false
+  if (notificationMenu && !notificationMenu.contains(event.target)) showNotifications.value = false
 }
 
-// Add event listener for outside clicks
-onMounted(() => {
-  document.addEventListener('click', closeMenuOnOutsideClick)
-})
-
-// Clean up event listener
-onBeforeUnmount(() => {
-  document.removeEventListener('click', closeMenuOnOutsideClick)
-})
-
-// Watch for menu changes
-watch([showUserMenu, showNotifications], ([isUserMenuOpen, isNotificationsOpen]) => {
-  if (isUserMenuOpen) {
-    showNotifications.value = false
-  }
-  if (isNotificationsOpen) {
-    showUserMenu.value = false
-  }
+watch([showUserMenu, showNotifications], ([userOpen, notifOpen]) => {
+  if (userOpen) showNotifications.value = false
+  if (notifOpen) showUserMenu.value = false
 })
 </script>
 
