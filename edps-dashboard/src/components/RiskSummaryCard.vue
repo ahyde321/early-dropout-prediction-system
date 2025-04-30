@@ -1,9 +1,10 @@
 <template>
   <component
     :is="to ? 'RouterLink' : 'div'"
-    :to="to"
+    :to="riskQueryRoute"
     class="block cursor-pointer hover:scale-[1.02] transition-transform duration-300"
   >
+
     <div
       :class="cardClasses"
       class="flex items-center justify-between gap-6 relative z-10 overflow-hidden"
@@ -45,14 +46,14 @@
 </template>
 
 <script setup>
-import { toRefs, computed, ref, watch } from 'vue'
 import {
   AlertCircle,
   BarChart2,
-  TriangleAlert,
   CheckCircle,
-  Info
+  Info,
+  TriangleAlert
 } from 'lucide-vue-next'
+import { computed, ref, toRefs, watch } from 'vue'
 
 const props = defineProps({
   label: { type: String, required: true },
@@ -64,7 +65,7 @@ const props = defineProps({
       ['blue', 'red', 'yellow', 'green', 'gray'].includes(val)
   },
   trend: { type: Number, default: null },
-  to: { type: String, default: null }
+  to: { type: String, default: null } // base path, e.g., "/students"
 })
 
 const { label, value, color, to } = toRefs(props)
@@ -92,6 +93,29 @@ const iconComponent = computed(() => {
       return BarChart2
     default:
       return Info
+  }
+})
+
+// Map card color to risk level filter value
+const riskFilterValue = computed(() => {
+  switch (color.value) {
+    case 'red':
+      return 'high'
+    case 'yellow':
+      return 'moderate'
+    case 'green':
+      return 'low'
+    default:
+      return ''
+  }
+})
+
+// Dynamic route with risk query param
+const riskQueryRoute = computed(() => {
+  if (!to.value) return null
+  return {
+    path: to.value,
+    query: { risk: riskFilterValue.value }
   }
 })
 

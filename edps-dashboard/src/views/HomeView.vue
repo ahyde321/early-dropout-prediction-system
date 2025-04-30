@@ -26,9 +26,9 @@
         <section>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <RiskSummaryCard label="Total Students" :value="students.length" color="blue" />
-            <RiskSummaryCard label="High Risk" :value="summary.high.count" :trend="summary.high.trend" color="red" />
-            <RiskSummaryCard label="Medium Risk" :value="summary.moderate.count" :trend="summary.moderate.trend" color="yellow" />
-            <RiskSummaryCard label="Low Risk" :value="summary.low.count" :trend="summary.low.trend" color="green" />
+            <RiskSummaryCard label="High Risk" :value="summary.high.count" :trend="summary.high.trend" color="red" to="/students" />
+            <RiskSummaryCard label="Medium Risk" :value="summary.moderate.count" :trend="summary.moderate.trend" color="yellow" to="/students" />
+            <RiskSummaryCard label="Low Risk" :value="summary.low.count" :trend="summary.low.trend" color="green" to="/students" />
           </div>
         </section>
 

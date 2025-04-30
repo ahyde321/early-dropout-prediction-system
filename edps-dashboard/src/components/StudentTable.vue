@@ -234,28 +234,36 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 const props = defineProps({
   students: {
     type: Array,
     required: true
+  },
+  initialRiskFilter: {
+    type: String,
+    default: ''
   }
 })
 
-// Pagination and filter state
 const currentPage = ref(1)
 const studentsPerPage = ref(10)
 const searchQuery = ref('')
 const sortKey = ref('student_number')
 const sortOrder = ref('asc')
-const riskFilter = ref('') // NEW: Risk category filter
+const riskFilter = ref('')
 
-// Computed properties for filtering and pagination
+// Set filter based on initial prop
+onMounted(() => {
+  if (props.initialRiskFilter && ['high', 'moderate', 'low'].includes(props.initialRiskFilter)) {
+    riskFilter.value = props.initialRiskFilter
+  }
+})
+
 const filteredStudents = computed(() => {
   let result = [...props.students]
-  
-  // Apply search filtering
+
   if (searchQuery.value && searchQuery.value.trim() !== '') {
     const query = searchQuery.value.toLowerCase().trim()
     result = result.filter(student => (
@@ -267,89 +275,59 @@ const filteredStudents = computed(() => {
     ))
   }
 
-  // Apply risk filter
   if (riskFilter.value) {
     result = result.filter(student => student.risk_level === riskFilter.value)
   }
-  
-  // Apply sorting
+
   result.sort((a, b) => {
     if (sortKey.value === 'name') {
       const nameA = `${a.first_name} ${a.last_name}`.toLowerCase()
       const nameB = `${b.first_name} ${b.last_name}`.toLowerCase()
-      return sortOrder.value === 'asc'
-        ? nameA.localeCompare(nameB)
-        : nameB.localeCompare(nameA)
+      return sortOrder.value === 'asc' ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA)
     }
-    
+
     if (sortKey.value === 'student_number') {
       return sortOrder.value === 'asc'
         ? a.student_number.localeCompare(b.student_number)
         : b.student_number.localeCompare(a.student_number)
     }
-    
+
     if (sortKey.value === 'risk_score') {
       return sortOrder.value === 'asc'
         ? a.risk_score - b.risk_score
         : b.risk_score - a.risk_score
     }
-    
+
     return 0
   })
-  
+
   return result
 })
 
-const totalPages = computed(() => {
-  return Math.max(1, Math.ceil(filteredStudents.value.length / studentsPerPage.value))
-})
+const totalPages = computed(() => Math.max(1, Math.ceil(filteredStudents.value.length / studentsPerPage.value)))
+const startIndex = computed(() => (currentPage.value - 1) * studentsPerPage.value)
+const endIndex = computed(() => Math.min(startIndex.value + studentsPerPage.value, filteredStudents.value.length))
+const paginatedStudents = computed(() => filteredStudents.value.slice(startIndex.value, endIndex.value))
 
-const startIndex = computed(() => {
-  return (currentPage.value - 1) * studentsPerPage.value
-})
-
-const endIndex = computed(() => {
-  return Math.min(startIndex.value + studentsPerPage.value, filteredStudents.value.length)
-})
-
-const paginatedStudents = computed(() => {
-  return filteredStudents.value.slice(startIndex.value, endIndex.value)
-})
-
-// Pagination display logic
 const visiblePageNumbers = computed(() => {
-  if (totalPages.value <= 7) {
-    return Array.from({ length: totalPages.value }, (_, i) => i + 1)
-  }
-  
+  if (totalPages.value <= 7) return Array.from({ length: totalPages.value }, (_, i) => i + 1)
+
   const pages = []
-  
   if (currentPage.value <= 3) {
-    for (let i = 1; i <= 5; i++) {
-      pages.push(i)
-    }
+    for (let i = 1; i <= 5; i++) pages.push(i)
     pages.push('...')
     pages.push(totalPages.value)
   } else if (currentPage.value >= totalPages.value - 2) {
-    pages.push(1)
-    pages.push('...')
-    for (let i = totalPages.value - 4; i <= totalPages.value; i++) {
-      pages.push(i)
-    }
+    pages.push(1, '...')
+    for (let i = totalPages.value - 4; i <= totalPages.value; i++) pages.push(i)
   } else {
-    pages.push(1)
-    pages.push('...')
-    for (let i = currentPage.value - 1; i <= currentPage.value + 1; i++) {
-      pages.push(i)
-    }
-    pages.push('...')
-    pages.push(totalPages.value)
+    pages.push(1, '...')
+    for (let i = currentPage.value - 1; i <= currentPage.value + 1; i++) pages.push(i)
+    pages.push('...', totalPages.value)
   }
-  
   return pages
 })
 
-// Methods
 function changePage(page) {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page
@@ -357,7 +335,7 @@ function changePage(page) {
 }
 
 function sortStudents() {
-  // Sorting is handled through computed property
+  // handled in computed
 }
 
 function toggleSortOrder() {
@@ -369,7 +347,6 @@ function clearSearch() {
   currentPage.value = 1
 }
 
-// Reset to page 1 when filter, sort, or items per page changes
 watch([searchQuery, sortKey, sortOrder, studentsPerPage, riskFilter], () => {
   currentPage.value = 1
 })

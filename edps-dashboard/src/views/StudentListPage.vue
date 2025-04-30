@@ -34,7 +34,11 @@
     </div>
 
     <!-- Table -->
-    <StudentTable v-else :students="students" />
+    <StudentTable 
+      v-else 
+      :students="students" 
+      :initialRiskFilter="riskParam" 
+    />
   </div>
 </template>
 
@@ -43,10 +47,14 @@ import StudentTable from '@/components/StudentTable.vue'
 import axios from 'axios'
 import { Download } from 'lucide-vue-next'
 import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 const students = ref([])
 const loading = ref(true)
 const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/'
+
+const route = useRoute()
+const riskParam = route.query.risk ?? '' // "high", "moderate", or "low"
 
 onMounted(async () => {
   try {
@@ -54,7 +62,7 @@ onMounted(async () => {
     students.value = data
   } catch (error) {
     console.error('Failed to fetch students:', error)
-    students.value = [] // Set empty array on error
+    students.value = []
   } finally {
     loading.value = false
   }
