@@ -143,3 +143,5 @@ class NotificationPreferences(BaseModel):
     email_enabled: bool = True
     high_risk_alerts: bool = True
     system_updates: bool = False
+
+

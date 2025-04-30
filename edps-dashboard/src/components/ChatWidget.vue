@@ -67,7 +67,8 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import api from '../services/api'
 
 export default {
@@ -77,6 +78,15 @@ export default {
     const messages = ref([])
     const newMessage = ref('')
     const isLoading = ref(false)
+
+    const route = useRoute()
+
+    // Only set student_number if we're on a profile page with the param available
+    const studentNumber = computed(() => {
+      return route.name === 'StudentProfile' && route.params.student_number
+        ? route.params.student_number
+        : null
+    })
 
     const toggleChat = () => {
       isOpen.value = !isOpen.value
@@ -95,9 +105,16 @@ export default {
       isLoading.value = true
 
       try {
-        const response = await api.post('/chat', {
+        const payload = {
           messages: [...messages.value]
-        })
+        }
+
+        // Attach student_number if available
+        if (studentNumber.value) {
+          payload.student_number = studentNumber.value
+        }
+
+        const response = await api.post('/chat', payload)
 
         messages.value.push({
           role: 'assistant',
@@ -105,12 +122,6 @@ export default {
         })
       } catch (error) {
         console.error('Error sending message:', error)
-        console.error('Full error details:', {
-          message: error.message,
-          status: error.response?.status,
-          url: error.config?.url,
-          baseURL: api.defaults.baseURL
-        })
         messages.value.push({
           role: 'assistant',
           content: 'Sorry, I encountered an error. Please try again.'
@@ -131,6 +142,7 @@ export default {
   }
 }
 </script>
+
 
 <style scoped>
 .animate-bounce {
