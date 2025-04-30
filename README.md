@@ -1,142 +1,129 @@
-# Early Dropout Prediction System
+# Early Dropout Prediction System (EDPS)
 
 ## Project Overview
-The **Early Dropout Prediction System (EDPS)** is a machine learning-based tool designed to identify students at risk of dropping out of their educational programs. By leveraging predictive models trained on student data, EDPS provides early interventions to improve retention rates and overall student success.
+
+The Early Dropout Prediction System (EDPS) is a full-stack web application designed to help academic advisors and administrators proactively identify students at risk of dropping out. By combining machine learning models with an intuitive dashboard interface, EDPS provides early insights and allows for timely interventions to improve student retention.
 
 ## Features
-- Predicts dropout risk using multiple classifiers, including Random Forest, K-Nearest Neighbors (KNN), and Logistic Regression.
-- Supports K-Fold Cross-Validation for robust model evaluation.
-- Handles missing data using imputation techniques.
-- Provides feature importance insights to explain predictions (Random Forest).
-- Prepares and preprocesses datasets for training, validation, and testing.
+
+- Predicts dropout risk using trained ML models (Random Forest, KNN, Logistic Regression)
+- Dynamic model routing based on data availability (early/mid/final phase)
+- Risk scores visualized with breakdowns and trends
+- Feature selection using ANOVA F-test and chi-squared tests
+- CSV import of student and grade data
+- SHAP explainability for insight into predictions
+- Real-time notification system for advisors and admins
+- Filter, sort, and search students by name, ID, risk level, or score
+- Vue 3 + Tailwind UI with adaptive layout
+- Docker-ready deployment
 
 ## Installation
-To get started with the Early Dropout Prediction System, follow these steps:
+
+### Backend (FastAPI)
 
 1. Clone the repository:
-    ```bash
-    git clone https://gitlab.eeecs.qub.ac.uk/40328713/early-dropout-prediction-system.git
-    cd early-dropout-prediction-system
-    ```
-
-2. Set up a Python virtual environment (optional but recommended):
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate  # For Linux/MacOS
-    venv\Scripts\activate  # For Windows
-    ```
-
-3. Install required dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4. Ensure you have the necessary datasets in the `data/processed/` directory:
-    - `train_dataset.csv`
-    - `validate_dataset.csv`
-    - `test_dataset.csv`
-
-## Usage
-
-### Training Models
-Three classifiers are currently implemented:
-
-1. **Random Forest**
-    ```bash
-    python scripts/train_randomforest.py
-    ```
-
-2. **K-Nearest Neighbors (KNN)**
-    ```bash
-    python scripts/train_knn.py
-    ```
-
-3. **Logistic Regression**
-    ```bash
-    python scripts/train_logistic_regression.py
-    ```
-
-Each script performs training, evaluation on the validation set, and final testing, saving the trained model to the `models/` directory.
-
-### Optimizing Hyperparameters
-To find the optimal parameters for Random Forest (e.g., the number of trees):
 ```bash
-python scripts/optimise_randtrees.py
+git clone https://gitlab.eeecs.qub.ac.uk/40328713/early-dropout-prediction-system.git
+cd early-dropout-prediction-system
 ```
 
-### Preprocessing Data
-Ensure your raw datasets are preprocessed:
+2. Create and activate a virtual environment:
 ```bash
-python scripts/test_preprocess.py
+python -m venv venv
+source venv/bin/activate   # On Windows use `venv\Scripts\activate`
 ```
 
-### Making Predictions
-To make predictions on new datasets (e.g., enrolled students):
-```bash
-python scripts/enrolled_prediction.py
-```
-
-## Project Structure
-```
-.
-├── data
-│   ├── processed
-│   │   ├── train_dataset.csv
-│   │   ├── validate_dataset.csv
-│   │   ├── test_dataset.csv
-│   └── raw
-├── models
-│   ├── random_forest
-│   ├── knn
-│   └── logistic_regression
-├── pipeline
-│   ├── preprocess_student_dropout_data.py
-│   ├── train_randomforest.py
-│   ├── train_knn.py
-│   ├── train_logistic_regression.py
-├── scripts
-│   ├── optimise_randtrees.py
-│   ├── test_preprocess.py
-│   ├── enrolled_prediction.py
-├── README.md
-├── requirements.txt
-└── ...
-```
-
-## Dependencies
-- Python 3.8+
-- pandas
-- scikit-learn
-- joblib
-- numpy
-
-Install dependencies using:
+3. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
+4. Run the backend server:
+```bash
+uvicorn main:app --reload
+```
+
+### Frontend (Vue 3)
+
+1. Navigate to the frontend directory (e.g. `edps-dashboard`):
+```bash
+cd edps-dashboard
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Run the frontend dev server:
+```bash
+npm run dev
+```
+
+The app should now be accessible at http://localhost:5173/
+
+
+## Usage
+
+- Login as an admin or advisor
+- Upload students or grades via CSV
+- Trigger predictions from the dashboard
+- View, filter, and sort students by risk level
+- Navigate to individual profiles
+- Admins receive bulk and summary notifications on key actions (e.g., prediction runs)
+
+## Project Structure
+
+```
+.
+├── backend
+│   ├── api
+│   ├── db
+│   ├── models
+│   └── main.py
+├── edps-dashboard
+│   ├── components
+│   ├── views
+│   └── App.vue
+├── models
+│   ├── utils
+│   ├── trained_models
+├── data
+│   ├── raw
+│   └── processed
+└── docker-compose.yml
+```
+
+## Tech Stack
+
+- Frontend: Vue 3, Tailwind CSS, Pinia, Vue Router
+- Backend: FastAPI, SQLAlchemy, Pydantic
+- ML: scikit-learn, pandas, numpy, SHAP
+- Database: SQLite (local dev)
+- Notifications: Real-time alerts via API
+- Auth: JWT-based advisor login
+- Deployment: Docker + Docker Compose
+
 ## Roadmap
-- [ ] Implement additional classifiers (e.g., Gradient Boosting, Support Vector Machines).
-- [ ] Add advanced hyperparameter optimization (e.g., Bayesian optimization).
-- [ ] Provide a web-based interface for uploading data and viewing predictions.
-- [ ] Enhance feature engineering capabilities for better prediction performance.
 
-## Contributing
-We welcome contributions to enhance the Early Dropout Prediction System. Please follow these steps:
-1. Fork the repository.
-2. Create a new branch:
-    ```bash
-    git checkout -b feature-name
-    ```
-3. Commit your changes and push to your branch.
-4. Create a merge request on GitLab.
+- [x] Add student filtering, sorting, and risk visualizations
+- [x] Add SHAP explanations per prediction
+- [x] CSV-based bulk student and grade uploads
+- [x] Admin-only views for insights and high-risk spikes
+- [x] Dynamic model phase selection (early, mid, final)
+- [ ] Add model retraining from UI
+- [ ] Enable secure role-based API endpoints
+- [ ] Deploy live on university server or cloud (e.g., AWS, Heroku)
 
-## Authors
-- **Andrew Hyde**
+## Author
 
-## License
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+- Andrew Hyde  
+  Computer Science, Queen's University Belfast
+
+## Supervisor
+
+- Dr. Baharak Ahmaderaghi
 
 ## Acknowledgments
-- **Supervisor**: Baharak Ahmaderaghi
-- **Queen's University Belfast**
+
+Thanks to Queen’s University Belfast and the School of Electronics, Electrical Engineering and Computer Science for project support and guidance.
