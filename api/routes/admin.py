@@ -22,6 +22,16 @@ def get_db():
 
 @router.delete("/dev/wipe-students")
 def wipe_students(db: Session = Depends(get_db)):
+    from db.models import RiskPrediction
+    
+    # Check if there are any predictions
+    prediction_count = db.query(RiskPrediction).count()
+    if prediction_count > 0:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Cannot wipe students while {prediction_count} predictions exist. Please wipe predictions first."
+        )
+    
     db.query(Student).delete()
     db.commit()
     return {"message": "All student records deleted"}

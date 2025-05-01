@@ -151,6 +151,85 @@
           </div>
         </div>
       </div>
+
+      <!-- Wipe Operations Section -->
+      <section class="bg-white shadow-lg rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+        <h2 class="text-xl font-semibold mb-6 text-gray-700 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+          Wipe Operations
+        </h2>
+        <div class="space-y-6">
+          <div class="bg-red-50 p-4 rounded-lg border border-red-100 hover:bg-red-100 transition-colors duration-200">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0">
+                <button @click="showWipePredictionsModal = true" class="btn-danger whitespace-nowrap px-4 py-2.5 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200 w-48">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                  Wipe All Predictions
+                </button>
+              </div>
+              <div>
+                <h3 class="font-medium text-gray-800 mb-1">Delete All Predictions</h3>
+                <p class="text-gray-600 text-sm">Permanently remove all risk prediction records from the database. This action cannot be undone.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-red-50 p-4 rounded-lg border border-red-100 hover:bg-red-100 transition-colors duration-200">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0">
+                <button @click="showWipeStudentsModal = true" class="btn-danger whitespace-nowrap px-4 py-2.5 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200 w-48">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                  Wipe All Students
+                </button>
+              </div>
+              <div>
+                <h3 class="font-medium text-gray-800 mb-1">Delete All Students</h3>
+                <p class="text-gray-600 text-sm">Permanently remove all student records from the database. This action cannot be undone. Note: You must wipe predictions first.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Wipe Students Confirmation Modal -->
+      <div v-if="showWipeStudentsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full shadow-2xl">
+          <h3 class="text-xl font-semibold mb-4 text-gray-700 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            Confirm Wipe Students
+          </h3>
+          <p class="text-gray-600 mb-4">Are you sure you want to delete ALL student records? This action cannot be undone and will permanently remove all student data from the database.</p>
+          <div class="flex justify-end gap-2">
+            <button @click="showWipeStudentsModal = false" class="btn-secondary">Cancel</button>
+            <button @click="wipeStudents" class="btn-danger">Wipe Students</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wipe Predictions Confirmation Modal -->
+      <div v-if="showWipePredictionsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full shadow-2xl">
+          <h3 class="text-xl font-semibold mb-4 text-gray-700 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            Confirm Wipe Predictions
+          </h3>
+          <p class="text-gray-600 mb-4">Are you sure you want to delete ALL prediction records? This action cannot be undone and will permanently remove all risk prediction data from the database.</p>
+          <div class="flex justify-end gap-2">
+            <button @click="showWipePredictionsModal = false" class="btn-secondary">Cancel</button>
+            <button @click="wipePredictions" class="btn-danger">Wipe Predictions</button>
+          </div>
+        </div>
+      </div>
     </div>
   </template>
   
@@ -171,6 +250,8 @@ import { useToast } from 'vue-toastification'
 
   const showEditModal = ref(false)
   const showDeleteModal = ref(false)
+  const showWipeStudentsModal = ref(false)
+  const showWipePredictionsModal = ref(false)
   const editingUser = ref(null)
   const userToDelete = ref(null)
   
@@ -230,6 +311,26 @@ import { useToast } from 'vue-toastification'
       fetchUsers()
     } catch (err) {
       toast.error('Failed to delete user')
+    }
+  }
+
+  const wipeStudents = async () => {
+    try {
+      await api.delete('/dev/wipe-students')
+      toast.success('All student records have been deleted')
+      showWipeStudentsModal.value = false
+    } catch (err) {
+      toast.error(err.response?.data?.detail || 'Failed to wipe student records')
+    }
+  }
+
+  const wipePredictions = async () => {
+    try {
+      await api.delete('/dev/wipe-predictions')
+      toast.success('All prediction records have been deleted')
+      showWipePredictionsModal.value = false
+    } catch (err) {
+      toast.error(err.response?.data?.detail || 'Failed to wipe prediction records')
     }
   }
   
