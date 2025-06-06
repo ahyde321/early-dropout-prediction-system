@@ -60,7 +60,7 @@ npm install
 npm run dev
 ```
 
-The app should now be accessible at http://localhost:5173/
+The app should now be accessible at http://localhost:8080/
 
 
 ## Usage
