@@ -99,7 +99,7 @@ The app should now be accessible at http://localhost:8080/
 - Frontend: Vue 3, Tailwind CSS, Pinia, Vue Router
 - Backend: FastAPI, SQLAlchemy, Pydantic
 - ML: scikit-learn, pandas, numpy, SHAP
-- Database: SQLite (local dev)
+- Database: PostgreSQL
 - Notifications: Real-time alerts via API
 - Auth: JWT-based advisor login
 - Deployment: Docker + Docker Compose
